@@ -239,7 +239,8 @@ def train(model, optimizer, loader, epoch, device, args):
             print('[{:2d}, {:5d}] avg_loss : {:.5f}, time:{:3f} minutes'.format(epoch, idx, cur_loss.avg, (time.time()-tic)/60))
             cur_loss.reset()
             sys.stdout.flush()
-            
+    
+    time_taken = (time.time()-tic)/60
     print('[{:2d}, train] avg_loss : {:.5f}'.format(epoch, total_loss.avg))
     sys.stdout.flush()
 
@@ -249,6 +250,7 @@ def train(model, optimizer, loader, epoch, device, args):
         'epoch': epoch,
         'train_loss': total_loss.avg,
         'lr': optimizer.param_groups[0]['lr'],
+        'train_time': time_taken
     }
 
     return data_to_log
@@ -302,7 +304,7 @@ def validate(model, loader, epoch, device, args):
         'val_loss': total_loss.avg,
         'val_cc_loss': total_cc_loss.avg,
         'val_sim_loss': total_sim_loss.avg,
-        'time': time_taken
+        'val_time': time_taken
     }
 
     return data_to_log
