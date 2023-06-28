@@ -6,7 +6,7 @@ from torchvision import utils
 from PIL import Image
 
 
-def get_loss(pred_map, gt, args):
+def get_loss(pred_map, gt, args, criterion):
     loss = torch.FloatTensor([0.0]).cuda()
     if args.kldiv:
         loss += args.kldiv_coeff * kldiv(pred_map, gt)
@@ -31,12 +31,12 @@ def loss_func(pred_map, gt, args):
         gt = gt.permute((1,0,2,3))
 
         for i in range(pred_map.size(0)):
-            loss += get_loss(pred_map[i], gt[i], args)
+            loss += get_loss(pred_map[i], gt[i], args, criterion)
 
         loss /= pred_map.size(0)
         return loss
     
-    return get_loss(pred_map, gt, args)
+    return get_loss(pred_map, gt, args, criterion)
 
 class AverageMeter(object):
 
