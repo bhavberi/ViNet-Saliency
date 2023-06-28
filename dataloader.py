@@ -1,15 +1,13 @@
 import os
 from os.path import join
-import csv
 import cv2, copy
 import numpy as np
 import torch
-from torch.utils.data import Dataset, DataLoader
-from torchvision import transforms, utils
+from torch.utils.data import Dataset
+from torchvision import transforms
 from PIL import Image
 import torchaudio
 import sys
-from scipy.io import wavfile
 import json
 
 def read_sal_text(txt_file):

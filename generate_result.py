@@ -1,19 +1,9 @@
-import sys
 import os
-import numpy as np
 import cv2
 import torch
 from model import VideoSaliencyModel
-from scipy.ndimage.filters import gaussian_filter
-from loss import kldiv, cc, nss
 import argparse
-
-from torch.utils.data import DataLoader
-from dataloader import DHF1KDataset
 from utils import *
-import time
-from tqdm import tqdm
-from torchvision import transforms, utils
 from os.path import join
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')

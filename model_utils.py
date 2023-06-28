@@ -1,6 +1,5 @@
 import torch
 from torch import nn
-import math
 
 class TASED_v2(nn.Module):
     def __init__(self):

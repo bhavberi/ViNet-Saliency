@@ -1,17 +1,10 @@
 import argparse
-import glob, os
+import os
 import torch
 import sys
 import time
 import torch.nn as nn
-import pickle
-from torch.autograd import Variable
-from torchvision import transforms, utils
-from PIL import Image
-from torch.utils.data import DataLoader
 import numpy as np
-import torch.nn.init as init
-import torch.nn.functional as F
 from dataloader import * 
 from loss import *
 import cv2

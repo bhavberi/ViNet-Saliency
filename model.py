@@ -2,8 +2,6 @@ import torch
 from torch import nn
 import math
 from model_utils import *
-from block import fusions
-from collections import OrderedDict
 
 class PositionalEncoding(nn.Module):
 

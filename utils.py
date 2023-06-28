@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 from loss import *
 import cv2
-from torchvision import transforms, utils
+from torchvision import utils
 from PIL import Image
 
 
