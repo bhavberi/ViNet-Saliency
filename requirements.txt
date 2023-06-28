@@ -199,6 +199,7 @@ unity-scope-zotero==0.1
 urllib3==2.0.3
 usb-creator==0.3.0
 virtualenv==20.23.1
+wandb==0.15.4
 wcwidth==0.2.6
 webencodings==0.5.1
 Werkzeug==2.3.6

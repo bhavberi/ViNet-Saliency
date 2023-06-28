@@ -11,6 +11,8 @@ import cv2
 from model import *
 from utils import *
 
+import wandb
+
 parser = argparse.ArgumentParser()
 parser.add_argument('--no_epochs',default=40, type=int)
 parser.add_argument('--lr',default=1e-4, type=float)
@@ -55,13 +57,35 @@ parser.add_argument('--split',default=-1, type=int)
 parser.add_argument('--use_sound',default=False, type=bool)
 parser.add_argument('--use_transformer',default=False, type=bool)
 parser.add_argument('--use_vox',default=False, type=bool)
+parser.add_argument('--use_wandb',default=False, type=bool)
 
 args = parser.parse_args()
 print(args)
 
 file_weight = './S3D_kinetics400.pt'
 
+if args.use_wandb:
+    config = {
+        "lr": args.lr, 
+        "model_type": "VideoSaliency",
+        "Backbone": "S3D",
+        "optimizer": args.optim,
+        "criterion": "KLDivLoss",
+        "num_epochs": args.no_epochs,
+        "clip_size": args.clip_size,
+        "batch_size": args.batch_size,
+        "dataset": args.dataset,
+        "gpu_id": 0,
+        "wandb_run_name": "bhav"
+    }
 
+    if args.use_sound:
+        config["model_type"] = "VideoAudioSaliency"
+
+    wandb.init(project = "vinet",   # wandb project name. New project will be created if given project is missing.
+            config = config         # Config dict
+            )
+    wandb.run.name = f"{config['model_type']}_{config['dataset']}_{config['clip_size']}_{config['criterion']}_{config['lr']}_{config['Backbone']}"
 
 if args.use_sound:
     model = VideoAudioSaliencyModel(
@@ -219,7 +243,15 @@ def train(model, optimizer, loader, epoch, device, args):
     print('[{:2d}, train] avg_loss : {:.5f}'.format(epoch, total_loss.avg))
     sys.stdout.flush()
 
-    return total_loss.avg
+    # return total_loss.avg
+
+    data_to_log = {
+        'epoch': epoch,
+        'train_loss': total_loss.avg,
+        'lr': optimizer.param_groups[0]['lr'],
+    }
+
+    return data_to_log
 
 def validate(model, loader, epoch, device, args):
     model.eval()
@@ -258,18 +290,31 @@ def validate(model, loader, epoch, device, args):
         total_loss.update(loss.item())
         total_cc_loss.update(cc_loss.item())
         total_sim_loss.update(sim_loss.item())
+    
+    time_taken = (time.time()-tic)/60
 
-    print('[{:2d}, val] avg_loss : {:.5f} cc_loss : {:.5f} sim_loss : {:.5f}, time : {:3f}'.format(epoch, total_loss.avg, total_cc_loss.avg, total_sim_loss.avg, (time.time()-tic)/60))
+    print('[{:2d}, val] avg_loss : {:.5f} cc_loss : {:.5f} sim_loss : {:.5f}, time : {:3f}'.format(epoch, total_loss.avg, total_cc_loss.avg, total_sim_loss.avg, time_taken))
     sys.stdout.flush()
 
-    return total_loss.avg
+    # return total_loss.avg
+
+    data_to_log = {
+        'val_loss': total_loss.avg,
+        'val_cc_loss': total_cc_loss.avg,
+        'val_sim_loss': total_sim_loss.avg,
+        'time': time_taken
+    }
+
+    return data_to_log
 
 best_model = None
 for epoch in range(0, args.no_epochs):
-    loss = train(model, optimizer, train_loader, epoch, device, args)
+    data_to_log_train = train(model, optimizer, train_loader, epoch, device, args)
     
     with torch.no_grad():
-        val_loss = validate(model, val_loader, epoch, device, args)
+        data_to_log_val = validate(model, val_loader, epoch, device, args)
+        # val_loss = validate(model, val_loader, epoch, device, args)
+        val_loss = data_to_log_val['val_loss']
         if epoch == 0 :
             val_loss = np.inf
             best_loss = val_loss
@@ -283,5 +328,13 @@ for epoch in range(0, args.no_epochs):
                 torch.save(model.state_dict(), args.model_val_path)
     print()
 
+    data_to_log = {**data_to_log_train, **data_to_log_val}
+
+    if args.wandb:
+        wandb.log(data_to_log)
+
     if args.lr_sched:
         scheduler.step()
+
+if args.wandb:
+    wandb.finish()
