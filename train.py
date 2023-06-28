@@ -330,11 +330,11 @@ for epoch in range(0, args.no_epochs):
 
     data_to_log = {**data_to_log_train, **data_to_log_val}
 
-    if args.wandb:
+    if args.use_wandb:
         wandb.log(data_to_log)
 
     if args.lr_sched:
         scheduler.step()
 
-if args.wandb:
+if args.use_wandb:
     wandb.finish()
