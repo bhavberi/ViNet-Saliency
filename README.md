@@ -9,6 +9,12 @@ WandB Project URL for the experiment: [https://wandb.ai/bhavberi/vinet/runs/yceh
 - Max. Validation Prediction time in an epoch: 2.44 minutes
 - Min. Training Loss: 1.041
 
+Artifacts Files
+- [Model Structure](./vinet_original_model.txt)
+- [Report for the Run](./Original%20Paper%20Code%20with%20Minor%20Refactoring%E2%80%93W%26B.pdf)
+- [Run Output File](./vinet_original_output.txt)
+- [sbatch file with arguments](./vinet_sbatch.sh)
+
 -----
 -----
 

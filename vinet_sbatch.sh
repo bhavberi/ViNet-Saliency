@@ -13,6 +13,6 @@ echo "Activated"
 
 cd ~/ViNet-Saliency/
 
-python3 train.py --train_path_data /ssd_scratch/cvit/sarthak395/DHF1K/annotation --val_path_data /ssd_scratch/cvit/sarthak395/DHF1K/val --dataset DHF1KDataset --batch_size 4 --use_wandb True
+python3 train.py --train_path_data /ssd_scratch/cvit/bhavberi/DHF1K/annotation --val_path_data /ssd_scratch/cvit/bhavberi/DHF1K/val --dataset DHF1KDataset --batch_size 4 --use_wandb True
 
 echo "Done"
