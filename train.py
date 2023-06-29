@@ -4,6 +4,7 @@ import torch
 import sys
 import time
 import torch.nn as nn
+from torchsummary import summary
 import numpy as np
 from dataloader import * 
 from loss import *
@@ -308,6 +309,8 @@ def validate(model, loader, epoch, device, args):
     }
 
     return data_to_log
+
+summary(model, (3, args.clips_size, 224, 384), args.batch_size)
 
 best_model = None
 for epoch in range(0, args.no_epochs):
