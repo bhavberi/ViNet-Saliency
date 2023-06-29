@@ -7,7 +7,8 @@
 #SBATCH --mail-user=bhav.beri@research.iiit.ac.in
 #SBATCH --mail-type=ALL
 #SBATCH --output=vinet_paper_output.txt
-#SBATCH -n 1
+#SBATCH -c 9
+
 
 echo "Activated"
 
