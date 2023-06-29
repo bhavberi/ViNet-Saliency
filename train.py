@@ -247,7 +247,7 @@ def train(model, optimizer, loader, epoch, device, args):
     # return total_loss.avg
 
     data_to_log = {
-        'epoch': epoch,
+        'epoch': epoch + 1,
         'train_loss': total_loss.avg,
         'lr': optimizer.param_groups[0]['lr'],
         'train_time': time_taken
@@ -304,7 +304,7 @@ def validate(model, loader, epoch, device, args):
         'val_loss': total_loss.avg,
         'val_cc_loss': total_cc_loss.avg,
         'val_sim_loss': total_sim_loss.avg,
-        'val_time': time_taken
+        'time': time_taken
     }
 
     return data_to_log
