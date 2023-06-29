@@ -1,3 +1,17 @@
+
+# Original Paper Code with minor refactoring
+
+WandB Project URL for the experiment: [https://wandb.ai/bhavberi/vinet/runs/yceh3k0f](https://wandb.ai/bhavberi/vinet/runs/yceh3k0f)
+
+- Max. Validation CC score: 0.5453
+- Max. Validation Similarity Score: 0.4155
+- Min. Validation Loss: 1.342
+- Max. Validation Prediction time in an epoch: 2.44 minutes
+- Min. Training Loss: 1.041
+
+-----
+-----
+
 # ViNet: Pushing the limits of Visual Modality for Audio-Visual Saliency Prediction
 
 This repository contains Pytorch Implementation of ViNet and AViNet.

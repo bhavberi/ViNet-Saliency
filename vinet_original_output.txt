@@ -1,0 +1,1611 @@
+wandb: Currently logged in as: bhavberi. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.15.4
+wandb: Run data is saved locally in /home2/bhavberi/ViNet-Saliency/wandb/run-20230629_100644-yceh3k0f
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run cosmic-dragon-15
+wandb: ⭐️ View project at https://wandb.ai/bhavberi/vinet
+wandb: 🚀 View run at https://wandb.ai/bhavberi/vinet/runs/yceh3k0f
+Namespace(no_epochs=40, lr=0.0001, kldiv=True, cc=False, nss=False, sim=False, nss_emlnet=False, nss_norm=False, l1=False, lr_sched=False, optim='Adam', kldiv_coeff=1.0, step_size=5, cc_coeff=-1.0, sim_coeff=-1.0, nss_coeff=1.0, nss_emlnet_coeff=1.0, nss_norm_coeff=1.0, l1_coeff=1.0, batch_size=4, log_interval=5, no_workers=4, model_val_path='enet_transformer.pt', clip_size=32, nhead=4, num_encoder_layers=3, num_decoder_layers=3, transformer_in_channel=32, train_path_data='/ssd_scratch/cvit/sarthak395/DHF1K/annotation', val_path_data='/ssd_scratch/cvit/sarthak395/DHF1K/val', decoder_upsample=1, frame_no='last', load_weight='None', num_hier=3, dataset='DHF1KDataset', alternate=1, spatial_dim=-1, split=-1, use_sound=False, use_transformer=False, use_vox=False, use_wandb=True)
+backbone.base1.0.conv_s.weight torch.Size([64, 3, 1, 7, 7])
+backbone.base1.0.bn_s.weight torch.Size([64])
+backbone.base1.0.bn_s.bias torch.Size([64])
+backbone.base1.0.conv_t.weight torch.Size([64, 64, 7, 1, 1])
+backbone.base1.0.bn_t.weight torch.Size([64])
+backbone.base1.0.bn_t.bias torch.Size([64])
+backbone.base1.2.conv.weight torch.Size([64, 64, 1, 1, 1])
+backbone.base1.2.bn.weight torch.Size([64])
+backbone.base1.2.bn.bias torch.Size([64])
+backbone.base1.3.conv_s.weight torch.Size([192, 64, 1, 3, 3])
+backbone.base1.3.bn_s.weight torch.Size([192])
+backbone.base1.3.bn_s.bias torch.Size([192])
+backbone.base1.3.conv_t.weight torch.Size([192, 192, 3, 1, 1])
+backbone.base1.3.bn_t.weight torch.Size([192])
+backbone.base1.3.bn_t.bias torch.Size([192])
+backbone.base2.0.branch0.0.conv.weight torch.Size([64, 192, 1, 1, 1])
+backbone.base2.0.branch0.0.bn.weight torch.Size([64])
+backbone.base2.0.branch0.0.bn.bias torch.Size([64])
+backbone.base2.0.branch1.0.conv.weight torch.Size([96, 192, 1, 1, 1])
+backbone.base2.0.branch1.0.bn.weight torch.Size([96])
+backbone.base2.0.branch1.0.bn.bias torch.Size([96])
+backbone.base2.0.branch1.1.conv_s.weight torch.Size([128, 96, 1, 3, 3])
+backbone.base2.0.branch1.1.bn_s.weight torch.Size([128])
+backbone.base2.0.branch1.1.bn_s.bias torch.Size([128])
+backbone.base2.0.branch1.1.conv_t.weight torch.Size([128, 128, 3, 1, 1])
+backbone.base2.0.branch1.1.bn_t.weight torch.Size([128])
+backbone.base2.0.branch1.1.bn_t.bias torch.Size([128])
+backbone.base2.0.branch2.0.conv.weight torch.Size([16, 192, 1, 1, 1])
+backbone.base2.0.branch2.0.bn.weight torch.Size([16])
+backbone.base2.0.branch2.0.bn.bias torch.Size([16])
+backbone.base2.0.branch2.1.conv_s.weight torch.Size([32, 16, 1, 3, 3])
+backbone.base2.0.branch2.1.bn_s.weight torch.Size([32])
+backbone.base2.0.branch2.1.bn_s.bias torch.Size([32])
+backbone.base2.0.branch2.1.conv_t.weight torch.Size([32, 32, 3, 1, 1])
+backbone.base2.0.branch2.1.bn_t.weight torch.Size([32])
+backbone.base2.0.branch2.1.bn_t.bias torch.Size([32])
+backbone.base2.0.branch3.1.conv.weight torch.Size([32, 192, 1, 1, 1])
+backbone.base2.0.branch3.1.bn.weight torch.Size([32])
+backbone.base2.0.branch3.1.bn.bias torch.Size([32])
+backbone.base2.1.branch0.0.conv.weight torch.Size([128, 256, 1, 1, 1])
+backbone.base2.1.branch0.0.bn.weight torch.Size([128])
+backbone.base2.1.branch0.0.bn.bias torch.Size([128])
+backbone.base2.1.branch1.0.conv.weight torch.Size([128, 256, 1, 1, 1])
+backbone.base2.1.branch1.0.bn.weight torch.Size([128])
+backbone.base2.1.branch1.0.bn.bias torch.Size([128])
+backbone.base2.1.branch1.1.conv_s.weight torch.Size([192, 128, 1, 3, 3])
+backbone.base2.1.branch1.1.bn_s.weight torch.Size([192])
+backbone.base2.1.branch1.1.bn_s.bias torch.Size([192])
+backbone.base2.1.branch1.1.conv_t.weight torch.Size([192, 192, 3, 1, 1])
+backbone.base2.1.branch1.1.bn_t.weight torch.Size([192])
+backbone.base2.1.branch1.1.bn_t.bias torch.Size([192])
+backbone.base2.1.branch2.0.conv.weight torch.Size([32, 256, 1, 1, 1])
+backbone.base2.1.branch2.0.bn.weight torch.Size([32])
+backbone.base2.1.branch2.0.bn.bias torch.Size([32])
+backbone.base2.1.branch2.1.conv_s.weight torch.Size([96, 32, 1, 3, 3])
+backbone.base2.1.branch2.1.bn_s.weight torch.Size([96])
+backbone.base2.1.branch2.1.bn_s.bias torch.Size([96])
+backbone.base2.1.branch2.1.conv_t.weight torch.Size([96, 96, 3, 1, 1])
+backbone.base2.1.branch2.1.bn_t.weight torch.Size([96])
+backbone.base2.1.branch2.1.bn_t.bias torch.Size([96])
+backbone.base2.1.branch3.1.conv.weight torch.Size([64, 256, 1, 1, 1])
+backbone.base2.1.branch3.1.bn.weight torch.Size([64])
+backbone.base2.1.branch3.1.bn.bias torch.Size([64])
+backbone.base3.0.branch0.0.conv.weight torch.Size([192, 480, 1, 1, 1])
+backbone.base3.0.branch0.0.bn.weight torch.Size([192])
+backbone.base3.0.branch0.0.bn.bias torch.Size([192])
+backbone.base3.0.branch1.0.conv.weight torch.Size([96, 480, 1, 1, 1])
+backbone.base3.0.branch1.0.bn.weight torch.Size([96])
+backbone.base3.0.branch1.0.bn.bias torch.Size([96])
+backbone.base3.0.branch1.1.conv_s.weight torch.Size([208, 96, 1, 3, 3])
+backbone.base3.0.branch1.1.bn_s.weight torch.Size([208])
+backbone.base3.0.branch1.1.bn_s.bias torch.Size([208])
+backbone.base3.0.branch1.1.conv_t.weight torch.Size([208, 208, 3, 1, 1])
+backbone.base3.0.branch1.1.bn_t.weight torch.Size([208])
+backbone.base3.0.branch1.1.bn_t.bias torch.Size([208])
+backbone.base3.0.branch2.0.conv.weight torch.Size([16, 480, 1, 1, 1])
+backbone.base3.0.branch2.0.bn.weight torch.Size([16])
+backbone.base3.0.branch2.0.bn.bias torch.Size([16])
+backbone.base3.0.branch2.1.conv_s.weight torch.Size([48, 16, 1, 3, 3])
+backbone.base3.0.branch2.1.bn_s.weight torch.Size([48])
+backbone.base3.0.branch2.1.bn_s.bias torch.Size([48])
+backbone.base3.0.branch2.1.conv_t.weight torch.Size([48, 48, 3, 1, 1])
+backbone.base3.0.branch2.1.bn_t.weight torch.Size([48])
+backbone.base3.0.branch2.1.bn_t.bias torch.Size([48])
+backbone.base3.0.branch3.1.conv.weight torch.Size([64, 480, 1, 1, 1])
+backbone.base3.0.branch3.1.bn.weight torch.Size([64])
+backbone.base3.0.branch3.1.bn.bias torch.Size([64])
+backbone.base3.1.branch0.0.conv.weight torch.Size([160, 512, 1, 1, 1])
+backbone.base3.1.branch0.0.bn.weight torch.Size([160])
+backbone.base3.1.branch0.0.bn.bias torch.Size([160])
+backbone.base3.1.branch1.0.conv.weight torch.Size([112, 512, 1, 1, 1])
+backbone.base3.1.branch1.0.bn.weight torch.Size([112])
+backbone.base3.1.branch1.0.bn.bias torch.Size([112])
+backbone.base3.1.branch1.1.conv_s.weight torch.Size([224, 112, 1, 3, 3])
+backbone.base3.1.branch1.1.bn_s.weight torch.Size([224])
+backbone.base3.1.branch1.1.bn_s.bias torch.Size([224])
+backbone.base3.1.branch1.1.conv_t.weight torch.Size([224, 224, 3, 1, 1])
+backbone.base3.1.branch1.1.bn_t.weight torch.Size([224])
+backbone.base3.1.branch1.1.bn_t.bias torch.Size([224])
+backbone.base3.1.branch2.0.conv.weight torch.Size([24, 512, 1, 1, 1])
+backbone.base3.1.branch2.0.bn.weight torch.Size([24])
+backbone.base3.1.branch2.0.bn.bias torch.Size([24])
+backbone.base3.1.branch2.1.conv_s.weight torch.Size([64, 24, 1, 3, 3])
+backbone.base3.1.branch2.1.bn_s.weight torch.Size([64])
+backbone.base3.1.branch2.1.bn_s.bias torch.Size([64])
+backbone.base3.1.branch2.1.conv_t.weight torch.Size([64, 64, 3, 1, 1])
+backbone.base3.1.branch2.1.bn_t.weight torch.Size([64])
+backbone.base3.1.branch2.1.bn_t.bias torch.Size([64])
+backbone.base3.1.branch3.1.conv.weight torch.Size([64, 512, 1, 1, 1])
+backbone.base3.1.branch3.1.bn.weight torch.Size([64])
+backbone.base3.1.branch3.1.bn.bias torch.Size([64])
+backbone.base3.2.branch0.0.conv.weight torch.Size([128, 512, 1, 1, 1])
+backbone.base3.2.branch0.0.bn.weight torch.Size([128])
+backbone.base3.2.branch0.0.bn.bias torch.Size([128])
+backbone.base3.2.branch1.0.conv.weight torch.Size([128, 512, 1, 1, 1])
+backbone.base3.2.branch1.0.bn.weight torch.Size([128])
+backbone.base3.2.branch1.0.bn.bias torch.Size([128])
+backbone.base3.2.branch1.1.conv_s.weight torch.Size([256, 128, 1, 3, 3])
+backbone.base3.2.branch1.1.bn_s.weight torch.Size([256])
+backbone.base3.2.branch1.1.bn_s.bias torch.Size([256])
+backbone.base3.2.branch1.1.conv_t.weight torch.Size([256, 256, 3, 1, 1])
+backbone.base3.2.branch1.1.bn_t.weight torch.Size([256])
+backbone.base3.2.branch1.1.bn_t.bias torch.Size([256])
+backbone.base3.2.branch2.0.conv.weight torch.Size([24, 512, 1, 1, 1])
+backbone.base3.2.branch2.0.bn.weight torch.Size([24])
+backbone.base3.2.branch2.0.bn.bias torch.Size([24])
+backbone.base3.2.branch2.1.conv_s.weight torch.Size([64, 24, 1, 3, 3])
+backbone.base3.2.branch2.1.bn_s.weight torch.Size([64])
+backbone.base3.2.branch2.1.bn_s.bias torch.Size([64])
+backbone.base3.2.branch2.1.conv_t.weight torch.Size([64, 64, 3, 1, 1])
+backbone.base3.2.branch2.1.bn_t.weight torch.Size([64])
+backbone.base3.2.branch2.1.bn_t.bias torch.Size([64])
+backbone.base3.2.branch3.1.conv.weight torch.Size([64, 512, 1, 1, 1])
+backbone.base3.2.branch3.1.bn.weight torch.Size([64])
+backbone.base3.2.branch3.1.bn.bias torch.Size([64])
+backbone.base3.3.branch0.0.conv.weight torch.Size([112, 512, 1, 1, 1])
+backbone.base3.3.branch0.0.bn.weight torch.Size([112])
+backbone.base3.3.branch0.0.bn.bias torch.Size([112])
+backbone.base3.3.branch1.0.conv.weight torch.Size([144, 512, 1, 1, 1])
+backbone.base3.3.branch1.0.bn.weight torch.Size([144])
+backbone.base3.3.branch1.0.bn.bias torch.Size([144])
+backbone.base3.3.branch1.1.conv_s.weight torch.Size([288, 144, 1, 3, 3])
+backbone.base3.3.branch1.1.bn_s.weight torch.Size([288])
+backbone.base3.3.branch1.1.bn_s.bias torch.Size([288])
+backbone.base3.3.branch1.1.conv_t.weight torch.Size([288, 288, 3, 1, 1])
+backbone.base3.3.branch1.1.bn_t.weight torch.Size([288])
+backbone.base3.3.branch1.1.bn_t.bias torch.Size([288])
+backbone.base3.3.branch2.0.conv.weight torch.Size([32, 512, 1, 1, 1])
+backbone.base3.3.branch2.0.bn.weight torch.Size([32])
+backbone.base3.3.branch2.0.bn.bias torch.Size([32])
+backbone.base3.3.branch2.1.conv_s.weight torch.Size([64, 32, 1, 3, 3])
+backbone.base3.3.branch2.1.bn_s.weight torch.Size([64])
+backbone.base3.3.branch2.1.bn_s.bias torch.Size([64])
+backbone.base3.3.branch2.1.conv_t.weight torch.Size([64, 64, 3, 1, 1])
+backbone.base3.3.branch2.1.bn_t.weight torch.Size([64])
+backbone.base3.3.branch2.1.bn_t.bias torch.Size([64])
+backbone.base3.3.branch3.1.conv.weight torch.Size([64, 512, 1, 1, 1])
+backbone.base3.3.branch3.1.bn.weight torch.Size([64])
+backbone.base3.3.branch3.1.bn.bias torch.Size([64])
+backbone.base3.4.branch0.0.conv.weight torch.Size([256, 528, 1, 1, 1])
+backbone.base3.4.branch0.0.bn.weight torch.Size([256])
+backbone.base3.4.branch0.0.bn.bias torch.Size([256])
+backbone.base3.4.branch1.0.conv.weight torch.Size([160, 528, 1, 1, 1])
+backbone.base3.4.branch1.0.bn.weight torch.Size([160])
+backbone.base3.4.branch1.0.bn.bias torch.Size([160])
+backbone.base3.4.branch1.1.conv_s.weight torch.Size([320, 160, 1, 3, 3])
+backbone.base3.4.branch1.1.bn_s.weight torch.Size([320])
+backbone.base3.4.branch1.1.bn_s.bias torch.Size([320])
+backbone.base3.4.branch1.1.conv_t.weight torch.Size([320, 320, 3, 1, 1])
+backbone.base3.4.branch1.1.bn_t.weight torch.Size([320])
+backbone.base3.4.branch1.1.bn_t.bias torch.Size([320])
+backbone.base3.4.branch2.0.conv.weight torch.Size([32, 528, 1, 1, 1])
+backbone.base3.4.branch2.0.bn.weight torch.Size([32])
+backbone.base3.4.branch2.0.bn.bias torch.Size([32])
+backbone.base3.4.branch2.1.conv_s.weight torch.Size([128, 32, 1, 3, 3])
+backbone.base3.4.branch2.1.bn_s.weight torch.Size([128])
+backbone.base3.4.branch2.1.bn_s.bias torch.Size([128])
+backbone.base3.4.branch2.1.conv_t.weight torch.Size([128, 128, 3, 1, 1])
+backbone.base3.4.branch2.1.bn_t.weight torch.Size([128])
+backbone.base3.4.branch2.1.bn_t.bias torch.Size([128])
+backbone.base3.4.branch3.1.conv.weight torch.Size([128, 528, 1, 1, 1])
+backbone.base3.4.branch3.1.bn.weight torch.Size([128])
+backbone.base3.4.branch3.1.bn.bias torch.Size([128])
+backbone.base4.0.branch0.0.conv.weight torch.Size([256, 832, 1, 1, 1])
+backbone.base4.0.branch0.0.bn.weight torch.Size([256])
+backbone.base4.0.branch0.0.bn.bias torch.Size([256])
+backbone.base4.0.branch1.0.conv.weight torch.Size([160, 832, 1, 1, 1])
+backbone.base4.0.branch1.0.bn.weight torch.Size([160])
+backbone.base4.0.branch1.0.bn.bias torch.Size([160])
+backbone.base4.0.branch1.1.conv_s.weight torch.Size([320, 160, 1, 3, 3])
+backbone.base4.0.branch1.1.bn_s.weight torch.Size([320])
+backbone.base4.0.branch1.1.bn_s.bias torch.Size([320])
+backbone.base4.0.branch1.1.conv_t.weight torch.Size([320, 320, 3, 1, 1])
+backbone.base4.0.branch1.1.bn_t.weight torch.Size([320])
+backbone.base4.0.branch1.1.bn_t.bias torch.Size([320])
+backbone.base4.0.branch2.0.conv.weight torch.Size([32, 832, 1, 1, 1])
+backbone.base4.0.branch2.0.bn.weight torch.Size([32])
+backbone.base4.0.branch2.0.bn.bias torch.Size([32])
+backbone.base4.0.branch2.1.conv_s.weight torch.Size([128, 32, 1, 3, 3])
+backbone.base4.0.branch2.1.bn_s.weight torch.Size([128])
+backbone.base4.0.branch2.1.bn_s.bias torch.Size([128])
+backbone.base4.0.branch2.1.conv_t.weight torch.Size([128, 128, 3, 1, 1])
+backbone.base4.0.branch2.1.bn_t.weight torch.Size([128])
+backbone.base4.0.branch2.1.bn_t.bias torch.Size([128])
+backbone.base4.0.branch3.1.conv.weight torch.Size([128, 832, 1, 1, 1])
+backbone.base4.0.branch3.1.bn.weight torch.Size([128])
+backbone.base4.0.branch3.1.bn.bias torch.Size([128])
+backbone.base4.1.branch0.0.conv.weight torch.Size([384, 832, 1, 1, 1])
+backbone.base4.1.branch0.0.bn.weight torch.Size([384])
+backbone.base4.1.branch0.0.bn.bias torch.Size([384])
+backbone.base4.1.branch1.0.conv.weight torch.Size([192, 832, 1, 1, 1])
+backbone.base4.1.branch1.0.bn.weight torch.Size([192])
+backbone.base4.1.branch1.0.bn.bias torch.Size([192])
+backbone.base4.1.branch1.1.conv_s.weight torch.Size([384, 192, 1, 3, 3])
+backbone.base4.1.branch1.1.bn_s.weight torch.Size([384])
+backbone.base4.1.branch1.1.bn_s.bias torch.Size([384])
+backbone.base4.1.branch1.1.conv_t.weight torch.Size([384, 384, 3, 1, 1])
+backbone.base4.1.branch1.1.bn_t.weight torch.Size([384])
+backbone.base4.1.branch1.1.bn_t.bias torch.Size([384])
+backbone.base4.1.branch2.0.conv.weight torch.Size([48, 832, 1, 1, 1])
+backbone.base4.1.branch2.0.bn.weight torch.Size([48])
+backbone.base4.1.branch2.0.bn.bias torch.Size([48])
+backbone.base4.1.branch2.1.conv_s.weight torch.Size([128, 48, 1, 3, 3])
+backbone.base4.1.branch2.1.bn_s.weight torch.Size([128])
+backbone.base4.1.branch2.1.bn_s.bias torch.Size([128])
+backbone.base4.1.branch2.1.conv_t.weight torch.Size([128, 128, 3, 1, 1])
+backbone.base4.1.branch2.1.bn_t.weight torch.Size([128])
+backbone.base4.1.branch2.1.bn_t.bias torch.Size([128])
+backbone.base4.1.branch3.1.conv.weight torch.Size([128, 832, 1, 1, 1])
+backbone.base4.1.branch3.1.bn.weight torch.Size([128])
+backbone.base4.1.branch3.1.bn.bias torch.Size([128])
+decoder.convtsp1.0.weight torch.Size([832, 1024, 1, 3, 3])
+decoder.convtsp2.0.weight torch.Size([480, 832, 3, 3, 3])
+decoder.convtsp3.0.weight torch.Size([192, 480, 5, 3, 3])
+decoder.convtsp4.0.weight torch.Size([64, 192, 5, 3, 3])
+decoder.convtsp4.3.weight torch.Size([32, 64, 2, 3, 3])
+decoder.convtsp4.6.weight torch.Size([32, 32, 2, 1, 1])
+decoder.convtsp4.8.weight torch.Size([1, 32, 1, 1, 1])
+decoder.convtsp4.8.bias torch.Size([1])
+loading weight file
+ name? fc.0.weight
+ name? fc.0.bias
+ loaded
+cuda
+[ 0,     4] avg_loss : 2.83350, time:0.243526 minutes
+[ 0,     9] avg_loss : 2.17500, time:0.332139 minutes
+[ 0,    14] avg_loss : 2.09971, time:0.421200 minutes
+[ 0,    19] avg_loss : 1.93369, time:0.509439 minutes
+[ 0,    24] avg_loss : 1.64543, time:0.611653 minutes
+[ 0,    29] avg_loss : 1.89322, time:0.720904 minutes
+[ 0,    34] avg_loss : 1.60913, time:0.828060 minutes
+[ 0,    39] avg_loss : 1.56182, time:0.928011 minutes
+[ 0,    44] avg_loss : 1.67034, time:1.039132 minutes
+[ 0,    49] avg_loss : 1.54774, time:1.154703 minutes
+[ 0,    54] avg_loss : 1.53099, time:1.255453 minutes
+[ 0,    59] avg_loss : 1.57876, time:1.359291 minutes
+[ 0,    64] avg_loss : 1.53851, time:1.470796 minutes
+[ 0,    69] avg_loss : 1.26573, time:1.575940 minutes
+[ 0,    74] avg_loss : 1.90182, time:1.684025 minutes
+[ 0,    79] avg_loss : 1.56477, time:1.788084 minutes
+[ 0,    84] avg_loss : 1.56075, time:1.909196 minutes
+[ 0,    89] avg_loss : 1.49796, time:2.016948 minutes
+[ 0,    94] avg_loss : 1.40473, time:2.115829 minutes
+[ 0,    99] avg_loss : 1.58933, time:2.220556 minutes
+[ 0,   104] avg_loss : 1.46495, time:2.338087 minutes
+[ 0,   109] avg_loss : 1.47865, time:2.444100 minutes
+[ 0,   114] avg_loss : 1.42769, time:2.545177 minutes
+[ 0,   119] avg_loss : 1.59276, time:2.656782 minutes
+[ 0,   124] avg_loss : 1.55868, time:2.766328 minutes
+[ 0,   129] avg_loss : 1.26716, time:2.874909 minutes
+[ 0,   134] avg_loss : 1.49985, time:2.981829 minutes
+[ 0,   139] avg_loss : 1.40879, time:3.089059 minutes
+[ 0,   144] avg_loss : 1.51271, time:3.193975 minutes
+[ 0,   149] avg_loss : 1.66010, time:3.287400 minutes
+[ 0, train] avg_loss : 1.64248
+[ 0, val] avg_loss : 1.64244 cc_loss : 0.46556 sim_loss : 0.31178, time : 2.286818
+[ 0,  save, enet_transformer.pt]
+
+[ 1,     4] avg_loss : 1.33892, time:0.188241 minutes
+[ 1,     9] avg_loss : 1.24970, time:0.288873 minutes
+[ 1,    14] avg_loss : 1.53477, time:0.394506 minutes
+[ 1,    19] avg_loss : 1.47869, time:0.494813 minutes
+[ 1,    24] avg_loss : 1.25439, time:0.611728 minutes
+[ 1,    29] avg_loss : 1.45689, time:0.714691 minutes
+[ 1,    34] avg_loss : 1.41577, time:0.815695 minutes
+[ 1,    39] avg_loss : 1.37911, time:0.921609 minutes
+[ 1,    44] avg_loss : 1.51724, time:1.039582 minutes
+[ 1,    49] avg_loss : 1.43438, time:1.143614 minutes
+[ 1,    54] avg_loss : 1.74042, time:1.250095 minutes
+[ 1,    59] avg_loss : 1.52609, time:1.358521 minutes
+[ 1,    64] avg_loss : 1.35603, time:1.463410 minutes
+[ 1,    69] avg_loss : 1.38401, time:1.567226 minutes
+[ 1,    74] avg_loss : 1.58804, time:1.658826 minutes
+[ 1,    79] avg_loss : 1.44972, time:1.763044 minutes
+[ 1,    84] avg_loss : 1.46425, time:1.880785 minutes
+[ 1,    89] avg_loss : 1.28752, time:1.976559 minutes
+[ 1,    94] avg_loss : 1.47174, time:2.078739 minutes
+[ 1,    99] avg_loss : 1.44478, time:2.181745 minutes
+[ 1,   104] avg_loss : 1.52430, time:2.287791 minutes
+[ 1,   109] avg_loss : 1.33696, time:2.386517 minutes
+[ 1,   114] avg_loss : 1.52108, time:2.488364 minutes
+[ 1,   119] avg_loss : 1.58187, time:2.583826 minutes
+[ 1,   124] avg_loss : 1.46442, time:2.694025 minutes
+[ 1,   129] avg_loss : 1.35148, time:2.797056 minutes
+[ 1,   134] avg_loss : 1.67191, time:2.900183 minutes
+[ 1,   139] avg_loss : 1.60191, time:3.006358 minutes
+[ 1,   144] avg_loss : 1.26479, time:3.106221 minutes
+[ 1,   149] avg_loss : 1.58209, time:3.187902 minutes
+[ 1, train] avg_loss : 1.45578
+[ 1, val] avg_loss : 1.63521 cc_loss : 0.46161 sim_loss : 0.33746, time : 2.263174
+[ 1,  save, enet_transformer.pt]
+
+[ 2,     4] avg_loss : 1.24097, time:0.172761 minutes
+[ 2,     9] avg_loss : 1.18716, time:0.274443 minutes
+[ 2,    14] avg_loss : 1.29976, time:0.372776 minutes
+[ 2,    19] avg_loss : 1.31715, time:0.480221 minutes
+[ 2,    24] avg_loss : 1.35853, time:0.582443 minutes
+[ 2,    29] avg_loss : 1.28510, time:0.680377 minutes
+[ 2,    34] avg_loss : 1.39502, time:0.779504 minutes
+[ 2,    39] avg_loss : 1.51418, time:0.877309 minutes
+[ 2,    44] avg_loss : 1.27301, time:0.983443 minutes
+[ 2,    49] avg_loss : 1.45715, time:1.080261 minutes
+[ 2,    54] avg_loss : 1.23081, time:1.179600 minutes
+[ 2,    59] avg_loss : 1.44137, time:1.282316 minutes
+[ 2,    64] avg_loss : 1.32033, time:1.381711 minutes
+[ 2,    69] avg_loss : 1.38718, time:1.483444 minutes
+[ 2,    74] avg_loss : 1.39470, time:1.584445 minutes
+[ 2,    79] avg_loss : 1.23259, time:1.688816 minutes
+[ 2,    84] avg_loss : 1.34911, time:1.791344 minutes
+[ 2,    89] avg_loss : 1.19233, time:1.895159 minutes
+[ 2,    94] avg_loss : 1.22398, time:1.996710 minutes
+[ 2,    99] avg_loss : 1.44828, time:2.097416 minutes
+[ 2,   104] avg_loss : 1.55446, time:2.205456 minutes
+[ 2,   109] avg_loss : 1.18158, time:2.306250 minutes
+[ 2,   114] avg_loss : 1.29877, time:2.405110 minutes
+[ 2,   119] avg_loss : 1.25843, time:2.504178 minutes
+[ 2,   124] avg_loss : 1.48480, time:2.622497 minutes
+[ 2,   129] avg_loss : 1.44921, time:2.723767 minutes
+[ 2,   134] avg_loss : 1.28939, time:2.819328 minutes
+[ 2,   139] avg_loss : 1.32803, time:2.915423 minutes
+[ 2,   144] avg_loss : 1.44137, time:3.027323 minutes
+[ 2,   149] avg_loss : 1.39885, time:3.114985 minutes
+[ 2, train] avg_loss : 1.34112
+[ 2, val] avg_loss : 1.57554 cc_loss : 0.49036 sim_loss : 0.34672, time : 2.274379
+[ 2,  save, enet_transformer.pt]
+
+[ 3,     4] avg_loss : 1.70172, time:0.178202 minutes
+[ 3,     9] avg_loss : 1.30041, time:0.278652 minutes
+[ 3,    14] avg_loss : 1.19472, time:0.383456 minutes
+[ 3,    19] avg_loss : 1.31821, time:0.486722 minutes
+[ 3,    24] avg_loss : 1.19297, time:0.592674 minutes
+[ 3,    29] avg_loss : 1.23894, time:0.700983 minutes
+[ 3,    34] avg_loss : 1.20727, time:0.798754 minutes
+[ 3,    39] avg_loss : 1.21976, time:0.897182 minutes
+[ 3,    44] avg_loss : 1.30794, time:1.008056 minutes
+[ 3,    49] avg_loss : 1.28921, time:1.106763 minutes
+[ 3,    54] avg_loss : 1.49456, time:1.209642 minutes
+[ 3,    59] avg_loss : 1.46404, time:1.311390 minutes
+[ 3,    64] avg_loss : 1.39221, time:1.418292 minutes
+[ 3,    69] avg_loss : 1.24684, time:1.516432 minutes
+[ 3,    74] avg_loss : 1.51574, time:1.622386 minutes
+[ 3,    79] avg_loss : 1.17496, time:1.723275 minutes
+[ 3,    84] avg_loss : 1.38057, time:1.837522 minutes
+[ 3,    89] avg_loss : 1.42965, time:1.941109 minutes
+[ 3,    94] avg_loss : 1.47484, time:2.036843 minutes
+[ 3,    99] avg_loss : 1.29695, time:2.137416 minutes
+[ 3,   104] avg_loss : 1.36639, time:2.245766 minutes
+[ 3,   109] avg_loss : 1.34967, time:2.343565 minutes
+[ 3,   114] avg_loss : 1.39142, time:2.448357 minutes
+[ 3,   119] avg_loss : 1.45178, time:2.553274 minutes
+[ 3,   124] avg_loss : 1.26686, time:2.661353 minutes
+[ 3,   129] avg_loss : 1.44302, time:2.755819 minutes
+[ 3,   134] avg_loss : 1.18652, time:2.853388 minutes
+[ 3,   139] avg_loss : 1.29512, time:2.953973 minutes
+[ 3,   144] avg_loss : 1.24903, time:3.053206 minutes
+[ 3,   149] avg_loss : 1.55956, time:3.135536 minutes
+[ 3, train] avg_loss : 1.34670
+[ 3, val] avg_loss : 1.49194 cc_loss : 0.50667 sim_loss : 0.35796, time : 2.261538
+[ 3,  save, enet_transformer.pt]
+
+[ 4,     4] avg_loss : 1.57864, time:0.187317 minutes
+[ 4,     9] avg_loss : 1.54869, time:0.283153 minutes
+[ 4,    14] avg_loss : 1.31283, time:0.392743 minutes
+[ 4,    19] avg_loss : 1.37694, time:0.493887 minutes
+[ 4,    24] avg_loss : 1.25908, time:0.611836 minutes
+[ 4,    29] avg_loss : 1.17990, time:0.709396 minutes
+[ 4,    34] avg_loss : 1.29946, time:0.811572 minutes
+[ 4,    39] avg_loss : 1.39133, time:0.914353 minutes
+[ 4,    44] avg_loss : 1.33594, time:1.029237 minutes
+[ 4,    49] avg_loss : 1.36132, time:1.129455 minutes
+[ 4,    54] avg_loss : 1.51973, time:1.224004 minutes
+[ 4,    59] avg_loss : 1.18238, time:1.328283 minutes
+[ 4,    64] avg_loss : 1.36947, time:1.437890 minutes
+[ 4,    69] avg_loss : 1.13383, time:1.540310 minutes
+[ 4,    74] avg_loss : 1.10908, time:1.639192 minutes
+[ 4,    79] avg_loss : 1.53723, time:1.740234 minutes
+[ 4,    84] avg_loss : 1.31805, time:1.850753 minutes
+[ 4,    89] avg_loss : 1.31566, time:1.954403 minutes
+[ 4,    94] avg_loss : 1.17816, time:2.051087 minutes
+[ 4,    99] avg_loss : 1.31410, time:2.152072 minutes
+[ 4,   104] avg_loss : 1.40722, time:2.261866 minutes
+[ 4,   109] avg_loss : 1.44589, time:2.354204 minutes
+[ 4,   114] avg_loss : 1.46102, time:2.457508 minutes
+[ 4,   119] avg_loss : 1.34253, time:2.556741 minutes
+[ 4,   124] avg_loss : 1.25868, time:2.674136 minutes
+[ 4,   129] avg_loss : 1.22990, time:2.773561 minutes
+[ 4,   134] avg_loss : 1.21838, time:2.867950 minutes
+[ 4,   139] avg_loss : 1.49323, time:2.969111 minutes
+[ 4,   144] avg_loss : 1.41482, time:3.071125 minutes
+[ 4,   149] avg_loss : 1.46254, time:3.155815 minutes
+[ 4, train] avg_loss : 1.34520
+[ 4, val] avg_loss : 1.47580 cc_loss : 0.51015 sim_loss : 0.35532, time : 2.277092
+[ 4,  save, enet_transformer.pt]
+
+[ 5,     4] avg_loss : 1.22029, time:0.183766 minutes
+[ 5,     9] avg_loss : 1.18955, time:0.285450 minutes
+[ 5,    14] avg_loss : 1.32110, time:0.384600 minutes
+[ 5,    19] avg_loss : 1.27741, time:0.481360 minutes
+[ 5,    24] avg_loss : 1.29836, time:0.584956 minutes
+[ 5,    29] avg_loss : 1.36582, time:0.687706 minutes
+[ 5,    34] avg_loss : 1.33216, time:0.790779 minutes
+[ 5,    39] avg_loss : 1.46974, time:0.894149 minutes
+[ 5,    44] avg_loss : 1.29935, time:1.008775 minutes
+[ 5,    49] avg_loss : 1.29566, time:1.106967 minutes
+[ 5,    54] avg_loss : 1.18302, time:1.209627 minutes
+[ 5,    59] avg_loss : 1.24381, time:1.311313 minutes
+[ 5,    64] avg_loss : 1.23317, time:1.420982 minutes
+[ 5,    69] avg_loss : 1.08431, time:1.527252 minutes
+[ 5,    74] avg_loss : 1.15065, time:1.627345 minutes
+[ 5,    79] avg_loss : 1.19967, time:1.733474 minutes
+[ 5,    84] avg_loss : 1.39874, time:1.844726 minutes
+[ 5,    89] avg_loss : 1.20406, time:1.942555 minutes
+[ 5,    94] avg_loss : 1.29428, time:2.043040 minutes
+[ 5,    99] avg_loss : 1.32842, time:2.139979 minutes
+[ 5,   104] avg_loss : 1.46518, time:2.246860 minutes
+[ 5,   109] avg_loss : 1.26362, time:2.349569 minutes
+[ 5,   114] avg_loss : 1.21799, time:2.456663 minutes
+[ 5,   119] avg_loss : 1.29140, time:2.558651 minutes
+[ 5,   124] avg_loss : 1.22890, time:2.664817 minutes
+[ 5,   129] avg_loss : 1.20602, time:2.766083 minutes
+[ 5,   134] avg_loss : 1.23408, time:2.866318 minutes
+[ 5,   139] avg_loss : 1.47134, time:2.966594 minutes
+[ 5,   144] avg_loss : 1.45165, time:3.067718 minutes
+[ 5,   149] avg_loss : 1.36803, time:3.151528 minutes
+[ 5, train] avg_loss : 1.28626
+[ 5, val] avg_loss : 1.45623 cc_loss : 0.51755 sim_loss : 0.36432, time : 2.293916
+[ 5,  save, enet_transformer.pt]
+
+[ 6,     4] avg_loss : 1.26550, time:0.183298 minutes
+[ 6,     9] avg_loss : 1.52816, time:0.291896 minutes
+[ 6,    14] avg_loss : 1.06862, time:0.401522 minutes
+[ 6,    19] avg_loss : 1.24133, time:0.506339 minutes
+[ 6,    24] avg_loss : 1.40265, time:0.623134 minutes
+[ 6,    29] avg_loss : 1.13435, time:0.719272 minutes
+[ 6,    34] avg_loss : 1.39573, time:0.819388 minutes
+[ 6,    39] avg_loss : 1.36246, time:0.914660 minutes
+[ 6,    44] avg_loss : 0.96565, time:1.017879 minutes
+[ 6,    49] avg_loss : 1.36380, time:1.122528 minutes
+[ 6,    54] avg_loss : 1.49828, time:1.219794 minutes
+[ 6,    59] avg_loss : 1.56257, time:1.317619 minutes
+[ 6,    64] avg_loss : 1.26552, time:1.429839 minutes
+[ 6,    69] avg_loss : 1.14298, time:1.529353 minutes
+[ 6,    74] avg_loss : 1.29515, time:1.628049 minutes
+[ 6,    79] avg_loss : 1.26367, time:1.723563 minutes
+[ 6,    84] avg_loss : 1.34283, time:1.827328 minutes
+[ 6,    89] avg_loss : 1.40872, time:1.927816 minutes
+[ 6,    94] avg_loss : 1.24504, time:2.024260 minutes
+[ 6,    99] avg_loss : 1.31513, time:2.122024 minutes
+[ 6,   104] avg_loss : 1.18685, time:2.234190 minutes
+[ 6,   109] avg_loss : 1.27873, time:2.338256 minutes
+[ 6,   114] avg_loss : 1.47610, time:2.444190 minutes
+[ 6,   119] avg_loss : 1.44358, time:2.542845 minutes
+[ 6,   124] avg_loss : 1.23281, time:2.653967 minutes
+[ 6,   129] avg_loss : 1.27103, time:2.756918 minutes
+[ 6,   134] avg_loss : 1.02692, time:2.847378 minutes
+[ 6,   139] avg_loss : 1.31394, time:2.954818 minutes
+[ 6,   144] avg_loss : 1.35356, time:3.051308 minutes
+[ 6,   149] avg_loss : 1.29867, time:3.135445 minutes
+[ 6, train] avg_loss : 1.29834
+[ 6, val] avg_loss : 1.42458 cc_loss : 0.52325 sim_loss : 0.37747, time : 2.277252
+[ 6,  save, enet_transformer.pt]
+
+[ 7,     4] avg_loss : 1.30546, time:0.187926 minutes
+[ 7,     9] avg_loss : 1.36116, time:0.291605 minutes
+[ 7,    14] avg_loss : 1.33726, time:0.395828 minutes
+[ 7,    19] avg_loss : 1.16611, time:0.499486 minutes
+[ 7,    24] avg_loss : 1.34427, time:0.617060 minutes
+[ 7,    29] avg_loss : 1.27515, time:0.714359 minutes
+[ 7,    34] avg_loss : 1.19989, time:0.814829 minutes
+[ 7,    39] avg_loss : 1.40244, time:0.912749 minutes
+[ 7,    44] avg_loss : 1.18504, time:1.027072 minutes
+[ 7,    49] avg_loss : 1.21477, time:1.131306 minutes
+[ 7,    54] avg_loss : 1.05436, time:1.228770 minutes
+[ 7,    59] avg_loss : 1.33985, time:1.331205 minutes
+[ 7,    64] avg_loss : 1.41590, time:1.432692 minutes
+[ 7,    69] avg_loss : 1.29581, time:1.534199 minutes
+[ 7,    74] avg_loss : 1.23374, time:1.634308 minutes
+[ 7,    79] avg_loss : 1.23325, time:1.735792 minutes
+[ 7,    84] avg_loss : 1.26959, time:1.845244 minutes
+[ 7,    89] avg_loss : 1.48742, time:1.946461 minutes
+[ 7,    94] avg_loss : 1.37944, time:2.045196 minutes
+[ 7,    99] avg_loss : 1.63297, time:2.147851 minutes
+[ 7,   104] avg_loss : 1.42982, time:2.255072 minutes
+[ 7,   109] avg_loss : 1.24403, time:2.357129 minutes
+[ 7,   114] avg_loss : 1.24453, time:2.451023 minutes
+[ 7,   119] avg_loss : 1.39752, time:2.550580 minutes
+[ 7,   124] avg_loss : 1.32160, time:2.661249 minutes
+[ 7,   129] avg_loss : 1.33157, time:2.762573 minutes
+[ 7,   134] avg_loss : 1.09724, time:2.866863 minutes
+[ 7,   139] avg_loss : 1.48562, time:2.965960 minutes
+[ 7,   144] avg_loss : 1.28883, time:3.065583 minutes
+[ 7,   149] avg_loss : 1.27281, time:3.150469 minutes
+[ 7, train] avg_loss : 1.30825
+[ 7, val] avg_loss : 1.56328 cc_loss : 0.50707 sim_loss : 0.31608, time : 2.283705
+
+[ 8,     4] avg_loss : 1.43403, time:0.189860 minutes
+[ 8,     9] avg_loss : 1.17763, time:0.285256 minutes
+[ 8,    14] avg_loss : 1.52072, time:0.384556 minutes
+[ 8,    19] avg_loss : 1.31596, time:0.483098 minutes
+[ 8,    24] avg_loss : 1.39681, time:0.600879 minutes
+[ 8,    29] avg_loss : 0.97346, time:0.699848 minutes
+[ 8,    34] avg_loss : 1.24230, time:0.799143 minutes
+[ 8,    39] avg_loss : 1.29601, time:0.899919 minutes
+[ 8,    44] avg_loss : 1.24346, time:1.010053 minutes
+[ 8,    49] avg_loss : 1.29893, time:1.114757 minutes
+[ 8,    54] avg_loss : 1.33910, time:1.224083 minutes
+[ 8,    59] avg_loss : 1.18738, time:1.331423 minutes
+[ 8,    64] avg_loss : 1.22129, time:1.444253 minutes
+[ 8,    69] avg_loss : 1.32026, time:1.551223 minutes
+[ 8,    74] avg_loss : 1.31374, time:1.647887 minutes
+[ 8,    79] avg_loss : 1.33429, time:1.745610 minutes
+[ 8,    84] avg_loss : 1.24766, time:1.860244 minutes
+[ 8,    89] avg_loss : 1.28717, time:1.965557 minutes
+[ 8,    94] avg_loss : 1.38330, time:2.070357 minutes
+[ 8,    99] avg_loss : 1.17160, time:2.162216 minutes
+[ 8,   104] avg_loss : 1.38970, time:2.266780 minutes
+[ 8,   109] avg_loss : 1.26421, time:2.370343 minutes
+[ 8,   114] avg_loss : 1.21349, time:2.478003 minutes
+[ 8,   119] avg_loss : 1.40089, time:2.578516 minutes
+[ 8,   124] avg_loss : 1.16133, time:2.677650 minutes
+[ 8,   129] avg_loss : 1.15816, time:2.779356 minutes
+[ 8,   134] avg_loss : 0.94893, time:2.882080 minutes
+[ 8,   139] avg_loss : 1.20571, time:2.978211 minutes
+[ 8,   144] avg_loss : 1.27328, time:3.077229 minutes
+[ 8,   149] avg_loss : 1.16386, time:3.161625 minutes
+[ 8, train] avg_loss : 1.26282
+[ 8, val] avg_loss : 1.42030 cc_loss : 0.52518 sim_loss : 0.39370, time : 2.277566
+[ 8,  save, enet_transformer.pt]
+
+[ 9,     4] avg_loss : 1.19139, time:0.183269 minutes
+[ 9,     9] avg_loss : 1.11508, time:0.281307 minutes
+[ 9,    14] avg_loss : 1.30298, time:0.385812 minutes
+[ 9,    19] avg_loss : 1.17404, time:0.485395 minutes
+[ 9,    24] avg_loss : 1.22607, time:0.589299 minutes
+[ 9,    29] avg_loss : 1.19118, time:0.698883 minutes
+[ 9,    34] avg_loss : 1.37822, time:0.802490 minutes
+[ 9,    39] avg_loss : 1.30146, time:0.901092 minutes
+[ 9,    44] avg_loss : 1.18222, time:0.999030 minutes
+[ 9,    49] avg_loss : 1.15517, time:1.117833 minutes
+[ 9,    54] avg_loss : 1.36663, time:1.220046 minutes
+[ 9,    59] avg_loss : 1.21862, time:1.318549 minutes
+[ 9,    64] avg_loss : 1.21634, time:1.414962 minutes
+[ 9,    69] avg_loss : 1.37711, time:1.531748 minutes
+[ 9,    74] avg_loss : 1.32948, time:1.629531 minutes
+[ 9,    79] avg_loss : 1.13604, time:1.743632 minutes
+[ 9,    84] avg_loss : 1.34693, time:1.839213 minutes
+[ 9,    89] avg_loss : 1.16341, time:1.946932 minutes
+[ 9,    94] avg_loss : 1.28140, time:2.048506 minutes
+[ 9,    99] avg_loss : 1.31400, time:2.154976 minutes
+[ 9,   104] avg_loss : 1.37669, time:2.257128 minutes
+[ 9,   109] avg_loss : 1.22338, time:2.366525 minutes
+[ 9,   114] avg_loss : 1.36264, time:2.471964 minutes
+[ 9,   119] avg_loss : 1.04641, time:2.564299 minutes
+[ 9,   124] avg_loss : 1.07852, time:2.671221 minutes
+[ 9,   129] avg_loss : 1.17614, time:2.765454 minutes
+[ 9,   134] avg_loss : 1.33052, time:2.868219 minutes
+[ 9,   139] avg_loss : 1.20005, time:2.972867 minutes
+[ 9,   144] avg_loss : 1.49738, time:3.075844 minutes
+[ 9,   149] avg_loss : 1.02744, time:3.158999 minutes
+[ 9, train] avg_loss : 1.24290
+[ 9, val] avg_loss : 1.41827 cc_loss : 0.52265 sim_loss : 0.39397, time : 2.279287
+[ 9,  save, enet_transformer.pt]
+
+[10,     4] avg_loss : 1.16193, time:0.189331 minutes
+[10,     9] avg_loss : 1.10642, time:0.289440 minutes
+[10,    14] avg_loss : 1.19072, time:0.395390 minutes
+[10,    19] avg_loss : 1.20296, time:0.495231 minutes
+[10,    24] avg_loss : 1.06734, time:0.608306 minutes
+[10,    29] avg_loss : 1.33942, time:0.711484 minutes
+[10,    34] avg_loss : 1.17145, time:0.812861 minutes
+[10,    39] avg_loss : 1.12615, time:0.913020 minutes
+[10,    44] avg_loss : 1.27897, time:1.016712 minutes
+[10,    49] avg_loss : 1.20869, time:1.120971 minutes
+[10,    54] avg_loss : 1.31606, time:1.224919 minutes
+[10,    59] avg_loss : 1.26748, time:1.320952 minutes
+[10,    64] avg_loss : 1.27922, time:1.430654 minutes
+[10,    69] avg_loss : 1.21815, time:1.526587 minutes
+[10,    74] avg_loss : 1.17044, time:1.625857 minutes
+[10,    79] avg_loss : 1.36151, time:1.723674 minutes
+[10,    84] avg_loss : 1.31316, time:1.829505 minutes
+[10,    89] avg_loss : 1.14215, time:1.925022 minutes
+[10,    94] avg_loss : 1.21920, time:2.038896 minutes
+[10,    99] avg_loss : 1.13650, time:2.147701 minutes
+[10,   104] avg_loss : 1.32949, time:2.245882 minutes
+[10,   109] avg_loss : 1.27917, time:2.346290 minutes
+[10,   114] avg_loss : 1.12450, time:2.454178 minutes
+[10,   119] avg_loss : 1.12388, time:2.549849 minutes
+[10,   124] avg_loss : 1.42845, time:2.658173 minutes
+[10,   129] avg_loss : 1.21782, time:2.758363 minutes
+[10,   134] avg_loss : 1.24904, time:2.880165 minutes
+[10,   139] avg_loss : 1.24689, time:2.981042 minutes
+[10,   144] avg_loss : 1.30653, time:3.079810 minutes
+[10,   149] avg_loss : 1.39555, time:3.162832 minutes
+[10, train] avg_loss : 1.23264
+[10, val] avg_loss : 1.42183 cc_loss : 0.52268 sim_loss : 0.38464, time : 2.263396
+
+[11,     4] avg_loss : 1.20259, time:0.186135 minutes
+[11,     9] avg_loss : 1.40069, time:0.290778 minutes
+[11,    14] avg_loss : 1.39310, time:0.396002 minutes
+[11,    19] avg_loss : 1.30970, time:0.499063 minutes
+[11,    24] avg_loss : 1.13177, time:0.613469 minutes
+[11,    29] avg_loss : 1.08386, time:0.714128 minutes
+[11,    34] avg_loss : 1.06412, time:0.811815 minutes
+[11,    39] avg_loss : 1.35104, time:0.910143 minutes
+[11,    44] avg_loss : 1.20166, time:1.031889 minutes
+[11,    49] avg_loss : 1.26378, time:1.127950 minutes
+[11,    54] avg_loss : 1.34297, time:1.231449 minutes
+[11,    59] avg_loss : 1.19020, time:1.326613 minutes
+[11,    64] avg_loss : 1.29258, time:1.436597 minutes
+[11,    69] avg_loss : 1.26998, time:1.533285 minutes
+[11,    74] avg_loss : 1.14759, time:1.633505 minutes
+[11,    79] avg_loss : 0.97090, time:1.739195 minutes
+[11,    84] avg_loss : 1.09134, time:1.854759 minutes
+[11,    89] avg_loss : 1.30450, time:1.961725 minutes
+[11,    94] avg_loss : 1.20766, time:2.054934 minutes
+[11,    99] avg_loss : 1.32562, time:2.160031 minutes
+[11,   104] avg_loss : 1.20854, time:2.265468 minutes
+[11,   109] avg_loss : 1.11960, time:2.364395 minutes
+[11,   114] avg_loss : 1.32412, time:2.462408 minutes
+[11,   119] avg_loss : 1.13279, time:2.565936 minutes
+[11,   124] avg_loss : 1.20739, time:2.672553 minutes
+[11,   129] avg_loss : 1.32063, time:2.774520 minutes
+[11,   134] avg_loss : 1.19879, time:2.870831 minutes
+[11,   139] avg_loss : 1.06825, time:2.971810 minutes
+[11,   144] avg_loss : 1.15780, time:3.070824 minutes
+[11,   149] avg_loss : 1.30488, time:3.155458 minutes
+[11, train] avg_loss : 1.21961
+[11, val] avg_loss : 1.42800 cc_loss : 0.52089 sim_loss : 0.37967, time : 2.292223
+
+[12,     4] avg_loss : 1.38959, time:0.170682 minutes
+[12,     9] avg_loss : 1.26076, time:0.279133 minutes
+[12,    14] avg_loss : 1.15579, time:0.386159 minutes
+[12,    19] avg_loss : 1.32367, time:0.484276 minutes
+[12,    24] avg_loss : 1.18044, time:0.591626 minutes
+[12,    29] avg_loss : 1.15280, time:0.706336 minutes
+[12,    34] avg_loss : 1.22621, time:0.809204 minutes
+[12,    39] avg_loss : 1.30525, time:0.911307 minutes
+[12,    44] avg_loss : 1.03719, time:1.004947 minutes
+[12,    49] avg_loss : 1.13827, time:1.115678 minutes
+[12,    54] avg_loss : 1.27622, time:1.212235 minutes
+[12,    59] avg_loss : 1.02735, time:1.308893 minutes
+[12,    64] avg_loss : 1.09228, time:1.407292 minutes
+[12,    69] avg_loss : 1.13844, time:1.518619 minutes
+[12,    74] avg_loss : 1.24466, time:1.628189 minutes
+[12,    79] avg_loss : 1.15967, time:1.729090 minutes
+[12,    84] avg_loss : 1.18421, time:1.836646 minutes
+[12,    89] avg_loss : 1.11862, time:1.950633 minutes
+[12,    94] avg_loss : 1.21680, time:2.053850 minutes
+[12,    99] avg_loss : 1.10275, time:2.150680 minutes
+[12,   104] avg_loss : 1.42792, time:2.251123 minutes
+[12,   109] avg_loss : 1.41827, time:2.361727 minutes
+[12,   114] avg_loss : 1.27168, time:2.459675 minutes
+[12,   119] avg_loss : 1.11431, time:2.560894 minutes
+[12,   124] avg_loss : 0.97796, time:2.662155 minutes
+[12,   129] avg_loss : 1.37431, time:2.779510 minutes
+[12,   134] avg_loss : 1.38691, time:2.874747 minutes
+[12,   139] avg_loss : 1.22840, time:2.974952 minutes
+[12,   144] avg_loss : 1.04029, time:3.071526 minutes
+[12,   149] avg_loss : 1.10836, time:3.156582 minutes
+[12, train] avg_loss : 1.20265
+[12, val] avg_loss : 1.46024 cc_loss : 0.52355 sim_loss : 0.41524, time : 2.308245
+
+[13,     4] avg_loss : 1.21585, time:0.190202 minutes
+[13,     9] avg_loss : 1.30991, time:0.289937 minutes
+[13,    14] avg_loss : 1.32214, time:0.381473 minutes
+[13,    19] avg_loss : 1.32937, time:0.485321 minutes
+[13,    24] avg_loss : 1.26624, time:0.597627 minutes
+[13,    29] avg_loss : 1.06737, time:0.701350 minutes
+[13,    34] avg_loss : 1.29874, time:0.796826 minutes
+[13,    39] avg_loss : 0.94189, time:0.892694 minutes
+[13,    44] avg_loss : 1.44076, time:0.996258 minutes
+[13,    49] avg_loss : 1.21948, time:1.104055 minutes
+[13,    54] avg_loss : 1.16498, time:1.205542 minutes
+[13,    59] avg_loss : 1.28159, time:1.308015 minutes
+[13,    64] avg_loss : 1.39913, time:1.416616 minutes
+[13,    69] avg_loss : 1.24573, time:1.524349 minutes
+[13,    74] avg_loss : 1.31432, time:1.629883 minutes
+[13,    79] avg_loss : 1.03591, time:1.726442 minutes
+[13,    84] avg_loss : 1.22452, time:1.831617 minutes
+[13,    89] avg_loss : 1.11573, time:1.928044 minutes
+[13,    94] avg_loss : 1.18622, time:2.037146 minutes
+[13,    99] avg_loss : 1.50107, time:2.138727 minutes
+[13,   104] avg_loss : 1.21515, time:2.237924 minutes
+[13,   109] avg_loss : 1.16674, time:2.336377 minutes
+[13,   114] avg_loss : 1.16499, time:2.433245 minutes
+[13,   119] avg_loss : 1.24949, time:2.528609 minutes
+[13,   124] avg_loss : 1.06433, time:2.638347 minutes
+[13,   129] avg_loss : 1.23881, time:2.735808 minutes
+[13,   134] avg_loss : 1.24335, time:2.839082 minutes
+[13,   139] avg_loss : 1.20966, time:2.941349 minutes
+[13,   144] avg_loss : 1.31547, time:3.042963 minutes
+[13,   149] avg_loss : 1.13197, time:3.126728 minutes
+[13, train] avg_loss : 1.22936
+[13, val] avg_loss : 1.39440 cc_loss : 0.52546 sim_loss : 0.39624, time : 2.269190
+[13,  save, enet_transformer.pt]
+
+[14,     4] avg_loss : 1.02859, time:0.187484 minutes
+[14,     9] avg_loss : 1.41521, time:0.294193 minutes
+[14,    14] avg_loss : 1.32094, time:0.399992 minutes
+[14,    19] avg_loss : 1.07488, time:0.498343 minutes
+[14,    24] avg_loss : 1.11697, time:0.614492 minutes
+[14,    29] avg_loss : 1.34036, time:0.706768 minutes
+[14,    34] avg_loss : 1.12254, time:0.808956 minutes
+[14,    39] avg_loss : 1.38351, time:0.911492 minutes
+[14,    44] avg_loss : 1.05942, time:1.015777 minutes
+[14,    49] avg_loss : 1.12962, time:1.118222 minutes
+[14,    54] avg_loss : 1.11730, time:1.222634 minutes
+[14,    59] avg_loss : 1.27040, time:1.326491 minutes
+[14,    64] avg_loss : 1.09747, time:1.431348 minutes
+[14,    69] avg_loss : 1.15783, time:1.530226 minutes
+[14,    74] avg_loss : 1.10589, time:1.635932 minutes
+[14,    79] avg_loss : 1.19788, time:1.735749 minutes
+[14,    84] avg_loss : 1.16405, time:1.845449 minutes
+[14,    89] avg_loss : 1.32096, time:1.951122 minutes
+[14,    94] avg_loss : 1.34708, time:2.048895 minutes
+[14,    99] avg_loss : 1.01890, time:2.149520 minutes
+[14,   104] avg_loss : 1.06230, time:2.246548 minutes
+[14,   109] avg_loss : 1.03018, time:2.337637 minutes
+[14,   114] avg_loss : 1.08850, time:2.436064 minutes
+[14,   119] avg_loss : 1.24739, time:2.533998 minutes
+[14,   124] avg_loss : 1.02403, time:2.644434 minutes
+[14,   129] avg_loss : 1.19883, time:2.741674 minutes
+[14,   134] avg_loss : 1.25756, time:2.843674 minutes
+[14,   139] avg_loss : 1.19695, time:2.944583 minutes
+[14,   144] avg_loss : 1.28466, time:3.038184 minutes
+[14,   149] avg_loss : 1.14423, time:3.123843 minutes
+[14, train] avg_loss : 1.17748
+[14, val] avg_loss : 1.41508 cc_loss : 0.52960 sim_loss : 0.37080, time : 2.270306
+
+[15,     4] avg_loss : 1.33199, time:0.189075 minutes
+[15,     9] avg_loss : 1.19274, time:0.297916 minutes
+[15,    14] avg_loss : 1.17362, time:0.402916 minutes
+[15,    19] avg_loss : 1.14109, time:0.507649 minutes
+[15,    24] avg_loss : 1.05372, time:0.617649 minutes
+[15,    29] avg_loss : 1.14345, time:0.713943 minutes
+[15,    34] avg_loss : 1.28483, time:0.820230 minutes
+[15,    39] avg_loss : 0.98184, time:0.917930 minutes
+[15,    44] avg_loss : 1.10709, time:1.038531 minutes
+[15,    49] avg_loss : 1.13719, time:1.140365 minutes
+[15,    54] avg_loss : 1.02251, time:1.236630 minutes
+[15,    59] avg_loss : 1.27698, time:1.335572 minutes
+[15,    64] avg_loss : 1.07246, time:1.446712 minutes
+[15,    69] avg_loss : 1.13375, time:1.545698 minutes
+[15,    74] avg_loss : 1.03739, time:1.648994 minutes
+[15,    79] avg_loss : 1.20522, time:1.749209 minutes
+[15,    84] avg_loss : 1.37982, time:1.860288 minutes
+[15,    89] avg_loss : 1.22203, time:1.962438 minutes
+[15,    94] avg_loss : 1.13973, time:2.062157 minutes
+[15,    99] avg_loss : 1.28612, time:2.168177 minutes
+[15,   104] avg_loss : 1.15438, time:2.276245 minutes
+[15,   109] avg_loss : 1.11492, time:2.371591 minutes
+[15,   114] avg_loss : 1.10034, time:2.468517 minutes
+[15,   119] avg_loss : 1.07836, time:2.571110 minutes
+[15,   124] avg_loss : 1.15073, time:2.680956 minutes
+[15,   129] avg_loss : 1.17732, time:2.782449 minutes
+[15,   134] avg_loss : 1.08343, time:2.878184 minutes
+[15,   139] avg_loss : 1.20889, time:2.980560 minutes
+[15,   144] avg_loss : 1.19967, time:3.078175 minutes
+[15,   149] avg_loss : 1.09974, time:3.161183 minutes
+[15, train] avg_loss : 1.15638
+[15, val] avg_loss : 1.44320 cc_loss : 0.52322 sim_loss : 0.40818, time : 2.271245
+
+[16,     4] avg_loss : 1.07112, time:0.184974 minutes
+[16,     9] avg_loss : 1.38958, time:0.289198 minutes
+[16,    14] avg_loss : 1.08291, time:0.379436 minutes
+[16,    19] avg_loss : 1.02836, time:0.486829 minutes
+[16,    24] avg_loss : 1.33367, time:0.597383 minutes
+[16,    29] avg_loss : 1.13064, time:0.699108 minutes
+[16,    34] avg_loss : 1.09749, time:0.801301 minutes
+[16,    39] avg_loss : 1.31270, time:0.908425 minutes
+[16,    44] avg_loss : 1.21339, time:1.021951 minutes
+[16,    49] avg_loss : 1.13433, time:1.118845 minutes
+[16,    54] avg_loss : 1.24935, time:1.218467 minutes
+[16,    59] avg_loss : 1.19142, time:1.321831 minutes
+[16,    64] avg_loss : 1.49355, time:1.426640 minutes
+[16,    69] avg_loss : 0.94229, time:1.528430 minutes
+[16,    74] avg_loss : 1.24912, time:1.626802 minutes
+[16,    79] avg_loss : 1.20970, time:1.732382 minutes
+[16,    84] avg_loss : 1.13648, time:1.843443 minutes
+[16,    89] avg_loss : 1.19096, time:1.947109 minutes
+[16,    94] avg_loss : 1.03805, time:2.041257 minutes
+[16,    99] avg_loss : 0.99270, time:2.137040 minutes
+[16,   104] avg_loss : 1.25808, time:2.247096 minutes
+[16,   109] avg_loss : 1.16068, time:2.344992 minutes
+[16,   114] avg_loss : 1.06554, time:2.444800 minutes
+[16,   119] avg_loss : 0.93629, time:2.539090 minutes
+[16,   124] avg_loss : 1.34760, time:2.653362 minutes
+[16,   129] avg_loss : 1.14936, time:2.751063 minutes
+[16,   134] avg_loss : 0.96580, time:2.853507 minutes
+[16,   139] avg_loss : 1.29163, time:2.948887 minutes
+[16,   144] avg_loss : 1.32061, time:3.045720 minutes
+[16,   149] avg_loss : 1.21739, time:3.126923 minutes
+[16, train] avg_loss : 1.17336
+[16, val] avg_loss : 1.42056 cc_loss : 0.52351 sim_loss : 0.39127, time : 2.309548
+
+[17,     4] avg_loss : 1.06818, time:0.179627 minutes
+[17,     9] avg_loss : 1.18109, time:0.284859 minutes
+[17,    14] avg_loss : 1.11073, time:0.388135 minutes
+[17,    19] avg_loss : 1.27711, time:0.497326 minutes
+[17,    24] avg_loss : 1.02080, time:0.607737 minutes
+[17,    29] avg_loss : 1.06393, time:0.709363 minutes
+[17,    34] avg_loss : 1.13083, time:0.815498 minutes
+[17,    39] avg_loss : 1.17293, time:0.920811 minutes
+[17,    44] avg_loss : 1.09818, time:1.015170 minutes
+[17,    49] avg_loss : 1.07450, time:1.112447 minutes
+[17,    54] avg_loss : 1.21795, time:1.213040 minutes
+[17,    59] avg_loss : 1.34314, time:1.312665 minutes
+[17,    64] avg_loss : 1.18034, time:1.426066 minutes
+[17,    69] avg_loss : 1.06746, time:1.528033 minutes
+[17,    74] avg_loss : 1.10311, time:1.624470 minutes
+[17,    79] avg_loss : 1.09271, time:1.726925 minutes
+[17,    84] avg_loss : 1.25122, time:1.843964 minutes
+[17,    89] avg_loss : 1.26483, time:1.936469 minutes
+[17,    94] avg_loss : 1.18166, time:2.033090 minutes
+[17,    99] avg_loss : 1.26441, time:2.129318 minutes
+[17,   104] avg_loss : 1.20837, time:2.247251 minutes
+[17,   109] avg_loss : 1.12767, time:2.344137 minutes
+[17,   114] avg_loss : 1.23027, time:2.447532 minutes
+[17,   119] avg_loss : 1.01880, time:2.549390 minutes
+[17,   124] avg_loss : 1.35070, time:2.654986 minutes
+[17,   129] avg_loss : 1.20665, time:2.749802 minutes
+[17,   134] avg_loss : 1.13819, time:2.849789 minutes
+[17,   139] avg_loss : 1.15702, time:2.939942 minutes
+[17,   144] avg_loss : 1.19057, time:3.043842 minutes
+[17,   149] avg_loss : 0.99694, time:3.126356 minutes
+[17, train] avg_loss : 1.15968
+[17, val] avg_loss : 1.39908 cc_loss : 0.53159 sim_loss : 0.39601, time : 2.269144
+
+[18,     4] avg_loss : 1.02611, time:0.172774 minutes
+[18,     9] avg_loss : 1.22950, time:0.271042 minutes
+[18,    14] avg_loss : 1.21276, time:0.369421 minutes
+[18,    19] avg_loss : 1.29226, time:0.470984 minutes
+[18,    24] avg_loss : 1.22354, time:0.580866 minutes
+[18,    29] avg_loss : 1.04803, time:0.680367 minutes
+[18,    34] avg_loss : 1.29501, time:0.780203 minutes
+[18,    39] avg_loss : 1.07378, time:0.880611 minutes
+[18,    44] avg_loss : 1.30989, time:0.988470 minutes
+[18,    49] avg_loss : 1.36573, time:1.093839 minutes
+[18,    54] avg_loss : 1.23670, time:1.194951 minutes
+[18,    59] avg_loss : 1.10015, time:1.296901 minutes
+[18,    64] avg_loss : 1.07370, time:1.396498 minutes
+[18,    69] avg_loss : 1.04127, time:1.513869 minutes
+[18,    74] avg_loss : 1.16104, time:1.620872 minutes
+[18,    79] avg_loss : 1.26169, time:1.722592 minutes
+[18,    84] avg_loss : 1.11060, time:1.816808 minutes
+[18,    89] avg_loss : 1.09084, time:1.931752 minutes
+[18,    94] avg_loss : 1.09851, time:2.037317 minutes
+[18,    99] avg_loss : 1.33164, time:2.136950 minutes
+[18,   104] avg_loss : 1.23181, time:2.240034 minutes
+[18,   109] avg_loss : 0.90478, time:2.354093 minutes
+[18,   114] avg_loss : 1.20586, time:2.451994 minutes
+[18,   119] avg_loss : 1.14970, time:2.549665 minutes
+[18,   124] avg_loss : 1.17355, time:2.661278 minutes
+[18,   129] avg_loss : 1.21215, time:2.769184 minutes
+[18,   134] avg_loss : 1.45927, time:2.867653 minutes
+[18,   139] avg_loss : 1.14210, time:2.967558 minutes
+[18,   144] avg_loss : 1.07576, time:3.065308 minutes
+[18,   149] avg_loss : 1.01610, time:3.146960 minutes
+[18, train] avg_loss : 1.17179
+[18, val] avg_loss : 1.40411 cc_loss : 0.53065 sim_loss : 0.40658, time : 2.275349
+
+[19,     4] avg_loss : 0.97559, time:0.176500 minutes
+[19,     9] avg_loss : 1.11442, time:0.282161 minutes
+[19,    14] avg_loss : 0.83241, time:0.382234 minutes
+[19,    19] avg_loss : 1.15554, time:0.492350 minutes
+[19,    24] avg_loss : 1.44975, time:0.595704 minutes
+[19,    29] avg_loss : 1.18601, time:0.700400 minutes
+[19,    34] avg_loss : 1.14973, time:0.806059 minutes
+[19,    39] avg_loss : 1.22664, time:0.901376 minutes
+[19,    44] avg_loss : 1.04022, time:1.006372 minutes
+[19,    49] avg_loss : 1.13917, time:1.126857 minutes
+[19,    54] avg_loss : 1.10336, time:1.230169 minutes
+[19,    59] avg_loss : 1.26808, time:1.325151 minutes
+[19,    64] avg_loss : 1.11489, time:1.431744 minutes
+[19,    69] avg_loss : 1.14540, time:1.537488 minutes
+[19,    74] avg_loss : 1.18496, time:1.641743 minutes
+[19,    79] avg_loss : 0.95229, time:1.740365 minutes
+[19,    84] avg_loss : 1.18333, time:1.841233 minutes
+[19,    89] avg_loss : 0.96760, time:1.957509 minutes
+[19,    94] avg_loss : 1.11902, time:2.051432 minutes
+[19,    99] avg_loss : 1.19545, time:2.154010 minutes
+[19,   104] avg_loss : 1.08138, time:2.254881 minutes
+[19,   109] avg_loss : 1.05852, time:2.366541 minutes
+[19,   114] avg_loss : 1.01875, time:2.466320 minutes
+[19,   119] avg_loss : 1.24811, time:2.555351 minutes
+[19,   124] avg_loss : 1.20298, time:2.655887 minutes
+[19,   129] avg_loss : 0.95769, time:2.760232 minutes
+[19,   134] avg_loss : 1.21877, time:2.864167 minutes
+[19,   139] avg_loss : 1.09349, time:2.966824 minutes
+[19,   144] avg_loss : 1.32394, time:3.065116 minutes
+[19,   149] avg_loss : 1.07605, time:3.148615 minutes
+[19, train] avg_loss : 1.12612
+[19, val] avg_loss : 1.40827 cc_loss : 0.52764 sim_loss : 0.37845, time : 2.314792
+
+[20,     4] avg_loss : 1.22964, time:0.176290 minutes
+[20,     9] avg_loss : 1.29858, time:0.279173 minutes
+[20,    14] avg_loss : 1.13888, time:0.384011 minutes
+[20,    19] avg_loss : 1.09069, time:0.488113 minutes
+[20,    24] avg_loss : 1.16528, time:0.596749 minutes
+[20,    29] avg_loss : 1.02367, time:0.690244 minutes
+[20,    34] avg_loss : 1.21449, time:0.794746 minutes
+[20,    39] avg_loss : 1.18176, time:0.898148 minutes
+[20,    44] avg_loss : 1.16911, time:1.001295 minutes
+[20,    49] avg_loss : 1.17973, time:1.103154 minutes
+[20,    54] avg_loss : 1.14168, time:1.205647 minutes
+[20,    59] avg_loss : 1.19469, time:1.307074 minutes
+[20,    64] avg_loss : 0.96713, time:1.409807 minutes
+[20,    69] avg_loss : 1.10488, time:1.515473 minutes
+[20,    74] avg_loss : 1.28809, time:1.615852 minutes
+[20,    79] avg_loss : 1.31803, time:1.718352 minutes
+[20,    84] avg_loss : 0.95243, time:1.826841 minutes
+[20,    89] avg_loss : 1.21980, time:1.928170 minutes
+[20,    94] avg_loss : 1.00575, time:2.031307 minutes
+[20,    99] avg_loss : 1.18540, time:2.126013 minutes
+[20,   104] avg_loss : 1.25314, time:2.238247 minutes
+[20,   109] avg_loss : 1.21994, time:2.344050 minutes
+[20,   114] avg_loss : 1.18963, time:2.448230 minutes
+[20,   119] avg_loss : 1.15254, time:2.553852 minutes
+[20,   124] avg_loss : 1.26982, time:2.666178 minutes
+[20,   129] avg_loss : 1.02221, time:2.763802 minutes
+[20,   134] avg_loss : 1.11899, time:2.863667 minutes
+[20,   139] avg_loss : 1.13172, time:2.960247 minutes
+[20,   144] avg_loss : 1.00966, time:3.067449 minutes
+[20,   149] avg_loss : 0.98542, time:3.150168 minutes
+[20, train] avg_loss : 1.14743
+[20, val] avg_loss : 1.38336 cc_loss : 0.53574 sim_loss : 0.40490, time : 2.266964
+[20,  save, enet_transformer.pt]
+
+[21,     4] avg_loss : 1.01062, time:0.186633 minutes
+[21,     9] avg_loss : 1.09999, time:0.285176 minutes
+[21,    14] avg_loss : 1.10154, time:0.385973 minutes
+[21,    19] avg_loss : 1.26627, time:0.484006 minutes
+[21,    24] avg_loss : 1.21847, time:0.592206 minutes
+[21,    29] avg_loss : 1.40226, time:0.691856 minutes
+[21,    34] avg_loss : 1.30971, time:0.787666 minutes
+[21,    39] avg_loss : 1.23708, time:0.886101 minutes
+[21,    44] avg_loss : 1.03620, time:0.990017 minutes
+[21,    49] avg_loss : 1.07606, time:1.105194 minutes
+[21,    54] avg_loss : 1.15459, time:1.205524 minutes
+[21,    59] avg_loss : 1.13148, time:1.302124 minutes
+[21,    64] avg_loss : 1.03490, time:1.410004 minutes
+[21,    69] avg_loss : 1.24351, time:1.521446 minutes
+[21,    74] avg_loss : 1.19444, time:1.624992 minutes
+[21,    79] avg_loss : 0.92178, time:1.724031 minutes
+[21,    84] avg_loss : 1.11917, time:1.823376 minutes
+[21,    89] avg_loss : 1.08958, time:1.933766 minutes
+[21,    94] avg_loss : 1.25852, time:2.036355 minutes
+[21,    99] avg_loss : 1.14511, time:2.138170 minutes
+[21,   104] avg_loss : 1.18239, time:2.236112 minutes
+[21,   109] avg_loss : 1.15501, time:2.353839 minutes
+[21,   114] avg_loss : 1.08013, time:2.444344 minutes
+[21,   119] avg_loss : 1.45745, time:2.535392 minutes
+[21,   124] avg_loss : 1.03337, time:2.642279 minutes
+[21,   129] avg_loss : 1.13616, time:2.755076 minutes
+[21,   134] avg_loss : 1.30818, time:2.855590 minutes
+[21,   139] avg_loss : 0.98599, time:2.954696 minutes
+[21,   144] avg_loss : 1.26517, time:3.053753 minutes
+[21,   149] avg_loss : 1.26870, time:3.138352 minutes
+[21, train] avg_loss : 1.16413
+[21, val] avg_loss : 1.39523 cc_loss : 0.52791 sim_loss : 0.37406, time : 2.280266
+
+[22,     4] avg_loss : 1.18821, time:0.175832 minutes
+[22,     9] avg_loss : 1.15669, time:0.277242 minutes
+[22,    14] avg_loss : 1.19608, time:0.385148 minutes
+[22,    19] avg_loss : 1.22003, time:0.486720 minutes
+[22,    24] avg_loss : 1.13431, time:0.586415 minutes
+[22,    29] avg_loss : 1.54506, time:0.711394 minutes
+[22,    34] avg_loss : 1.40497, time:0.809107 minutes
+[22,    39] avg_loss : 1.22601, time:0.911998 minutes
+[22,    44] avg_loss : 1.00942, time:1.014300 minutes
+[22,    49] avg_loss : 1.39827, time:1.125147 minutes
+[22,    54] avg_loss : 0.97574, time:1.224448 minutes
+[22,    59] avg_loss : 0.95580, time:1.320767 minutes
+[22,    64] avg_loss : 0.97202, time:1.412199 minutes
+[22,    69] avg_loss : 1.15042, time:1.517930 minutes
+[22,    74] avg_loss : 0.95264, time:1.617077 minutes
+[22,    79] avg_loss : 1.12227, time:1.720187 minutes
+[22,    84] avg_loss : 1.02079, time:1.837641 minutes
+[22,    89] avg_loss : 1.04359, time:1.930148 minutes
+[22,    94] avg_loss : 1.12923, time:2.034694 minutes
+[22,    99] avg_loss : 0.96057, time:2.136153 minutes
+[22,   104] avg_loss : 1.02395, time:2.258997 minutes
+[22,   109] avg_loss : 1.07728, time:2.358080 minutes
+[22,   114] avg_loss : 1.23291, time:2.455282 minutes
+[22,   119] avg_loss : 1.16363, time:2.550881 minutes
+[22,   124] avg_loss : 1.25879, time:2.662481 minutes
+[22,   129] avg_loss : 1.04737, time:2.770748 minutes
+[22,   134] avg_loss : 1.24047, time:2.867243 minutes
+[22,   139] avg_loss : 1.08184, time:2.976298 minutes
+[22,   144] avg_loss : 1.34102, time:3.067133 minutes
+[22,   149] avg_loss : 1.06302, time:3.150775 minutes
+[22, train] avg_loss : 1.14308
+[22, val] avg_loss : 1.40178 cc_loss : 0.53010 sim_loss : 0.37684, time : 2.336244
+
+[23,     4] avg_loss : 1.02849, time:0.188021 minutes
+[23,     9] avg_loss : 1.15261, time:0.285365 minutes
+[23,    14] avg_loss : 1.02843, time:0.387777 minutes
+[23,    19] avg_loss : 1.29690, time:0.491487 minutes
+[23,    24] avg_loss : 1.36649, time:0.614046 minutes
+[23,    29] avg_loss : 0.99506, time:0.710753 minutes
+[23,    34] avg_loss : 1.06906, time:0.803504 minutes
+[23,    39] avg_loss : 1.16165, time:0.902576 minutes
+[23,    44] avg_loss : 1.10379, time:1.014159 minutes
+[23,    49] avg_loss : 1.05219, time:1.111398 minutes
+[23,    54] avg_loss : 1.14384, time:1.215856 minutes
+[23,    59] avg_loss : 1.27089, time:1.316483 minutes
+[23,    64] avg_loss : 1.18467, time:1.424511 minutes
+[23,    69] avg_loss : 1.23860, time:1.518525 minutes
+[23,    74] avg_loss : 1.11681, time:1.623143 minutes
+[23,    79] avg_loss : 0.88319, time:1.726091 minutes
+[23,    84] avg_loss : 1.22745, time:1.831610 minutes
+[23,    89] avg_loss : 1.08216, time:1.934814 minutes
+[23,    94] avg_loss : 1.20902, time:2.040101 minutes
+[23,    99] avg_loss : 1.06726, time:2.140515 minutes
+[23,   104] avg_loss : 0.94541, time:2.251913 minutes
+[23,   109] avg_loss : 1.19102, time:2.346708 minutes
+[23,   114] avg_loss : 1.01156, time:2.444776 minutes
+[23,   119] avg_loss : 1.05214, time:2.541953 minutes
+[23,   124] avg_loss : 0.94653, time:2.647462 minutes
+[23,   129] avg_loss : 1.22746, time:2.749513 minutes
+[23,   134] avg_loss : 1.18250, time:2.844493 minutes
+[23,   139] avg_loss : 1.17192, time:2.947170 minutes
+[23,   144] avg_loss : 0.98638, time:3.045754 minutes
+[23,   149] avg_loss : 1.03996, time:3.128729 minutes
+[23, train] avg_loss : 1.11445
+[23, val] avg_loss : 1.40435 cc_loss : 0.53280 sim_loss : 0.41035, time : 2.280538
+
+[24,     4] avg_loss : 1.12835, time:0.184169 minutes
+[24,     9] avg_loss : 1.12322, time:0.280764 minutes
+[24,    14] avg_loss : 1.11538, time:0.384277 minutes
+[24,    19] avg_loss : 1.15648, time:0.492862 minutes
+[24,    24] avg_loss : 1.08887, time:0.595717 minutes
+[24,    29] avg_loss : 1.03563, time:0.690836 minutes
+[24,    34] avg_loss : 1.31852, time:0.788776 minutes
+[24,    39] avg_loss : 1.16739, time:0.889651 minutes
+[24,    44] avg_loss : 1.06010, time:0.993989 minutes
+[24,    49] avg_loss : 1.20883, time:1.095470 minutes
+[24,    54] avg_loss : 1.16509, time:1.192783 minutes
+[24,    59] avg_loss : 1.05934, time:1.291169 minutes
+[24,    64] avg_loss : 1.15820, time:1.403774 minutes
+[24,    69] avg_loss : 1.15367, time:1.506462 minutes
+[24,    74] avg_loss : 1.14588, time:1.610364 minutes
+[24,    79] avg_loss : 1.02962, time:1.705576 minutes
+[24,    84] avg_loss : 1.11423, time:1.812450 minutes
+[24,    89] avg_loss : 1.03434, time:1.912503 minutes
+[24,    94] avg_loss : 1.05748, time:2.018739 minutes
+[24,    99] avg_loss : 1.11252, time:2.118379 minutes
+[24,   104] avg_loss : 1.34438, time:2.228049 minutes
+[24,   109] avg_loss : 0.98046, time:2.333836 minutes
+[24,   114] avg_loss : 1.14856, time:2.429028 minutes
+[24,   119] avg_loss : 1.05644, time:2.527376 minutes
+[24,   124] avg_loss : 1.27477, time:2.638340 minutes
+[24,   129] avg_loss : 1.00791, time:2.737902 minutes
+[24,   134] avg_loss : 1.18661, time:2.834569 minutes
+[24,   139] avg_loss : 1.17855, time:2.936802 minutes
+[24,   144] avg_loss : 0.90728, time:3.040602 minutes
+[24,   149] avg_loss : 1.06541, time:3.122917 minutes
+[24, train] avg_loss : 1.11945
+[24, val] avg_loss : 1.40183 cc_loss : 0.53570 sim_loss : 0.41274, time : 2.266312
+
+[25,     4] avg_loss : 1.07491, time:0.187361 minutes
+[25,     9] avg_loss : 1.02807, time:0.285657 minutes
+[25,    14] avg_loss : 0.93819, time:0.394887 minutes
+[25,    19] avg_loss : 1.11026, time:0.489971 minutes
+[25,    24] avg_loss : 1.25232, time:0.608273 minutes
+[25,    29] avg_loss : 1.05153, time:0.716138 minutes
+[25,    34] avg_loss : 1.03534, time:0.811810 minutes
+[25,    39] avg_loss : 1.37077, time:0.914033 minutes
+[25,    44] avg_loss : 1.22598, time:1.033415 minutes
+[25,    49] avg_loss : 1.13079, time:1.132770 minutes
+[25,    54] avg_loss : 1.05249, time:1.235752 minutes
+[25,    59] avg_loss : 1.11243, time:1.333303 minutes
+[25,    64] avg_loss : 1.26343, time:1.437954 minutes
+[25,    69] avg_loss : 1.05264, time:1.539533 minutes
+[25,    74] avg_loss : 1.15207, time:1.637188 minutes
+[25,    79] avg_loss : 1.33878, time:1.737036 minutes
+[25,    84] avg_loss : 1.12774, time:1.845636 minutes
+[25,    89] avg_loss : 1.08970, time:1.944549 minutes
+[25,    94] avg_loss : 1.10057, time:2.043502 minutes
+[25,    99] avg_loss : 1.17088, time:2.137167 minutes
+[25,   104] avg_loss : 1.19935, time:2.249188 minutes
+[25,   109] avg_loss : 1.12079, time:2.345037 minutes
+[25,   114] avg_loss : 1.03466, time:2.445493 minutes
+[25,   119] avg_loss : 1.05113, time:2.545435 minutes
+[25,   124] avg_loss : 1.11243, time:2.648118 minutes
+[25,   129] avg_loss : 1.06736, time:2.751802 minutes
+[25,   134] avg_loss : 1.26588, time:2.846096 minutes
+[25,   139] avg_loss : 1.05295, time:2.937871 minutes
+[25,   144] avg_loss : 1.14543, time:3.037026 minutes
+[25,   149] avg_loss : 1.17278, time:3.121625 minutes
+[25, train] avg_loss : 1.13006
+[25, val] avg_loss : 1.37517 cc_loss : 0.53795 sim_loss : 0.41549, time : 2.297231
+[25,  save, enet_transformer.pt]
+
+[26,     4] avg_loss : 1.14566, time:0.182439 minutes
+[26,     9] avg_loss : 1.03856, time:0.278225 minutes
+[26,    14] avg_loss : 1.12402, time:0.381890 minutes
+[26,    19] avg_loss : 0.99320, time:0.485511 minutes
+[26,    24] avg_loss : 0.94063, time:0.596414 minutes
+[26,    29] avg_loss : 1.10237, time:0.698156 minutes
+[26,    34] avg_loss : 0.98611, time:0.795654 minutes
+[26,    39] avg_loss : 0.90452, time:0.902383 minutes
+[26,    44] avg_loss : 1.08508, time:1.004333 minutes
+[26,    49] avg_loss : 1.08482, time:1.116474 minutes
+[26,    54] avg_loss : 0.96303, time:1.210274 minutes
+[26,    59] avg_loss : 0.86241, time:1.311352 minutes
+[26,    64] avg_loss : 1.02460, time:1.405584 minutes
+[26,    69] avg_loss : 1.17547, time:1.515129 minutes
+[26,    74] avg_loss : 1.12434, time:1.618867 minutes
+[26,    79] avg_loss : 1.04667, time:1.720123 minutes
+[26,    84] avg_loss : 1.25792, time:1.820054 minutes
+[26,    89] avg_loss : 1.20475, time:1.927786 minutes
+[26,    94] avg_loss : 1.23173, time:2.025315 minutes
+[26,    99] avg_loss : 1.23995, time:2.128018 minutes
+[26,   104] avg_loss : 1.21088, time:2.224286 minutes
+[26,   109] avg_loss : 1.24732, time:2.336175 minutes
+[26,   114] avg_loss : 1.34333, time:2.438072 minutes
+[26,   119] avg_loss : 0.95809, time:2.534827 minutes
+[26,   124] avg_loss : 1.06202, time:2.634245 minutes
+[26,   129] avg_loss : 1.18900, time:2.750658 minutes
+[26,   134] avg_loss : 0.97363, time:2.848119 minutes
+[26,   139] avg_loss : 1.02222, time:2.951153 minutes
+[26,   144] avg_loss : 1.16341, time:3.045072 minutes
+[26,   149] avg_loss : 0.88579, time:3.129706 minutes
+[26, train] avg_loss : 1.08638
+[26, val] avg_loss : 1.36872 cc_loss : 0.54105 sim_loss : 0.41333, time : 2.270401
+[26,  save, enet_transformer.pt]
+
+[27,     4] avg_loss : 1.23808, time:0.178470 minutes
+[27,     9] avg_loss : 1.10590, time:0.275356 minutes
+[27,    14] avg_loss : 1.01244, time:0.376463 minutes
+[27,    19] avg_loss : 1.01339, time:0.478997 minutes
+[27,    24] avg_loss : 1.04252, time:0.586200 minutes
+[27,    29] avg_loss : 1.09050, time:0.689777 minutes
+[27,    34] avg_loss : 0.96173, time:0.786641 minutes
+[27,    39] avg_loss : 1.39528, time:0.887259 minutes
+[27,    44] avg_loss : 1.08405, time:0.998841 minutes
+[27,    49] avg_loss : 0.86456, time:1.096559 minutes
+[27,    54] avg_loss : 1.09819, time:1.191928 minutes
+[27,    59] avg_loss : 1.12479, time:1.287329 minutes
+[27,    64] avg_loss : 1.25582, time:1.392838 minutes
+[27,    69] avg_loss : 1.22569, time:1.496317 minutes
+[27,    74] avg_loss : 1.22440, time:1.600192 minutes
+[27,    79] avg_loss : 1.25195, time:1.697530 minutes
+[27,    84] avg_loss : 1.04159, time:1.796525 minutes
+[27,    89] avg_loss : 1.10943, time:1.898708 minutes
+[27,    94] avg_loss : 1.03281, time:2.001398 minutes
+[27,    99] avg_loss : 1.12138, time:2.102113 minutes
+[27,   104] avg_loss : 1.08410, time:2.204893 minutes
+[27,   109] avg_loss : 1.12695, time:2.308522 minutes
+[27,   114] avg_loss : 1.13408, time:2.413723 minutes
+[27,   119] avg_loss : 0.98339, time:2.513703 minutes
+[27,   124] avg_loss : 1.00696, time:2.615333 minutes
+[27,   129] avg_loss : 1.22836, time:2.723289 minutes
+[27,   134] avg_loss : 1.05686, time:2.820403 minutes
+[27,   139] avg_loss : 0.96790, time:2.927134 minutes
+[27,   144] avg_loss : 1.29649, time:3.029330 minutes
+[27,   149] avg_loss : 1.08458, time:3.119609 minutes
+[27, train] avg_loss : 1.10881
+[27, val] avg_loss : 1.35984 cc_loss : 0.53904 sim_loss : 0.40552, time : 2.258545
+[27,  save, enet_transformer.pt]
+
+[28,     4] avg_loss : 1.11539, time:0.176892 minutes
+[28,     9] avg_loss : 1.05729, time:0.279693 minutes
+[28,    14] avg_loss : 1.13929, time:0.379528 minutes
+[28,    19] avg_loss : 1.08992, time:0.478144 minutes
+[28,    24] avg_loss : 1.10122, time:0.594196 minutes
+[28,    29] avg_loss : 1.03313, time:0.698172 minutes
+[28,    34] avg_loss : 1.10036, time:0.792731 minutes
+[28,    39] avg_loss : 0.94203, time:0.896907 minutes
+[28,    44] avg_loss : 0.96116, time:1.003000 minutes
+[28,    49] avg_loss : 1.21904, time:1.107889 minutes
+[28,    54] avg_loss : 1.15366, time:1.210448 minutes
+[28,    59] avg_loss : 1.28660, time:1.309969 minutes
+[28,    64] avg_loss : 0.94552, time:1.409728 minutes
+[28,    69] avg_loss : 0.99007, time:1.522851 minutes
+[28,    74] avg_loss : 1.10772, time:1.621247 minutes
+[28,    79] avg_loss : 1.21343, time:1.721320 minutes
+[28,    84] avg_loss : 1.11363, time:1.816191 minutes
+[28,    89] avg_loss : 1.20642, time:1.937721 minutes
+[28,    94] avg_loss : 1.02867, time:2.034187 minutes
+[28,    99] avg_loss : 1.23118, time:2.136781 minutes
+[28,   104] avg_loss : 1.06704, time:2.242988 minutes
+[28,   109] avg_loss : 1.00662, time:2.353446 minutes
+[28,   114] avg_loss : 1.08199, time:2.450318 minutes
+[28,   119] avg_loss : 1.19003, time:2.547260 minutes
+[28,   124] avg_loss : 1.01834, time:2.655730 minutes
+[28,   129] avg_loss : 0.95262, time:2.762328 minutes
+[28,   134] avg_loss : 1.01751, time:2.859674 minutes
+[28,   139] avg_loss : 1.09241, time:2.955116 minutes
+[28,   144] avg_loss : 0.95693, time:3.053949 minutes
+[28,   149] avg_loss : 0.95192, time:3.137136 minutes
+[28, train] avg_loss : 1.07904
+[28, val] avg_loss : 1.38032 cc_loss : 0.53641 sim_loss : 0.41358, time : 2.277588
+
+[29,     4] avg_loss : 1.29173, time:0.181800 minutes
+[29,     9] avg_loss : 1.20319, time:0.291626 minutes
+[29,    14] avg_loss : 1.18393, time:0.395545 minutes
+[29,    19] avg_loss : 1.03803, time:0.497204 minutes
+[29,    24] avg_loss : 0.88669, time:0.611338 minutes
+[29,    29] avg_loss : 1.27233, time:0.714625 minutes
+[29,    34] avg_loss : 1.35997, time:0.816668 minutes
+[29,    39] avg_loss : 1.12036, time:0.914830 minutes
+[29,    44] avg_loss : 1.01492, time:1.023477 minutes
+[29,    49] avg_loss : 1.12504, time:1.125269 minutes
+[29,    54] avg_loss : 1.12739, time:1.228412 minutes
+[29,    59] avg_loss : 1.12372, time:1.326429 minutes
+[29,    64] avg_loss : 0.95938, time:1.436397 minutes
+[29,    69] avg_loss : 1.07437, time:1.542743 minutes
+[29,    74] avg_loss : 0.98743, time:1.646784 minutes
+[29,    79] avg_loss : 0.98422, time:1.745230 minutes
+[29,    84] avg_loss : 1.37101, time:1.852613 minutes
+[29,    89] avg_loss : 1.00835, time:1.952625 minutes
+[29,    94] avg_loss : 0.90175, time:2.056240 minutes
+[29,    99] avg_loss : 1.04784, time:2.152012 minutes
+[29,   104] avg_loss : 1.10575, time:2.258824 minutes
+[29,   109] avg_loss : 1.01475, time:2.357828 minutes
+[29,   114] avg_loss : 1.19521, time:2.459843 minutes
+[29,   119] avg_loss : 1.25638, time:2.555541 minutes
+[29,   124] avg_loss : 1.01148, time:2.670746 minutes
+[29,   129] avg_loss : 1.07242, time:2.774546 minutes
+[29,   134] avg_loss : 1.25085, time:2.876187 minutes
+[29,   139] avg_loss : 1.15079, time:2.973845 minutes
+[29,   144] avg_loss : 1.25720, time:3.074535 minutes
+[29,   149] avg_loss : 0.99854, time:3.156258 minutes
+[29, train] avg_loss : 1.11317
+[29, val] avg_loss : 1.35740 cc_loss : 0.54291 sim_loss : 0.40496, time : 2.432841
+[29,  save, enet_transformer.pt]
+
+[30,     4] avg_loss : 1.02513, time:0.182915 minutes
+[30,     9] avg_loss : 0.93742, time:0.286259 minutes
+[30,    14] avg_loss : 1.17266, time:0.386033 minutes
+[30,    19] avg_loss : 1.11773, time:0.487307 minutes
+[30,    24] avg_loss : 0.97449, time:0.596374 minutes
+[30,    29] avg_loss : 1.09128, time:0.697094 minutes
+[30,    34] avg_loss : 0.95428, time:0.801199 minutes
+[30,    39] avg_loss : 1.01720, time:0.896596 minutes
+[30,    44] avg_loss : 1.29113, time:1.004577 minutes
+[30,    49] avg_loss : 1.07899, time:1.110094 minutes
+[30,    54] avg_loss : 1.01359, time:1.207098 minutes
+[30,    59] avg_loss : 1.01288, time:1.316573 minutes
+[30,    64] avg_loss : 1.06993, time:1.425901 minutes
+[30,    69] avg_loss : 0.91746, time:1.526096 minutes
+[30,    74] avg_loss : 0.96060, time:1.628022 minutes
+[30,    79] avg_loss : 1.01197, time:1.725431 minutes
+[30,    84] avg_loss : 0.95668, time:1.831334 minutes
+[30,    89] avg_loss : 1.13018, time:1.932356 minutes
+[30,    94] avg_loss : 0.91480, time:2.042665 minutes
+[30,    99] avg_loss : 1.40708, time:2.149308 minutes
+[30,   104] avg_loss : 1.10649, time:2.255117 minutes
+[30,   109] avg_loss : 1.15843, time:2.356497 minutes
+[30,   114] avg_loss : 1.22953, time:2.452242 minutes
+[30,   119] avg_loss : 1.06126, time:2.553053 minutes
+[30,   124] avg_loss : 1.05129, time:2.659671 minutes
+[30,   129] avg_loss : 1.18026, time:2.752637 minutes
+[30,   134] avg_loss : 1.24614, time:2.857487 minutes
+[30,   139] avg_loss : 1.02172, time:2.962852 minutes
+[30,   144] avg_loss : 1.24631, time:3.060093 minutes
+[30,   149] avg_loss : 0.92570, time:3.143491 minutes
+[30, train] avg_loss : 1.07609
+[30, val] avg_loss : 1.35699 cc_loss : 0.54302 sim_loss : 0.41205, time : 2.267171
+[30,  save, enet_transformer.pt]
+
+[31,     4] avg_loss : 1.21524, time:0.184967 minutes
+[31,     9] avg_loss : 1.07429, time:0.288323 minutes
+[31,    14] avg_loss : 1.16701, time:0.391883 minutes
+[31,    19] avg_loss : 1.07994, time:0.498802 minutes
+[31,    24] avg_loss : 0.85248, time:0.622821 minutes
+[31,    29] avg_loss : 1.22719, time:0.721837 minutes
+[31,    34] avg_loss : 1.16249, time:0.822822 minutes
+[31,    39] avg_loss : 1.18318, time:0.926143 minutes
+[31,    44] avg_loss : 1.18895, time:1.035403 minutes
+[31,    49] avg_loss : 0.95804, time:1.138297 minutes
+[31,    54] avg_loss : 0.91611, time:1.237810 minutes
+[31,    59] avg_loss : 0.98685, time:1.341422 minutes
+[31,    64] avg_loss : 1.29745, time:1.445777 minutes
+[31,    69] avg_loss : 0.96715, time:1.547962 minutes
+[31,    74] avg_loss : 1.02045, time:1.649887 minutes
+[31,    79] avg_loss : 1.03575, time:1.749077 minutes
+[31,    84] avg_loss : 1.10251, time:1.854496 minutes
+[31,    89] avg_loss : 0.97995, time:1.956169 minutes
+[31,    94] avg_loss : 1.26726, time:2.058791 minutes
+[31,    99] avg_loss : 1.09760, time:2.159622 minutes
+[31,   104] avg_loss : 1.23441, time:2.265871 minutes
+[31,   109] avg_loss : 1.18048, time:2.363953 minutes
+[31,   114] avg_loss : 1.26938, time:2.457888 minutes
+[31,   119] avg_loss : 1.04523, time:2.555022 minutes
+[31,   124] avg_loss : 1.02717, time:2.667944 minutes
+[31,   129] avg_loss : 1.14817, time:2.766389 minutes
+[31,   134] avg_loss : 1.10215, time:2.863427 minutes
+[31,   139] avg_loss : 1.09276, time:2.963924 minutes
+[31,   144] avg_loss : 1.10140, time:3.060410 minutes
+[31,   149] avg_loss : 1.19216, time:3.143870 minutes
+[31, train] avg_loss : 1.10577
+[31, val] avg_loss : 1.37187 cc_loss : 0.53670 sim_loss : 0.40323, time : 2.262550
+
+[32,     4] avg_loss : 0.98261, time:0.177977 minutes
+[32,     9] avg_loss : 1.14238, time:0.281034 minutes
+[32,    14] avg_loss : 1.06090, time:0.380930 minutes
+[32,    19] avg_loss : 1.06520, time:0.474901 minutes
+[32,    24] avg_loss : 1.07829, time:0.584172 minutes
+[32,    29] avg_loss : 1.12728, time:0.683790 minutes
+[32,    34] avg_loss : 1.10007, time:0.787449 minutes
+[32,    39] avg_loss : 0.99760, time:0.890091 minutes
+[32,    44] avg_loss : 1.05482, time:0.992075 minutes
+[32,    49] avg_loss : 1.11608, time:1.106394 minutes
+[32,    54] avg_loss : 1.04040, time:1.200069 minutes
+[32,    59] avg_loss : 1.05116, time:1.303249 minutes
+[32,    64] avg_loss : 1.20095, time:1.406007 minutes
+[32,    69] avg_loss : 1.00165, time:1.511295 minutes
+[32,    74] avg_loss : 1.04096, time:1.613038 minutes
+[32,    79] avg_loss : 1.27982, time:1.715555 minutes
+[32,    84] avg_loss : 1.06960, time:1.816715 minutes
+[32,    89] avg_loss : 1.10695, time:1.924493 minutes
+[32,    94] avg_loss : 1.26839, time:2.024715 minutes
+[32,    99] avg_loss : 1.06297, time:2.126114 minutes
+[32,   104] avg_loss : 1.11160, time:2.225286 minutes
+[32,   109] avg_loss : 0.98188, time:2.326641 minutes
+[32,   114] avg_loss : 1.00657, time:2.429761 minutes
+[32,   119] avg_loss : 0.88445, time:2.530180 minutes
+[32,   124] avg_loss : 1.05596, time:2.630290 minutes
+[32,   129] avg_loss : 1.16142, time:2.737657 minutes
+[32,   134] avg_loss : 1.04039, time:2.839296 minutes
+[32,   139] avg_loss : 1.02263, time:2.932375 minutes
+[32,   144] avg_loss : 1.09313, time:3.032880 minutes
+[32,   149] avg_loss : 1.00617, time:3.117762 minutes
+[32, train] avg_loss : 1.07374
+[32, val] avg_loss : 1.34221 cc_loss : 0.54533 sim_loss : 0.40848, time : 2.281482
+[32,  save, enet_transformer.pt]
+
+[33,     4] avg_loss : 0.86051, time:0.171115 minutes
+[33,     9] avg_loss : 1.32403, time:0.273014 minutes
+[33,    14] avg_loss : 1.10495, time:0.372016 minutes
+[33,    19] avg_loss : 1.04179, time:0.470302 minutes
+[33,    24] avg_loss : 0.97301, time:0.587423 minutes
+[33,    29] avg_loss : 1.23781, time:0.688264 minutes
+[33,    34] avg_loss : 1.01268, time:0.785310 minutes
+[33,    39] avg_loss : 1.02234, time:0.894049 minutes
+[33,    44] avg_loss : 0.92601, time:1.002700 minutes
+[33,    49] avg_loss : 1.07386, time:1.103297 minutes
+[33,    54] avg_loss : 0.95556, time:1.201176 minutes
+[33,    59] avg_loss : 0.96706, time:1.303969 minutes
+[33,    64] avg_loss : 1.18927, time:1.414631 minutes
+[33,    69] avg_loss : 1.14213, time:1.520503 minutes
+[33,    74] avg_loss : 0.99312, time:1.620114 minutes
+[33,    79] avg_loss : 1.25829, time:1.721519 minutes
+[33,    84] avg_loss : 1.08768, time:1.821463 minutes
+[33,    89] avg_loss : 1.15471, time:1.917830 minutes
+[33,    94] avg_loss : 0.95886, time:2.018344 minutes
+[33,    99] avg_loss : 0.99873, time:2.120522 minutes
+[33,   104] avg_loss : 1.06379, time:2.221458 minutes
+[33,   109] avg_loss : 0.98412, time:2.322265 minutes
+[33,   114] avg_loss : 1.14757, time:2.426322 minutes
+[33,   119] avg_loss : 1.01254, time:2.526048 minutes
+[33,   124] avg_loss : 1.11891, time:2.632886 minutes
+[33,   129] avg_loss : 0.86524, time:2.729708 minutes
+[33,   134] avg_loss : 1.00169, time:2.833217 minutes
+[33,   139] avg_loss : 1.08796, time:2.933305 minutes
+[33,   144] avg_loss : 0.91144, time:3.037518 minutes
+[33,   149] avg_loss : 1.05449, time:3.121152 minutes
+[33, train] avg_loss : 1.05101
+[33, val] avg_loss : 1.37146 cc_loss : 0.53699 sim_loss : 0.40687, time : 2.304936
+
+[34,     4] avg_loss : 0.96656, time:0.186850 minutes
+[34,     9] avg_loss : 1.05927, time:0.294957 minutes
+[34,    14] avg_loss : 1.14148, time:0.391672 minutes
+[34,    19] avg_loss : 1.11354, time:0.487058 minutes
+[34,    24] avg_loss : 0.99090, time:0.596618 minutes
+[34,    29] avg_loss : 0.98283, time:0.689436 minutes
+[34,    34] avg_loss : 1.12194, time:0.787639 minutes
+[34,    39] avg_loss : 1.09133, time:0.889279 minutes
+[34,    44] avg_loss : 0.96009, time:0.988858 minutes
+[34,    49] avg_loss : 1.16125, time:1.102706 minutes
+[34,    54] avg_loss : 1.12422, time:1.203322 minutes
+[34,    59] avg_loss : 0.97644, time:1.302572 minutes
+[34,    64] avg_loss : 1.37079, time:1.411350 minutes
+[34,    69] avg_loss : 1.06452, time:1.515417 minutes
+[34,    74] avg_loss : 1.03376, time:1.627411 minutes
+[34,    79] avg_loss : 1.19546, time:1.724307 minutes
+[34,    84] avg_loss : 1.22072, time:1.825394 minutes
+[34,    89] avg_loss : 0.90291, time:1.928761 minutes
+[34,    94] avg_loss : 1.23765, time:2.026067 minutes
+[34,    99] avg_loss : 1.49346, time:2.125832 minutes
+[34,   104] avg_loss : 1.31332, time:2.221908 minutes
+[34,   109] avg_loss : 1.04187, time:2.326573 minutes
+[34,   114] avg_loss : 1.03275, time:2.430306 minutes
+[34,   119] avg_loss : 1.29665, time:2.531791 minutes
+[34,   124] avg_loss : 1.05243, time:2.628773 minutes
+[34,   129] avg_loss : 0.91800, time:2.730162 minutes
+[34,   134] avg_loss : 1.14503, time:2.837625 minutes
+[34,   139] avg_loss : 1.11261, time:2.940676 minutes
+[34,   144] avg_loss : 1.13487, time:3.036861 minutes
+[34,   149] avg_loss : 0.98973, time:3.118863 minutes
+[34, train] avg_loss : 1.10821
+[34, val] avg_loss : 1.35576 cc_loss : 0.54098 sim_loss : 0.40424, time : 2.263409
+
+[35,     4] avg_loss : 1.10940, time:0.183323 minutes
+[35,     9] avg_loss : 0.99622, time:0.287222 minutes
+[35,    14] avg_loss : 1.19332, time:0.390843 minutes
+[35,    19] avg_loss : 1.16034, time:0.489292 minutes
+[35,    24] avg_loss : 0.96125, time:0.593469 minutes
+[35,    29] avg_loss : 1.06541, time:0.690195 minutes
+[35,    34] avg_loss : 0.99072, time:0.793416 minutes
+[35,    39] avg_loss : 1.40370, time:0.894646 minutes
+[35,    44] avg_loss : 0.99465, time:1.005383 minutes
+[35,    49] avg_loss : 0.96566, time:1.113121 minutes
+[35,    54] avg_loss : 1.15956, time:1.207352 minutes
+[35,    59] avg_loss : 1.11560, time:1.305745 minutes
+[35,    64] avg_loss : 1.08509, time:1.422394 minutes
+[35,    69] avg_loss : 1.19040, time:1.523893 minutes
+[35,    74] avg_loss : 0.97943, time:1.628361 minutes
+[35,    79] avg_loss : 0.86615, time:1.729869 minutes
+[35,    84] avg_loss : 1.05565, time:1.838855 minutes
+[35,    89] avg_loss : 1.08942, time:1.936167 minutes
+[35,    94] avg_loss : 1.00393, time:2.038926 minutes
+[35,    99] avg_loss : 0.97794, time:2.142021 minutes
+[35,   104] avg_loss : 0.97059, time:2.253920 minutes
+[35,   109] avg_loss : 0.93164, time:2.352864 minutes
+[35,   114] avg_loss : 1.13036, time:2.450205 minutes
+[35,   119] avg_loss : 1.15543, time:2.555173 minutes
+[35,   124] avg_loss : 1.11093, time:2.655513 minutes
+[35,   129] avg_loss : 1.12217, time:2.758997 minutes
+[35,   134] avg_loss : 1.08268, time:2.859053 minutes
+[35,   139] avg_loss : 1.33780, time:2.960149 minutes
+[35,   144] avg_loss : 0.99810, time:3.063068 minutes
+[35,   149] avg_loss : 1.10549, time:3.146014 minutes
+[35, train] avg_loss : 1.07697
+[35, val] avg_loss : 1.36212 cc_loss : 0.53871 sim_loss : 0.40788, time : 2.311383
+
+[36,     4] avg_loss : 1.09537, time:0.179902 minutes
+[36,     9] avg_loss : 1.05169, time:0.278622 minutes
+[36,    14] avg_loss : 1.16967, time:0.380031 minutes
+[36,    19] avg_loss : 1.06392, time:0.477033 minutes
+[36,    24] avg_loss : 1.11938, time:0.586997 minutes
+[36,    29] avg_loss : 0.98269, time:0.689003 minutes
+[36,    34] avg_loss : 1.14161, time:0.790893 minutes
+[36,    39] avg_loss : 1.25024, time:0.895165 minutes
+[36,    44] avg_loss : 0.89070, time:0.995674 minutes
+[36,    49] avg_loss : 0.83377, time:1.104734 minutes
+[36,    54] avg_loss : 1.19556, time:1.208843 minutes
+[36,    59] avg_loss : 0.97357, time:1.309692 minutes
+[36,    64] avg_loss : 1.10381, time:1.417463 minutes
+[36,    69] avg_loss : 0.89747, time:1.512391 minutes
+[36,    74] avg_loss : 0.95815, time:1.616695 minutes
+[36,    79] avg_loss : 0.93793, time:1.722312 minutes
+[36,    84] avg_loss : 0.95688, time:1.820216 minutes
+[36,    89] avg_loss : 0.93881, time:1.914902 minutes
+[36,    94] avg_loss : 1.10734, time:2.044828 minutes
+[36,    99] avg_loss : 1.06925, time:2.149806 minutes
+[36,   104] avg_loss : 1.11753, time:2.255042 minutes
+[36,   109] avg_loss : 1.25820, time:2.348719 minutes
+[36,   114] avg_loss : 1.21705, time:2.466469 minutes
+[36,   119] avg_loss : 1.12503, time:2.567406 minutes
+[36,   124] avg_loss : 1.22099, time:2.671820 minutes
+[36,   129] avg_loss : 1.03174, time:2.778379 minutes
+[36,   134] avg_loss : 1.20480, time:2.886779 minutes
+[36,   139] avg_loss : 1.11187, time:2.990976 minutes
+[36,   144] avg_loss : 1.08086, time:3.094495 minutes
+[36,   149] avg_loss : 0.93372, time:3.176855 minutes
+[36, train] avg_loss : 1.06799
+[36, val] avg_loss : 1.37943 cc_loss : 0.53223 sim_loss : 0.41368, time : 2.267407
+
+[37,     4] avg_loss : 0.97848, time:0.182716 minutes
+[37,     9] avg_loss : 0.89928, time:0.286685 minutes
+[37,    14] avg_loss : 1.04024, time:0.386614 minutes
+[37,    19] avg_loss : 1.03524, time:0.493501 minutes
+[37,    24] avg_loss : 1.04442, time:0.605125 minutes
+[37,    29] avg_loss : 1.14373, time:0.705368 minutes
+[37,    34] avg_loss : 1.15038, time:0.806738 minutes
+[37,    39] avg_loss : 1.01709, time:0.903527 minutes
+[37,    44] avg_loss : 1.04604, time:1.017306 minutes
+[37,    49] avg_loss : 1.00141, time:1.119194 minutes
+[37,    54] avg_loss : 1.11234, time:1.220443 minutes
+[37,    59] avg_loss : 1.21040, time:1.324900 minutes
+[37,    64] avg_loss : 1.01748, time:1.437840 minutes
+[37,    69] avg_loss : 0.88679, time:1.537367 minutes
+[37,    74] avg_loss : 1.19037, time:1.636828 minutes
+[37,    79] avg_loss : 1.02997, time:1.735295 minutes
+[37,    84] avg_loss : 1.03219, time:1.844701 minutes
+[37,    89] avg_loss : 0.97813, time:1.942025 minutes
+[37,    94] avg_loss : 1.30585, time:2.050147 minutes
+[37,    99] avg_loss : 1.18575, time:2.148405 minutes
+[37,   104] avg_loss : 0.94664, time:2.260429 minutes
+[37,   109] avg_loss : 1.18408, time:2.353807 minutes
+[37,   114] avg_loss : 1.01595, time:2.454103 minutes
+[37,   119] avg_loss : 1.16685, time:2.561435 minutes
+[37,   124] avg_loss : 1.11176, time:2.664794 minutes
+[37,   129] avg_loss : 1.12753, time:2.763536 minutes
+[37,   134] avg_loss : 1.10372, time:2.861712 minutes
+[37,   139] avg_loss : 1.03648, time:2.959435 minutes
+[37,   144] avg_loss : 0.95920, time:3.060015 minutes
+[37,   149] avg_loss : 1.22072, time:3.143670 minutes
+[37, train] avg_loss : 1.07262
+[37, val] avg_loss : 1.35310 cc_loss : 0.53995 sim_loss : 0.41022, time : 2.294605
+
+[38,     4] avg_loss : 0.94547, time:0.186209 minutes
+[38,     9] avg_loss : 1.04184, time:0.283975 minutes
+[38,    14] avg_loss : 1.16724, time:0.387872 minutes
+[38,    19] avg_loss : 1.21415, time:0.488512 minutes
+[38,    24] avg_loss : 1.05978, time:0.592085 minutes
+[38,    29] avg_loss : 0.91846, time:0.692282 minutes
+[38,    34] avg_loss : 0.92401, time:0.793861 minutes
+[38,    39] avg_loss : 1.21691, time:0.894955 minutes
+[38,    44] avg_loss : 1.01187, time:0.997727 minutes
+[38,    49] avg_loss : 1.13295, time:1.096793 minutes
+[38,    54] avg_loss : 1.01806, time:1.196107 minutes
+[38,    59] avg_loss : 1.04316, time:1.299356 minutes
+[38,    64] avg_loss : 1.16362, time:1.395745 minutes
+[38,    69] avg_loss : 1.24532, time:1.497567 minutes
+[38,    74] avg_loss : 0.98185, time:1.598770 minutes
+[38,    79] avg_loss : 0.92059, time:1.697593 minutes
+[38,    84] avg_loss : 1.09536, time:1.800883 minutes
+[38,    89] avg_loss : 1.07486, time:1.918105 minutes
+[38,    94] avg_loss : 1.03796, time:2.013327 minutes
+[38,    99] avg_loss : 1.03927, time:2.110662 minutes
+[38,   104] avg_loss : 0.90346, time:2.211785 minutes
+[38,   109] avg_loss : 1.01678, time:2.322954 minutes
+[38,   114] avg_loss : 1.02177, time:2.419478 minutes
+[38,   119] avg_loss : 1.08872, time:2.527402 minutes
+[38,   124] avg_loss : 0.95289, time:2.623985 minutes
+[38,   129] avg_loss : 1.00668, time:2.726155 minutes
+[38,   134] avg_loss : 1.06751, time:2.819727 minutes
+[38,   139] avg_loss : 1.00533, time:2.927727 minutes
+[38,   144] avg_loss : 0.87621, time:3.025259 minutes
+[38,   149] avg_loss : 1.04852, time:3.110042 minutes
+[38, train] avg_loss : 1.04135
+[38, val] avg_loss : 1.37241 cc_loss : 0.53350 sim_loss : 0.40764, time : 2.440447
+
+[39,     4] avg_loss : 0.90721, time:0.183923 minutes
+[39,     9] avg_loss : 1.13212, time:0.289103 minutes
+[39,    14] avg_loss : 1.18154, time:0.397348 minutes
+[39,    19] avg_loss : 1.02845, time:0.495051 minutes
+[39,    24] avg_loss : 1.11152, time:0.612026 minutes
+[39,    29] avg_loss : 0.98042, time:0.716412 minutes
+[39,    34] avg_loss : 0.89837, time:0.811790 minutes
+[39,    39] avg_loss : 1.17902, time:0.907124 minutes
+[39,    44] avg_loss : 0.86068, time:1.014024 minutes
+[39,    49] avg_loss : 1.22539, time:1.108912 minutes
+[39,    54] avg_loss : 0.94410, time:1.214296 minutes
+[39,    59] avg_loss : 0.94008, time:1.322233 minutes
+[39,    64] avg_loss : 1.06419, time:1.422123 minutes
+[39,    69] avg_loss : 0.98848, time:1.525843 minutes
+[39,    74] avg_loss : 0.90396, time:1.636806 minutes
+[39,    79] avg_loss : 0.96320, time:1.751225 minutes
+[39,    84] avg_loss : 1.16183, time:1.859418 minutes
+[39,    89] avg_loss : 1.15616, time:1.960968 minutes
+[39,    94] avg_loss : 1.01079, time:2.078542 minutes
+[39,    99] avg_loss : 1.05711, time:2.179712 minutes
+[39,   104] avg_loss : 1.00137, time:2.282147 minutes
+[39,   109] avg_loss : 1.21127, time:2.388791 minutes
+[39,   114] avg_loss : 1.19788, time:2.495470 minutes
+[39,   119] avg_loss : 1.06128, time:2.597429 minutes
+[39,   124] avg_loss : 1.04389, time:2.694342 minutes
+[39,   129] avg_loss : 1.14773, time:2.795178 minutes
+[39,   134] avg_loss : 1.06483, time:2.908539 minutes
+[39,   139] avg_loss : 0.89443, time:3.006973 minutes
+[39,   144] avg_loss : 1.24222, time:3.097866 minutes
+[39,   149] avg_loss : 0.96970, time:3.182690 minutes
+[39, train] avg_loss : 1.05097
+[39, val] avg_loss : 1.37522 cc_loss : 0.53234 sim_loss : 0.40526, time : 2.263809
+wandb: Waiting for W&B process to finish... (success).
+wandb: 
+wandb: Run history:
+wandb:        epoch ▁▁▁▂▂▂▂▂▂▃▃▃▃▃▄▄▄▄▄▄▅▅▅▅▅▅▆▆▆▆▆▇▇▇▇▇▇███
+wandb:           lr ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:         time ▂▁▂▁▂▂▂▂▂▂▁▂▃▁▁▁▃▁▂▃▁▂▄▂▁▂▁▁▂█▁▁▂▃▁▃▁▂█▁
+wandb:   train_loss █▆▄▅▅▄▄▄▄▃▃▃▃▃▃▂▃▂▃▂▂▂▂▂▂▂▂▂▁▂▁▂▁▁▂▁▁▁▁▁
+wandb:  val_cc_loss ▁▁▃▅▅▆▆▅▆▆▆▆▆▆▇▆▆▇▇▇▇▇▇▇▇▇█▇▇██▇█▇█▇▇█▇▇
+wandb:     val_loss ██▆▄▄▄▃▆▃▃▃▃▄▂▃▃▃▂▂▃▂▂▂▂▂▂▂▁▂▁▁▂▁▂▁▁▂▁▂▂
+wandb: val_sim_loss ▁▃▃▄▄▅▅▁▇▇▆▆█▇▅█▆▇▇▆▇▅▅████▇█▇█▇█▇▇▇██▇▇
+wandb: 
+wandb: Run summary:
+wandb:        epoch 39
+wandb:           lr 0.0001
+wandb:         time 2.26381
+wandb:   train_loss 1.05097
+wandb:  val_cc_loss 0.53234
+wandb:     val_loss 1.37522
+wandb: val_sim_loss 0.40526
+wandb: 
+wandb: 🚀 View run cosmic-dragon-15 at: https://wandb.ai/bhavberi/vinet/runs/yceh3k0f
+wandb: Synced 6 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20230629_100644-yceh3k0f/logs
