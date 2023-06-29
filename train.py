@@ -59,6 +59,7 @@ parser.add_argument('--use_sound',default=False, type=bool)
 parser.add_argument('--use_transformer',default=False, type=bool)
 parser.add_argument('--use_vox',default=False, type=bool)
 parser.add_argument('--use_wandb',default=False, type=bool)
+parser.add_argument('--grouped_conv',default=True, type=bool)
 
 args = parser.parse_args()
 print(args)
@@ -102,7 +103,8 @@ else:
     model = VideoSaliencyModel(
         use_upsample=bool(args.decoder_upsample),
         num_hier=args.num_hier,
-        num_clips=args.clip_size
+        num_clips=args.clip_size,
+        grouped_conv=args.grouped_conv
     )
 
 np.random.seed(0)
