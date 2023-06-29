@@ -38,7 +38,7 @@ parser.add_argument('--l1_coeff',default=1.0, type=float)
 
 parser.add_argument('--batch_size',default=8, type=int)
 parser.add_argument('--log_interval',default=5, type=int)
-parser.add_argument('--no_workers',default=4, type=int)
+parser.add_argument('--no_workers',default=2, type=int)
 parser.add_argument('--model_val_path',default="enet_transformer.pt", type=str)
 parser.add_argument('--clip_size',default=32, type=int)
 parser.add_argument('--nhead',default=4, type=int)
