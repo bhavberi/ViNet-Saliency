@@ -74,7 +74,8 @@ class VideoSaliencyModel(nn.Module):
 				use_upsample=True,
 				num_hier=3,
 				num_clips=32,
-				grouped_conv=False
+				grouped_conv=False,
+				root_grouping=True
 			):
 		super(VideoSaliencyModel, self).__init__()
 
@@ -94,7 +95,7 @@ class VideoSaliencyModel(nn.Module):
 					self.decoder = DecoderConvUp16()
 				elif num_clips==32:
 					if grouped_conv:
-						self.decoder = DecoderConvUpGrouped()
+						self.decoder = DecoderConvUpGrouped(root_grouping = root_grouping)
 					else:
 						self.decoder = DecoderConvUp()
 				elif num_clips==48:
@@ -313,14 +314,21 @@ class DecoderConvUp(nn.Module):
 		return z
 	
 class DecoderConvUpGrouped(nn.Module):
-	def __init__(self):
+	def __init__(self, root_grouping=True):
 		super(DecoderConvUpGrouped, self).__init__()
 		self.upsampling = nn.Upsample(scale_factor=(1,2,2), mode='trilinear')
-		self.convtsp1 = nn.Sequential(
-			nn.Conv3d(1024, 832, kernel_size=(1,3,3), stride=1, padding=(0,1,1), bias=False, groups=32),
-			nn.ReLU(),
-			self.upsampling
-		)
+		if root_grouping:
+			self.convtsp1 = nn.Sequential(
+				nn.Conv3d(1024, 832, kernel_size=(1,3,3), stride=1, padding=(0,1,1), bias=False, groups=32),
+				nn.ReLU(),
+				self.upsampling
+			)
+		else:
+			self.convtsp1 = nn.Sequential(
+				nn.Conv3d(1024, 832, kernel_size=(1,3,3), stride=1, padding=(0,1,1), bias=False),
+				nn.ReLU(),
+				self.upsampling
+			)
 		self.convtsp2 = nn.Sequential(
 			nn.Conv3d(832, 480, kernel_size=(3,3,3), stride=(3,1,1), padding=(0,1,1), bias=False, groups=16),
 			nn.ReLU(),

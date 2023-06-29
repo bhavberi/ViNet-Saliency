@@ -59,7 +59,10 @@ parser.add_argument('--use_sound',default=False, type=bool)
 parser.add_argument('--use_transformer',default=False, type=bool)
 parser.add_argument('--use_vox',default=False, type=bool)
 parser.add_argument('--use_wandb',default=False, type=bool)
+
 parser.add_argument('--grouped_conv',default=True, type=bool)
+parser.add_argument('--root_grouping', default=True, type=bool)
+# parser.add_argument('--group_start_no', default=32, type=int)
 
 args = parser.parse_args()
 print(args)
@@ -104,7 +107,8 @@ else:
         use_upsample=bool(args.decoder_upsample),
         num_hier=args.num_hier,
         num_clips=args.clip_size,
-        grouped_conv=args.grouped_conv
+        grouped_conv=args.grouped_conv,
+        root_grouping=args.root_grouping,
     )
 
 np.random.seed(0)
