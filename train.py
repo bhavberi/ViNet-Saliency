@@ -227,7 +227,6 @@ if not (args.use_sound or args.use_vox):
 
         print (' loaded')
         model.backbone.load_state_dict(model_dict)
-        model_copy.backbone.load_state_dict(model_dict)
     else:
         print ('weight file?')
 
