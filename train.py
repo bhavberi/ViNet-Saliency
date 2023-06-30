@@ -393,7 +393,7 @@ def Convert_ONNX(model, args):
     model.eval() 
 
     # Let's create a dummy input tensor  
-    dummy_input = torch.randn(args.batch_size, 3, args.clip_size, 224, 384, requires_grad=True)
+    dummy_input = torch.randn(args.batch_size, 3, args.clip_size, 224, 384, requires_grad=True).to(device)
 
     name = '.'.join(args.model_val_path.split('.')[:-1])+'.onnx'
 
