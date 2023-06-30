@@ -98,7 +98,8 @@ class VideoSaliencyModel(nn.Module):
 					if grouped_conv:
 						if depth:
 							self.decoder = DecoderConvUpDepth()
-						self.decoder = DecoderConvUpGrouped(root_grouping = root_grouping)
+						else:
+							self.decoder = DecoderConvUpGrouped(root_grouping = root_grouping)
 					else:
 						self.decoder = DecoderConvUp()
 				elif num_clips==48:
