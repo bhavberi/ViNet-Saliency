@@ -248,18 +248,18 @@ class DHF1KDataset(Dataset):
 		])
 		if self.mode == "train":
 			self.video_names = os.listdir(path_data)
-			self.list_num_frame = [len(os.listdir(os.path.join(path_data,d,'images'))) for d in self.video_names]
+			self.list_num_frame = [len(os.listdir(os.path.join(path_data,d,'frames'))) for d in self.video_names]
 		elif self.mode=="val":
 			self.list_num_frame = []
 			for v in os.listdir(path_data):
-				for i in range(0, len(os.listdir(os.path.join(path_data,v,'images')))- self.alternate * self.len_snippet, 4*self.len_snippet):
+				for i in range(0, len(os.listdir(os.path.join(path_data,v,'frames')))- self.alternate * self.len_snippet, 4*self.len_snippet):
 					self.list_num_frame.append((v, i))
 		else:
 			self.list_num_frame = []
 			for v in os.listdir(path_data):
-				for i in range(0, len(os.listdir(os.path.join(path_data,v,'images')))-self.alternate * self.len_snippet, self.len_snippet):
+				for i in range(0, len(os.listdir(os.path.join(path_data,v,'frames')))-self.alternate * self.len_snippet, self.len_snippet):
 					self.list_num_frame.append((v, i))
-				self.list_num_frame.append((v, len(os.listdir(os.path.join(path_data,v,'images')))-self.len_snippet))
+				self.list_num_frame.append((v, len(os.listdir(os.path.join(path_data,v,'frames')))-self.len_snippet))
 
 	def __len__(self):
 		return len(self.list_num_frame)
@@ -272,7 +272,7 @@ class DHF1KDataset(Dataset):
 		elif self.mode == "val" or self.mode=="save":
 			(file_name, start_idx) = self.list_num_frame[idx]
 
-		path_clip = os.path.join(self.path_data, file_name, 'images')
+		path_clip = os.path.join(self.path_data, file_name, 'frames')
 		path_annt = os.path.join(self.path_data, file_name, 'maps')
 
 		clip_img = []
@@ -325,13 +325,13 @@ class Hollywood_UCFDataset(Dataset):
 		])
 		if self.mode == "train":
 			self.video_names = os.listdir(path_data)
-			self.list_num_frame = [len(os.listdir(os.path.join(path_data,d,'images'))) for d in self.video_names]
+			self.list_num_frame = [len(os.listdir(os.path.join(path_data,d,'frames'))) for d in self.video_names]
 		elif self.mode=="val":
 			self.list_num_frame = []
 			for v in os.listdir(path_data):
-				for i in range(0, len(os.listdir(os.path.join(path_data,v,'images')))-self.len_snippet, self.len_snippet):
+				for i in range(0, len(os.listdir(os.path.join(path_data,v,'frames')))-self.len_snippet, self.len_snippet):
 					self.list_num_frame.append((v, i))
-				if len(os.listdir(os.path.join(path_data,v,'images')))<=self.len_snippet:
+				if len(os.listdir(os.path.join(path_data,v,'frames')))<=self.len_snippet:
 					self.list_num_frame.append((v, 0))
 		
 	def __len__(self):
@@ -344,7 +344,7 @@ class Hollywood_UCFDataset(Dataset):
 		elif self.mode == "val":
 			(file_name, start_idx) = self.list_num_frame[idx]
 
-		path_clip = os.path.join(self.path_data, file_name, 'images')
+		path_clip = os.path.join(self.path_data, file_name, 'frames')
 		path_annt = os.path.join(self.path_data, file_name, 'maps')
 
 		clip_img = []
@@ -409,16 +409,16 @@ class Hollywood_UCFDataset(Dataset):
 # 		])
 # 		if self.mode == "train":
 # 			self.video_names = os.listdir(path_data)
-# 			self.list_num_frame = [len(os.listdir(os.path.join(path_data,d,'images'))) for d in self.video_names]
+# 			self.list_num_frame = [len(os.listdir(os.path.join(path_data,d,'frames'))) for d in self.video_names]
 # 		elif self.mode=="val":
 # 			self.list_num_frame = []
 # 			for v in os.listdir(path_data):
-# 				for i in range(0, len(os.listdir(os.path.join(path_data,v,'images')))-self.len_snippet, self.len_snippet):
+# 				for i in range(0, len(os.listdir(os.path.join(path_data,v,'frames')))-self.len_snippet, self.len_snippet):
 # 					self.list_num_frame.append((v, i))
 # 		else:
 # 			self.list_num_frame = []
 # 			for v in os.listdir(path_data):
-# 				for i in range(0, len(os.listdir(os.path.join(path_data,v,'images')))-self.len_snippet):
+# 				for i in range(0, len(os.listdir(os.path.join(path_data,v,'frames')))-self.len_snippet):
 # 					self.list_num_frame.append((v, i, False))
 # 				for i in range(0, len_snippet):
 # 					self.list_num_frame.append((v, i+len_snippet-1, True))
@@ -437,7 +437,7 @@ class Hollywood_UCFDataset(Dataset):
 # 		else:
 # 			(file_name, start_idx, isFlip) = self.list_num_frame[idx]
 
-# 		path_clip = os.path.join(self.path_data, file_name, 'images')
+# 		path_clip = os.path.join(self.path_data, file_name, 'frames')
 # 		path_annt = os.path.join(self.path_data, file_name, 'maps')
 
 # 		clip_img = []

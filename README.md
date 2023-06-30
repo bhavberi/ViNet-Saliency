@@ -51,7 +51,7 @@ This will generate saliency maps for all frames in the directory and dump these 
 ```
 └── Dataset  
     ├── Video-Number  
-        ├── images  
+        ├── frames  
 ```
 * ### AViNet
 Run the code using 
@@ -86,7 +86,7 @@ In case of ViNet, the dataset directory structure should be
 ```
 └── Dataset  
     ├── Video-Number  
-        ├── images  
+        ├── frames  
         |── maps
         └── fixations  
 ```
