@@ -1,18 +1,20 @@
 import argparse
 import os
-import torch
 import sys
 import time
+
+import cv2
+import torch
 import torch.nn as nn
 from torchsummary import summary
 import numpy as np
+import wandb
+import onnx
+
 from dataloader import * 
 from loss import *
-import cv2
 from model import *
 from utils import *
-
-import wandb
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--no_epochs',default=40, type=int)
@@ -356,3 +358,33 @@ for epoch in range(0, args.no_epochs):
 
 if args.use_wandb:
     wandb.finish()
+
+#Function to Convert to ONNX 
+def Convert_ONNX(model, args): 
+    # set the model to inference mode 
+    model.eval() 
+
+    # Let's create a dummy input tensor  
+    dummy_input = torch.randn(args.batch_size, 3, args.clip_size, 224, 384, requires_grad=True)
+
+    name = '.'.join(args.model_val_path.split('.')[:-1])+'.onnx'
+
+    # Export the model   
+    torch.onnx.export(model,  # model being run 
+         dummy_input,         # model input (or a tuple for multiple inputs) 
+         name,                # where to save the model  
+         export_params=True,  # store the trained parameter weights inside the model file 
+         opset_version=19,    # the ONNX version to export the model to
+         do_constant_folding=True,       # whether to execute constant folding for optimization 
+         input_names = ['modelInput'],   # the model's input names 
+         output_names = ['modelOutput'], # the model's output names 
+         dynamic_axes={'modelInput' : {0 : 'batch_size'},    # variable length axes 
+                                'modelOutput' : {0 : 'batch_size'}}) 
+    print(" ") 
+    print('Model has been converted to ONNX')
+
+    onnx_model = onnx.load(name)
+    onnx.checker.check_model(onnx_model, full_check=True)
+    print("ONNX Checked Successfully")
+
+Convert_ONNX(best_model, args)
