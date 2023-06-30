@@ -119,25 +119,8 @@ if args.use_sound:
         num_hier=args.num_hier,
         num_clips=args.clip_size
     )
-    model_copy = VideoAudioSaliencyModel(
-        transformer_in_channel=args.transformer_in_channel, 
-        nhead=args.nhead,
-        use_transformer=args.use_transformer,
-        num_encoder_layers=args.num_encoder_layers,
-        use_upsample=bool(args.decoder_upsample),
-        num_hier=args.num_hier,
-        num_clips=args.clip_size
-    )
 else:
     model = VideoSaliencyModel(
-        use_upsample=bool(args.decoder_upsample),
-        num_hier=args.num_hier,
-        num_clips=args.clip_size,
-        grouped_conv=args.grouped_conv,
-        root_grouping=args.root_grouping,
-        depth=args.depth_grouping
-    )
-    model_copy = VideoSaliencyModel(
         use_upsample=bool(args.decoder_upsample),
         num_hier=args.num_hier,
         num_clips=args.clip_size,
@@ -242,7 +225,6 @@ if torch.cuda.device_count() > 1:
     print("Let's use", torch.cuda.device_count(), "GPUs!")
     model = nn.DataParallel(model)
 model.to(device)
-model_copy.to(device)
 
 params = list(filter(lambda p: p.requires_grad, model.parameters())) 
 optimizer = torch.optim.Adam(params, lr=args.lr)
@@ -414,5 +396,4 @@ def Convert_ONNX(model, args):
     onnx.checker.check_model(onnx_model, full_check=True)
     print("ONNX Checked Successfully")
 
-model_copy.load_state_dict(torch.load(args.model_val_path))
-Convert_ONNX(model_copy, args)
+Convert_ONNX(best_model, args)
