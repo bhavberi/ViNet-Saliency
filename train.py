@@ -87,18 +87,21 @@ if args.use_wandb:
         "gpu_id": 0,
         "grouping": args.grouped_conv,
         "root_grouping": args.root_grouping,
+        "depth_grouping": args.depth_grouping,
         "wandb_run_name": "bhav"
     }
 
     if args.use_sound:
         config["model_type"] = "VideoAudioSaliency"
 
-    wandb.init(project = "vinet",   # wandb project name. New project will be created if given project is missing.
+    wandb.init(project = args.wandb_project,   # wandb project name. New project will be created if given project is missing.
             config = config         # Config dict
             )
     wandb.run.name = f"{config['model_type']}_{config['dataset']}_{config['clip_size']}_{config['criterion']}_{config['Backbone']}"
     if args.grouped_conv:
-        if args.root_grouping:
+        if args.depth_grouping:
+            wandb.run.name += "_depthgrouped"
+        elif args.root_grouping:
             wandb.run.name += "_rootgrouped"
         else:
             wandb.run.name += "_grouped"
