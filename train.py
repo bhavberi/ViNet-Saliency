@@ -119,6 +119,15 @@ if args.use_sound:
         num_hier=args.num_hier,
         num_clips=args.clip_size
     )
+    model_copy = VideoAudioSaliencyModel(
+        transformer_in_channel=args.transformer_in_channel, 
+        nhead=args.nhead,
+        use_transformer=args.use_transformer,
+        num_encoder_layers=args.num_encoder_layers,
+        use_upsample=bool(args.decoder_upsample),
+        num_hier=args.num_hier,
+        num_clips=args.clip_size
+    )
 else:
     model = VideoSaliencyModel(
         use_upsample=bool(args.decoder_upsample),
@@ -126,7 +135,15 @@ else:
         num_clips=args.clip_size,
         grouped_conv=args.grouped_conv,
         root_grouping=args.root_grouping,
-        depth=args.depth
+        depth=args.depth_grouping
+    )
+    model_copy = VideoSaliencyModel(
+        use_upsample=bool(args.decoder_upsample),
+        num_hier=args.num_hier,
+        num_clips=args.clip_size,
+        grouped_conv=args.grouped_conv,
+        root_grouping=args.root_grouping,
+        depth=args.depth_grouping
     )
 
 np.random.seed(0)
@@ -210,6 +227,7 @@ if not (args.use_sound or args.use_vox):
 
         print (' loaded')
         model.backbone.load_state_dict(model_dict)
+        model_copy.backbone.load_state_dict(model_dict)
     else:
         print ('weight file?')
 
@@ -383,7 +401,7 @@ def Convert_ONNX(model, args):
          dummy_input,         # model input (or a tuple for multiple inputs) 
          name,                # where to save the model  
          export_params=True,  # store the trained parameter weights inside the model file 
-         opset_version=19,    # the ONNX version to export the model to
+         opset_version=18,    # the ONNX version to export the model to
          do_constant_folding=True,       # whether to execute constant folding for optimization 
          input_names = ['modelInput'],   # the model's input names 
          output_names = ['modelOutput'], # the model's output names 
@@ -396,4 +414,5 @@ def Convert_ONNX(model, args):
     onnx.checker.check_model(onnx_model, full_check=True)
     print("ONNX Checked Successfully")
 
-Convert_ONNX(best_model, args)
+onnx_model = model_copy.load_state_dict(torch.load(args.model_val_path))
+Convert_ONNX(onnx_model, args)
