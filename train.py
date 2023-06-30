@@ -243,6 +243,7 @@ if torch.cuda.device_count() > 1:
     print("Let's use", torch.cuda.device_count(), "GPUs!")
     model = nn.DataParallel(model)
 model.to(device)
+model_copy.to(device)
 
 params = list(filter(lambda p: p.requires_grad, model.parameters())) 
 optimizer = torch.optim.Adam(params, lr=args.lr)
