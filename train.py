@@ -415,5 +415,5 @@ def Convert_ONNX(model, args):
     onnx.checker.check_model(onnx_model, full_check=True)
     print("ONNX Checked Successfully")
 
-onnx_model = model_copy.load_state_dict(torch.load(args.model_val_path))
-Convert_ONNX(onnx_model, args)
+model_copy.load_state_dict(torch.load(args.model_val_path))
+Convert_ONNX(model_copy, args)
