@@ -62,6 +62,7 @@ parser.add_argument('--use_transformer',default=False, type=bool)
 parser.add_argument('--use_vox',default=False, type=bool)
 parser.add_argument('--use_wandb',default=False, type=bool)
 parser.add_argument('--wandb_project',default="vinet", type=str)
+parser.add_argument('--wandb_username',default="bhavberi", type=str)
 
 parser.add_argument('--grouped_conv',default=False, type=bool)
 parser.add_argument('--root_grouping', default=False, type=bool)
@@ -94,7 +95,9 @@ if args.use_wandb:
     if args.use_sound:
         config["model_type"] = "VideoAudioSaliency"
 
-    wandb.init(project = args.wandb_project,   # wandb project name. New project will be created if given project is missing.
+    wandb.init(
+            entity = args.wandb_username,   # wandb username
+            project = args.wandb_project,   # wandb project name. New project will be created if given project is missing.
             config = config         # Config dict
             )
     wandb.run.name = f"{config['model_type']}_{config['dataset']}_{config['clip_size']}_{config['criterion']}_{config['Backbone']}"
