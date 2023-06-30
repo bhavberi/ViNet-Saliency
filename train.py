@@ -61,10 +61,11 @@ parser.add_argument('--use_sound',default=False, type=bool)
 parser.add_argument('--use_transformer',default=False, type=bool)
 parser.add_argument('--use_vox',default=False, type=bool)
 parser.add_argument('--use_wandb',default=False, type=bool)
+parser.add_argument('--wandb_project',default="vinet", type=str)
 
-parser.add_argument('--grouped_conv',default=True, type=bool)
+parser.add_argument('--grouped_conv',default=False, type=bool)
 parser.add_argument('--root_grouping', default=False, type=bool)
-parser.add_argument('--depth', default=False, type=bool)
+parser.add_argument('--depth_grouping', default=False, type=bool)
 # parser.add_argument('--group_start_no', default=32, type=int)
 
 args = parser.parse_args()

@@ -8,6 +8,7 @@
 #SBATCH --mail-type=ALL
 #SBATCH --output=vinet_groups_output.txt
 #SBATCH -c 9
+#SBATCH -n 1
 
 echo "Activated"
 
