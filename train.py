@@ -63,6 +63,7 @@ parser.add_argument('--use_vox',default=False, type=bool)
 parser.add_argument('--use_wandb',default=False, type=bool)
 parser.add_argument('--wandb_project',default="vinet", type=str)
 parser.add_argument('--wandb_username',default="bhavberi", type=str)
+parser.add_argument('--pin_memory',default=False, type=bool)
 
 parser.add_argument('--grouped_conv',default=False, type=bool)
 parser.add_argument('--root_grouping', default=False, type=bool)
@@ -108,6 +109,8 @@ if args.use_wandb:
             wandb.run.name += "_rootgrouped"
         else:
             wandb.run.name += "_grouped"
+    if args.pin_memory:
+        wandb.run.name += "_pinned"
 
 if args.use_sound:
     model = VideoAudioSaliencyModel(
@@ -177,8 +180,8 @@ else:
     # print(len(train_dataset))
     val_dataset = Hollywood_UCFDataset(args.val_path_data, args.clip_size, mode="val")
 
-train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True, num_workers=args.no_workers)
-val_loader = torch.utils.data.DataLoader(val_dataset, batch_size=1, shuffle=False, num_workers=args.no_workers)
+train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True, num_workers=args.no_workers, pin_memory=args.pin_memory)
+val_loader = torch.utils.data.DataLoader(val_dataset, batch_size=1, shuffle=False, num_workers=args.no_workers, pin_memory=args.pin_memory)
 
 if not (args.use_sound or args.use_vox):
     if os.path.isfile(file_weight):
@@ -360,6 +363,7 @@ for epoch in range(0, args.no_epochs):
     data_to_log = {**data_to_log_train, **data_to_log_val}
 
     if args.use_wandb:
+        print(data_to_log)
         wandb.log(data_to_log)
 
     if args.lr_sched:
