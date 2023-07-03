@@ -15,11 +15,14 @@ def validate(args):
     len_temporal = args.clip_size
 
     model = VideoSaliencyModel(
-        transformer_in_channel=args.transformer_in_channel, 
-        nhead=args.nhead,
+        transformer_in_channel=args.transformer_in_channel,
         use_upsample=bool(args.decoder_upsample),
+        nhead=args.nhead,
         num_hier=args.num_hier,
-     	num_clips=args.clip_size   
+        num_clips=args.clip_size,
+        grouped_conv=args.grouped_conv,
+        root_grouping=args.root_grouping,
+        depth=args.depth_grouping
     )
 
     model.load_state_dict(torch.load(file_weight))
@@ -108,6 +111,10 @@ if __name__ == '__main__':
     parser.add_argument('--num_decoder_layers',default=-1, type=int)
     parser.add_argument('--num_hier',default=3, type=int)
     parser.add_argument('--clip_size',default=32, type=int)
+
+    parser.add_argument('--grouped_conv',default=False, type=bool)
+    parser.add_argument('--root_grouping', default=False, type=bool)
+    parser.add_argument('--depth_grouping', default=False, type=bool)
     
     args = parser.parse_args()
     print(args)
