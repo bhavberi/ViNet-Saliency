@@ -249,7 +249,7 @@ class DHF1KDataset(Dataset):
 		])
 		if self.mode == "train":
 			self.video_names = os.listdir(path_data)
-			self.list_num_frame = [len(os.listdir(os.path.join(path_data,d,frames_path)) for d in self.video_names]
+			self.list_num_frame = [len(os.listdir(os.path.join(path_data,d,frames_path))) for d in self.video_names]
 		elif self.mode=="val":
 			self.list_num_frame = []
 			for v in os.listdir(path_data):
