@@ -64,6 +64,7 @@ parser.add_argument('--use_wandb',default=False, type=bool)
 parser.add_argument('--wandb_project',default="vinet", type=str)
 parser.add_argument('--wandb_username',default="bhavberi", type=str)
 parser.add_argument('--pin_memory',default=False, type=bool)
+parser.add_argument('--load_model_path', default='', type=str)
 
 parser.add_argument('--grouped_conv',default=False, type=bool)
 parser.add_argument('--root_grouping', default=False, type=bool)
@@ -188,6 +189,9 @@ else:
     train_dataset = Hollywood_UCFDataset(args.train_path_data, args.clip_size, mode="train")
     # print(len(train_dataset))
     val_dataset = Hollywood_UCFDataset(args.val_path_data, args.clip_size, mode="val")
+
+    if args.load_model_path != '':
+        model.load_state_dict(torch.load(args.load_model_path))
 
 train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True, num_workers=args.no_workers, pin_memory=args.pin_memory)
 val_loader = torch.utils.data.DataLoader(val_dataset, batch_size=1, shuffle=False, num_workers=args.no_workers, pin_memory=args.pin_memory)
