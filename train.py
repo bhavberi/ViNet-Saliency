@@ -68,10 +68,18 @@ parser.add_argument('--pin_memory',default=False, type=bool)
 parser.add_argument('--grouped_conv',default=False, type=bool)
 parser.add_argument('--root_grouping', default=False, type=bool)
 parser.add_argument('--depth_grouping', default=False, type=bool)
-# parser.add_argument('--group_start_no', default=32, type=int)
+parser.add_argument('--efficientnet', default=False, type=bool)
 
 args = parser.parse_args()
 print(args)
+
+if args.grouped_conv and args.efficientnet:
+    print("Grouped conv and efficientnet cannot be used together")
+    exit(1)
+
+if args.root_grouping and args.depth_grouping:
+    print("Root grouping and depth grouping cannot be used together")
+    exit(1)
 
 file_weight = './S3D_kinetics400.pt'
 
@@ -129,7 +137,8 @@ else:
         num_clips=args.clip_size,
         grouped_conv=args.grouped_conv,
         root_grouping=args.root_grouping,
-        depth=args.depth_grouping
+        depth=args.depth_grouping,
+        efficientnet=args.efficientnet
     )
 
 np.random.seed(0)
