@@ -33,13 +33,23 @@ def validate(args):
     process_calls = 0
 
     if args.img_backbone in ['squeezenet', 's3d']:
+        # model = VideoSaliencyModel(
+        #     img_backbone=args.img_backbone,
+        #     # transformer_in_channel=args.transformer_in_channel,
+        #     # nhead=args.nhead,
+        #     use_upsample=bool(args.decoder_upsample),
+        #     num_hier=args.num_hier,
+        #     num_clips=args.clip_size
+        # )
         model = VideoSaliencyModel(
-            img_backbone=args.img_backbone,
-            # transformer_in_channel=args.transformer_in_channel,
-            # nhead=args.nhead,
+            transformer_in_channel=args.transformer_in_channel,
             use_upsample=bool(args.decoder_upsample),
+            nhead=args.nhead,
             num_hier=args.num_hier,
-            num_clips=args.clip_size
+            num_clips=args.clip_size,
+            grouped_conv=args.grouped_conv,
+            root_grouping=args.root_grouping,
+            depth=args.depth_grouping
         )
     elif 'tsm' in args.img_backbone:
         from tsm.ops.models import TSN
