@@ -1,6 +1,7 @@
 import os
 import cv2
 import torch
+from torchvision import transforms
 from model import VideoSaliencyModel
 import argparse
 from utils import *
