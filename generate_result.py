@@ -40,7 +40,7 @@ def validate(args):
 
     for dname in list_indata:
         print ('processing ' + dname, flush=True)
-        list_frames = [f for f in os.listdir(os.path.join(path_indata, dname, 'images')) if os.path.isfile(os.path.join(path_indata, dname, 'images', f))]
+        list_frames = [f for f in os.listdir(os.path.join(path_indata, dname, 'frames')) if os.path.isfile(os.path.join(path_indata, dname, 'frames', f))]
         list_frames.sort()
         os.makedirs(join(args.save_path, dname), exist_ok=True)
 
@@ -49,7 +49,7 @@ def validate(args):
 
             snippet = []
             for i in range(len(list_frames)):
-                torch_img, img_size = torch_transform(os.path.join(path_indata, dname, 'images', list_frames[i]))
+                torch_img, img_size = torch_transform(os.path.join(path_indata, dname, 'frames', list_frames[i]))
 
                 snippet.append(torch_img)
                 
