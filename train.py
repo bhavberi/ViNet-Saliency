@@ -49,6 +49,7 @@ parser.add_argument('--num_decoder_layers',default=3, type=int)
 parser.add_argument('--transformer_in_channel',default=32, type=int)
 parser.add_argument('--train_path_data',default="/ssd_scratch/cvit/samyak/DHF1K/annotation", type=str)
 parser.add_argument('--val_path_data',default="/ssd_scratch/cvit/samyak/DHF1K/val", type=str)
+parser.add_argument('--frames_path', default='frames', type=str)
 parser.add_argument('--decoder_upsample',default=1, type=int)
 parser.add_argument('--frame_no',default="last", type=str)
 parser.add_argument('--load_weight',default="None", type=str)
@@ -150,8 +151,8 @@ for (name, param) in model.named_parameters():
         print(name, param.size())
 
 if args.dataset == "DHF1KDataset":
-    train_dataset = DHF1KDataset(args.train_path_data, args.clip_size, mode="train", alternate=args.alternate)
-    val_dataset = DHF1KDataset(args.val_path_data, args.clip_size, mode="val", alternate=args.alternate)
+    train_dataset = DHF1KDataset(args.train_path_data, args.clip_size, mode="train", alternate=args.alternate, frames_path=args.frames_path)
+    val_dataset = DHF1KDataset(args.val_path_data, args.clip_size, mode="val", alternate=args.alternate, frames_path=args.frames_path)
 
 elif args.dataset=="SoundDataset":
     train_dataset_diem = SoundDatasetLoader(args.clip_size, mode="train", dataset_name='DIEM', split=args.split, use_sound=args.use_sound, use_vox=args.use_vox)
@@ -186,9 +187,9 @@ elif args.dataset=="SoundDataset":
                 val_dataset_summe 
         ])
 else:
-    train_dataset = Hollywood_UCFDataset(args.train_path_data, args.clip_size, mode="train")
+    train_dataset = Hollywood_UCFDataset(args.train_path_data, args.clip_size, mode="train", frames_path=args.frames_path)
     # print(len(train_dataset))
-    val_dataset = Hollywood_UCFDataset(args.val_path_data, args.clip_size, mode="val")
+    val_dataset = Hollywood_UCFDataset(args.val_path_data, args.clip_size, mode="val", frames_path=args.frames_path)
 
     if args.load_model_path != '':
         model.load_state_dict(torch.load(args.load_model_path))

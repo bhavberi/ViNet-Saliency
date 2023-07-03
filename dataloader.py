@@ -231,9 +231,10 @@ class SoundDatasetLoader(Dataset):
 		return clip_img, gt
 
 class DHF1KDataset(Dataset):
-	def __init__(self, path_data, len_snippet, mode="train", multi_frame=0, alternate=1):
+	def __init__(self, path_data, len_snippet, mode="train", multi_frame=0, alternate=1, frames_path='frames'):
 		''' mode: train, val, save '''
 		self.path_data = path_data
+		self.frames_path = frames_path
 		self.len_snippet = len_snippet
 		self.mode = mode
 		self.multi_frame = multi_frame
@@ -248,18 +249,18 @@ class DHF1KDataset(Dataset):
 		])
 		if self.mode == "train":
 			self.video_names = os.listdir(path_data)
-			self.list_num_frame = [len(os.listdir(os.path.join(path_data,d,'frames'))) for d in self.video_names]
+			self.list_num_frame = [len(os.listdir(os.path.join(path_data,d,frames_path)) for d in self.video_names]
 		elif self.mode=="val":
 			self.list_num_frame = []
 			for v in os.listdir(path_data):
-				for i in range(0, len(os.listdir(os.path.join(path_data,v,'frames')))- self.alternate * self.len_snippet, 4*self.len_snippet):
+				for i in range(0, len(os.listdir(os.path.join(path_data,v,frames_path)))- self.alternate * self.len_snippet, 4*self.len_snippet):
 					self.list_num_frame.append((v, i))
 		else:
 			self.list_num_frame = []
 			for v in os.listdir(path_data):
-				for i in range(0, len(os.listdir(os.path.join(path_data,v,'frames')))-self.alternate * self.len_snippet, self.len_snippet):
+				for i in range(0, len(os.listdir(os.path.join(path_data,v,frames_path)))-self.alternate * self.len_snippet, self.len_snippet):
 					self.list_num_frame.append((v, i))
-				self.list_num_frame.append((v, len(os.listdir(os.path.join(path_data,v,'frames')))-self.len_snippet))
+				self.list_num_frame.append((v, len(os.listdir(os.path.join(path_data,v,frames_path)))-self.len_snippet))
 
 	def __len__(self):
 		return len(self.list_num_frame)
@@ -272,7 +273,7 @@ class DHF1KDataset(Dataset):
 		elif self.mode == "val" or self.mode=="save":
 			(file_name, start_idx) = self.list_num_frame[idx]
 
-		path_clip = os.path.join(self.path_data, file_name, 'frames')
+		path_clip = os.path.join(self.path_data, file_name, self.frames_path)
 		path_annt = os.path.join(self.path_data, file_name, 'maps')
 
 		clip_img = []
@@ -306,11 +307,12 @@ class DHF1KDataset(Dataset):
 			return clip_img, clip_gt
 
 class Hollywood_UCFDataset(Dataset):
-	def __init__(self, path_data, len_snippet, mode="train", frame_no="last", multi_frame=0):
+	def __init__(self, path_data, len_snippet, mode="train", frame_no="last", multi_frame=0, frames_path='frames'):
 		''' mode: train, val, perframe 
 			frame_no: last, middle
 		'''
 		self.path_data = path_data
+		self.frames_path = frames_path
 		self.len_snippet = len_snippet
 		self.mode = mode
 		self.frame_no = frame_no
@@ -325,13 +327,13 @@ class Hollywood_UCFDataset(Dataset):
 		])
 		if self.mode == "train":
 			self.video_names = os.listdir(path_data)
-			self.list_num_frame = [len(os.listdir(os.path.join(path_data,d,'frames'))) for d in self.video_names]
+			self.list_num_frame = [len(os.listdir(os.path.join(path_data,d,frames_path))) for d in self.video_names]
 		elif self.mode=="val":
 			self.list_num_frame = []
 			for v in os.listdir(path_data):
-				for i in range(0, len(os.listdir(os.path.join(path_data,v,'frames')))-self.len_snippet, self.len_snippet):
+				for i in range(0, len(os.listdir(os.path.join(path_data,v,frames_path)))-self.len_snippet, self.len_snippet):
 					self.list_num_frame.append((v, i))
-				if len(os.listdir(os.path.join(path_data,v,'frames')))<=self.len_snippet:
+				if len(os.listdir(os.path.join(path_data,v,frames_path)))<=self.len_snippet:
 					self.list_num_frame.append((v, 0))
 		
 	def __len__(self):
@@ -344,7 +346,7 @@ class Hollywood_UCFDataset(Dataset):
 		elif self.mode == "val":
 			(file_name, start_idx) = self.list_num_frame[idx]
 
-		path_clip = os.path.join(self.path_data, file_name, 'frames')
+		path_clip = os.path.join(self.path_data, file_name, self.frames_path)
 		path_annt = os.path.join(self.path_data, file_name, 'maps')
 
 		clip_img = []
