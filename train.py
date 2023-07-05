@@ -163,8 +163,8 @@ if args.combine_datasets:
 
     hollywood_train = "/ssd_scratch/cvit/sarthak395/Hollywood/training"
     hollywood_test="/ssd_scratch/cvit/sarthak395/Hollywood/testing"
-    hollywood_train_dataset = Hollywood_UCFDataset(ucf_train, args.clip_size, mode="train", frames_path="images")
-    hollywood_val_dataset = Hollywood_UCFDataset(ucf_test, args.clip_size, mode="val", frames_path="images")
+    hollywood_train_dataset = Hollywood_UCFDataset(hollywood_train, args.clip_size, mode="train", frames_path="images")
+    hollywood_val_dataset = Hollywood_UCFDataset(hollywood_test, args.clip_size, mode="val", frames_path="images")
 
     train_dataset = torch.utils.data.ConcatDataset([dhf1k_train_dataset, ucf_train_dataset, hollywood_train_dataset])
     val_dataset = torch.utils.data.ConcatDataset([dhf1k_val_dataset, ucf_val_dataset, hollywood_val_dataset])
