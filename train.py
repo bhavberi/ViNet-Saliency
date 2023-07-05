@@ -161,13 +161,13 @@ if args.combine_datasets:
     ucf_train_dataset = Hollywood_UCFDataset(ucf_train, args.clip_size, mode="train", frames_path="images")
     ucf_val_dataset = Hollywood_UCFDataset(ucf_test, args.clip_size, mode="val", frames_path="images")
 
-    # hollwood_train = "/ssd_scratch/cvit/sarthak395/Hollywood/training"
-    # hollwood_test="/ssd_scratch/cvit/sarthak395/Hollywood/testing"
-    # hollwood_train_dataset = Hollywood_UCFDataset(ucf_train, args.clip_size, mode="train", frames_path="images")
-    # hollwood_val_dataset = Hollywood_UCFDataset(ucf_test, args.clip_size, mode="val", frames_path="images")
+    hollywood_train = "/ssd_scratch/cvit/sarthak395/Hollywood/training"
+    hollywood_test="/ssd_scratch/cvit/sarthak395/Hollywood/testing"
+    hollywood_train_dataset = Hollywood_UCFDataset(ucf_train, args.clip_size, mode="train", frames_path="images")
+    hollywood_val_dataset = Hollywood_UCFDataset(ucf_test, args.clip_size, mode="val", frames_path="images")
 
-    train_dataset = torch.utils.data.ConcatDataset([dhf1k_train_dataset, ucf_train_dataset])
-    val_dataset = torch.utils.data.ConcatDataset([dhf1k_val_dataset, ucf_val_dataset])
+    train_dataset = torch.utils.data.ConcatDataset([dhf1k_train_dataset, ucf_train_dataset, hollywood_train_dataset])
+    val_dataset = torch.utils.data.ConcatDataset([dhf1k_val_dataset, ucf_val_dataset, hollywood_val_dataset])
 else:
     if args.dataset == "DHF1KDataset":
         train_dataset = DHF1KDataset(args.train_path_data, args.clip_size, mode="train", alternate=args.alternate, frames_path=args.frames_path)
