@@ -6,3 +6,5 @@ logs/
 nodeshavingdata.txt
 ablations/
 wandb/
+*.pt
+*.onnx
