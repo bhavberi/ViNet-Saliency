@@ -62,7 +62,7 @@ parser.add_argument('--use_sound',default=False, type=bool)
 parser.add_argument('--use_transformer',default=False, type=bool)
 parser.add_argument('--use_vox',default=False, type=bool)
 parser.add_argument('--use_wandb',default=False, type=bool)
-parser.add_argument('--wandb_project',default="vinet", type=str)
+parser.add_argument('--wandb_project',default="vinet0", type=str)
 parser.add_argument('--wandb_username',default="bhavberi", type=str)
 parser.add_argument('--pin_memory',default=False, type=bool)
 parser.add_argument('--load_model_path', default='', type=str)
@@ -112,7 +112,7 @@ if args.use_wandb:
             project = args.wandb_project,   # wandb project name. New project will be created if given project is missing.
             config = config         # Config dict
             )
-    wandb.run.name = f"{config['model_type']}_{config['dataset']}_{config['clip_size']}_{config['criterion']}_{config['Backbone']}"
+    wandb.run.name = f"{config['model_type']}_{config['dataset']}_{config['clip_size']}_{config['criterion']}_{config['Backbone']}_val"
     if args.grouped_conv:
         if args.depth_grouping:
             wandb.run.name += "_depthgrouped"
@@ -144,30 +144,35 @@ else:
         efficientnet=args.efficientnet
     )
 
+
 np.random.seed(0)
 torch.manual_seed(0)
 
-for (name, param) in model.named_parameters():
-    if param.requires_grad:
-        print(name, param.size())
+# for (name, param) in model.named_parameters():
+#     if param.requires_grad:
+#         print(name, param.size())
 
 if args.combine_datasets:
-    dhf1k_train = "/ssd_scratch/cvit/sarthak395/DHF1K/annotation"
+    # dhf1k_train = "/ssd_scratch/cvit/sarthak395/DHF1K/annotation"
     dhf1k_val = "/ssd_scratch/cvit/sarthak395/DHF1K/val"
-    dhf1k_train_dataset = DHF1KDataset(dhf1k_train, args.clip_size, mode="train", alternate=args.alternate, frames_path="frames")
+    # dhf1k_train_dataset = DHF1KDataset(dhf1k_train, args.clip_size, mode="train", alternate=args.alternate, frames_path="frames")
     dhf1k_val_dataset = DHF1KDataset(dhf1k_val, args.clip_size, mode="val", alternate=args.alternate, frames_path="frames")
-    ucf_train = "/ssd_scratch/cvit/sarthak395/UCF/training"
+    dhf1k_val_loader = torch.utils.data.DataLoader(dhf1k_val_dataset, batch_size=1, shuffle=False, num_workers=args.no_workers, pin_memory=args.pin_memory)
+    
+    # ucf_train = "/ssd_scratch/cvit/sarthak395/UCF/training"
     ucf_test="/ssd_scratch/cvit/sarthak395/UCF/testing"
-    ucf_train_dataset = Hollywood_UCFDataset(ucf_train, args.clip_size, mode="train", frames_path="images")
+    # ucf_train_dataset = Hollywood_UCFDataset(ucf_train, args.clip_size, mode="train", frames_path="images")
     ucf_val_dataset = Hollywood_UCFDataset(ucf_test, args.clip_size, mode="val", frames_path="images")
+    ucf_val_loader = torch.utils.data.DataLoader(ucf_val_dataset, batch_size=1, shuffle=False, num_workers=args.no_workers, pin_memory=args.pin_memory)
 
-    hollywood_train = "/ssd_scratch/cvit/sarthak395/Hollywood/training"
+    # hollywood_train = "/ssd_scratch/cvit/sarthak395/Hollywood/training"
     hollywood_test="/ssd_scratch/cvit/sarthak395/Hollywood/testing"
-    hollywood_train_dataset = Hollywood_UCFDataset(hollywood_train, args.clip_size, mode="train", frames_path="images")
+    # hollywood_train_dataset = Hollywood_UCFDataset(hollywood_train, args.clip_size, mode="train", frames_path="images")
     hollywood_val_dataset = Hollywood_UCFDataset(hollywood_test, args.clip_size, mode="val", frames_path="images")
+    hollywood_val_loader = torch.utils.data.DataLoader(hollywood_val_dataset, batch_size=1, shuffle=False, num_workers=args.no_workers, pin_memory=args.pin_memory)
 
-    train_dataset = torch.utils.data.ConcatDataset([dhf1k_train_dataset, ucf_train_dataset, hollywood_train_dataset])
-    val_dataset = torch.utils.data.ConcatDataset([dhf1k_val_dataset, ucf_val_dataset, hollywood_val_dataset])
+    # train_dataset = torch.utils.data.ConcatDataset([dhf1k_train_dataset, ucf_train_dataset, hollywood_train_dataset])
+    # val_dataset = torch.utils.data.ConcatDataset([dhf1k_val_dataset, ucf_val_dataset, hollywood_val_dataset])
 else:
     if args.dataset == "DHF1KDataset":
         train_dataset = DHF1KDataset(args.train_path_data, args.clip_size, mode="train", alternate=args.alternate, frames_path=args.frames_path)
@@ -213,41 +218,41 @@ else:
         if args.load_model_path != '':
             model.load_state_dict(torch.load(args.load_model_path))
 
-train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True, num_workers=args.no_workers, pin_memory=args.pin_memory)
-val_loader = torch.utils.data.DataLoader(val_dataset, batch_size=1, shuffle=False, num_workers=args.no_workers, pin_memory=args.pin_memory)
+# train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True, num_workers=args.no_workers, pin_memory=args.pin_memory)
+# val_loader = torch.utils.data.DataLoader(val_dataset, batch_size=1, shuffle=False, num_workers=args.no_workers, pin_memory=args.pin_memory)
 
-if not (args.use_sound or args.use_vox):
-    if os.path.isfile(file_weight):
-        print ('loading weight file')
-        weight_dict = torch.load(file_weight)
-        model_dict = model.backbone.state_dict()
-        for name, param in weight_dict.items():
-            if 'module' in name:
-                name = '.'.join(name.split('.')[1:])
-            if 'base.' in name:
-                bn = int(name.split('.')[1])
-                sn_list = [0, 5, 8, 14]
-                sn = sn_list[0]
-                if bn >= sn_list[1] and bn < sn_list[2]:
-                    sn = sn_list[1]
-                elif bn >= sn_list[2] and bn < sn_list[3]:
-                    sn = sn_list[2]
-                elif bn >= sn_list[3]:
-                    sn = sn_list[3]
-                name = '.'.join(name.split('.')[2:])
-                name = 'base%d.%d.'%(sn_list.index(sn)+1, bn-sn)+name
-            if name in model_dict:
-                if param.size() == model_dict[name].size():
-                    model_dict[name].copy_(param)
-                else:
-                    print (' size? ' + name, param.size(), model_dict[name].size())
-            else:
-                print (' name? ' + name)
+# if not (args.use_sound or args.use_vox):
+#     if os.path.isfile(file_weight):
+#         print ('loading weight file')
+#         weight_dict = torch.load(file_weight)
+#         model_dict = model.backbone.state_dict()
+#         for name, param in weight_dict.items():
+#             if 'module' in name:
+#                 name = '.'.join(name.split('.')[1:])
+#             if 'base.' in name:
+#                 bn = int(name.split('.')[1])
+#                 sn_list = [0, 5, 8, 14]
+#                 sn = sn_list[0]
+#                 if bn >= sn_list[1] and bn < sn_list[2]:
+#                     sn = sn_list[1]
+#                 elif bn >= sn_list[2] and bn < sn_list[3]:
+#                     sn = sn_list[2]
+#                 elif bn >= sn_list[3]:
+#                     sn = sn_list[3]
+#                 name = '.'.join(name.split('.')[2:])
+#                 name = 'base%d.%d.'%(sn_list.index(sn)+1, bn-sn)+name
+#             if name in model_dict:
+#                 if param.size() == model_dict[name].size():
+#                     model_dict[name].copy_(param)
+#                 else:
+#                     print (' size? ' + name, param.size(), model_dict[name].size())
+#             else:
+#                 print (' name? ' + name)
 
-        print (' loaded')
-        model.backbone.load_state_dict(model_dict)
-    else:
-        print ('weight file?')
+#         print (' loaded')
+#         model.backbone.load_state_dict(model_dict)
+#     else:
+#         print ('weight file?')
 
 if args.load_weight!="None":
     print("Loading weights: ",args.load_weight)
@@ -370,40 +375,39 @@ def validate(model, loader, epoch, device, args):
 
     return data_to_log
 
-summary(model, (3, args.clip_size, 224, 384), args.batch_size)
+# summary(model, (3, args.clip_size, 224, 384), args.batch_size)
 
-best_model = None
-for epoch in range(0, args.no_epochs):
-    data_to_log_train = train(model, optimizer, train_loader, epoch, device, args)
+# best_model = None
+# for epoch in range(0, args.no_epochs):
+#     data_to_log_train = train(model, optimizer, train_loader, epoch, device, args)
     
-    with torch.no_grad():
-        data_to_log_val = validate(model, val_loader, epoch, device, args)
-        # val_loss = validate(model, val_loader, epoch, device, args)
-        val_loss = data_to_log_val['val_loss']
-        if epoch == 0 :
-            val_loss = np.inf
-            best_loss = val_loss
-        if val_loss <= best_loss:
-            best_loss = val_loss
-            best_model = model
-            print('[{:2d},  save, {}]'.format(epoch, args.model_val_path))
-            if torch.cuda.device_count() > 1:    
-                torch.save(model.module.state_dict(), args.model_val_path)
-            else:
-                torch.save(model.state_dict(), args.model_val_path)
-    print()
+#     with torch.no_grad():
+#         data_to_log_val = validate(model, val_loader, epoch, device, args)
+#         # val_loss = validate(model, val_loader, epoch, device, args)
+#         val_loss = data_to_log_val['val_loss']
+#         if epoch == 0 :
+#             val_loss = np.inf
+#             best_loss = val_loss
+#         if val_loss <= best_loss:
+#             best_loss = val_loss
+#             best_model = model
+#             print('[{:2d},  save, {}]'.format(epoch, args.model_val_path))
+#             if torch.cuda.device_count() > 1:    
+#                 torch.save(model.module.state_dict(), args.model_val_path)
+#             else:
+#                 torch.save(model.state_dict(), args.model_val_path)
+#     print()
 
-    data_to_log = {**data_to_log_train, **data_to_log_val}
+#     data_to_log = {**data_to_log_train, **data_to_log_val}
 
-    if args.use_wandb:
-        print(data_to_log)
-        wandb.log(data_to_log)
+#     if args.use_wandb:
+#         print(data_to_log)
+#         wandb.log(data_to_log)
 
-    if args.lr_sched:
-        scheduler.step()
+#     if args.lr_sched:
+#         scheduler.step()
 
-if args.use_wandb:
-    wandb.finish()
+
 
 #Function to Convert to ONNX 
 def Convert_ONNX(model, args): 
@@ -433,4 +437,16 @@ def Convert_ONNX(model, args):
     onnx.checker.check_model(onnx_model, full_check=True)
     print("ONNX Checked Successfully")
 
-Convert_ONNX(best_model, args)
+# Convert_ONNX(best_model, args)
+
+dhf1k_final_val = validate(model , dhf1k_val_loader , 0 , device , args)
+ucf_final_val = validate(model , ucf_val_loader , 0 , device , args)
+hollywood_final_val = validate(model , hollywood_val_loader , 0 , device , args)
+
+print("DHF1K Final Val Losses : ", dhf1k_final_val)
+print("UCF Final Val Losses : ", ucf_final_val)
+print("Hollywood Final Val Losses : ", hollywood_final_val)
+
+
+if args.use_wandb:
+    wandb.finish()
