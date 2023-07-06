@@ -38,7 +38,7 @@ parser.add_argument('--nss_emlnet_coeff',default=1.0, type=float)
 parser.add_argument('--nss_norm_coeff',default=1.0, type=float)
 parser.add_argument('--l1_coeff',default=1.0, type=float)
 
-parser.add_argument('--batch_size',default=8, type=int)
+parser.add_argument('--batch_size',default=4, type=int)
 parser.add_argument('--log_interval',default=5, type=int)
 parser.add_argument('--no_workers',default=2, type=int)
 parser.add_argument('--model_val_path',default="enet_transformer.pt", type=str)
@@ -52,7 +52,6 @@ parser.add_argument('--val_path_data',default="/ssd_scratch/cvit/samyak/DHF1K/va
 parser.add_argument('--frames_path', default='frames', type=str)
 parser.add_argument('--decoder_upsample',default=1, type=int)
 parser.add_argument('--frame_no',default="last", type=str)
-parser.add_argument('--load_weight',default="None", type=str)
 parser.add_argument('--num_hier',default=3, type=int)
 parser.add_argument('--dataset',default="DHF1KDataset", type=str)
 parser.add_argument('--alternate',default=1, type=int)
@@ -157,19 +156,19 @@ if args.combine_datasets:
     dhf1k_val = "/ssd_scratch/cvit/sarthak395/DHF1K/val"
     # dhf1k_train_dataset = DHF1KDataset(dhf1k_train, args.clip_size, mode="train", alternate=args.alternate, frames_path="frames")
     dhf1k_val_dataset = DHF1KDataset(dhf1k_val, args.clip_size, mode="val", alternate=args.alternate, frames_path="frames")
-    dhf1k_val_loader = torch.utils.data.DataLoader(dhf1k_val_dataset, batch_size=1, shuffle=False, num_workers=args.no_workers, pin_memory=args.pin_memory)
+    dhf1k_val_loader = torch.utils.data.DataLoader(dhf1k_val_dataset, batch_size=args.batch_size, shuffle=False, num_workers=args.no_workers, pin_memory=args.pin_memory)
     
     # ucf_train = "/ssd_scratch/cvit/sarthak395/UCF/training"
     ucf_test="/ssd_scratch/cvit/sarthak395/UCF/testing"
     # ucf_train_dataset = Hollywood_UCFDataset(ucf_train, args.clip_size, mode="train", frames_path="images")
     ucf_val_dataset = Hollywood_UCFDataset(ucf_test, args.clip_size, mode="val", frames_path="images")
-    ucf_val_loader = torch.utils.data.DataLoader(ucf_val_dataset, batch_size=1, shuffle=False, num_workers=args.no_workers, pin_memory=args.pin_memory)
+    ucf_val_loader = torch.utils.data.DataLoader(ucf_val_dataset, batch_size=args.batch_size, shuffle=False, num_workers=args.no_workers, pin_memory=args.pin_memory)
 
     # hollywood_train = "/ssd_scratch/cvit/sarthak395/Hollywood/training"
     hollywood_test="/ssd_scratch/cvit/sarthak395/Hollywood/testing"
     # hollywood_train_dataset = Hollywood_UCFDataset(hollywood_train, args.clip_size, mode="train", frames_path="images")
     hollywood_val_dataset = Hollywood_UCFDataset(hollywood_test, args.clip_size, mode="val", frames_path="images")
-    hollywood_val_loader = torch.utils.data.DataLoader(hollywood_val_dataset, batch_size=1, shuffle=False, num_workers=args.no_workers, pin_memory=args.pin_memory)
+    hollywood_val_loader = torch.utils.data.DataLoader(hollywood_val_dataset, batch_size=args.batch_size, shuffle=False, num_workers=args.no_workers, pin_memory=args.pin_memory)
 
     # train_dataset = torch.utils.data.ConcatDataset([dhf1k_train_dataset, ucf_train_dataset, hollywood_train_dataset])
     # val_dataset = torch.utils.data.ConcatDataset([dhf1k_val_dataset, ucf_val_dataset, hollywood_val_dataset])
@@ -254,12 +253,12 @@ else:
 #     else:
 #         print ('weight file?')
 
-if args.load_weight!="None":
-    print("Loading weights: ",args.load_weight)
+if args.load_model_path!="":
+    print("Loading weights: ",args.load_model_path)
     if args.use_sound or args.use_vox:
-        model.visual_model.load_state_dict(torch.load(args.load_weight))
+        model.visual_model.load_state_dict(torch.load(args.load_model_path))
     else:
-        model.load_state_dict(torch.load(args.load_weight))
+        model.load_state_dict(torch.load(args.load_model_path))
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 if torch.cuda.device_count() > 1:
@@ -446,7 +445,6 @@ hollywood_final_val = validate(model , hollywood_val_loader , 0 , device , args)
 print("DHF1K Final Val Losses : ", dhf1k_final_val)
 print("UCF Final Val Losses : ", ucf_final_val)
 print("Hollywood Final Val Losses : ", hollywood_final_val)
-
 
 if args.use_wandb:
     wandb.finish()
