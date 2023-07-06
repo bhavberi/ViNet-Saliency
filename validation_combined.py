@@ -321,58 +321,59 @@ def train(model, optimizer, loader, epoch, device, args):
     return data_to_log
 
 def validate(model, loader, epoch, device, args):
-    model.eval()
-    tic = time.time()
-    total_loss = AverageMeter()
-    total_cc_loss = AverageMeter()
-    total_sim_loss = AverageMeter()
-    tic = time.time()
-    for idx, sample in enumerate(loader):
-        img_clips = sample[0]
-        gt_sal = sample[1]
-        if args.use_sound or args.use_vox:
-            audio_feature = sample[2].to(device)
-        img_clips = img_clips.to(device)
-        img_clips = img_clips.permute((0,2,1,3,4))
+    with torch.no_grad():
+        model.eval()
+        tic = time.time()
+        total_loss = AverageMeter()
+        total_cc_loss = AverageMeter()
+        total_sim_loss = AverageMeter()
+        tic = time.time()
+        for idx, sample in enumerate(loader):
+            img_clips = sample[0]
+            gt_sal = sample[1]
+            if args.use_sound or args.use_vox:
+                audio_feature = sample[2].to(device)
+            img_clips = img_clips.to(device)
+            img_clips = img_clips.permute((0,2,1,3,4))
+            
+            if args.use_sound or args.use_vox:
+                pred_sal = model(img_clips, audio_feature)
+            else:
+                pred_sal = model(img_clips)
+            
+            gt_sal = gt_sal.squeeze(0).numpy()
+
+            pred_sal = pred_sal.cpu().squeeze(0).numpy()
+            pred_sal = cv2.resize(pred_sal, (gt_sal.shape[1], gt_sal.shape[0]))
+            pred_sal = blur(pred_sal).unsqueeze(0).cuda()
+
+            gt_sal = torch.FloatTensor(gt_sal).unsqueeze(0).cuda()
+
+            assert pred_sal.size() == gt_sal.size()
+
+            loss = loss_func(pred_sal, gt_sal, args)
+            cc_loss = cc(pred_sal, gt_sal)
+            sim_loss = similarity(pred_sal, gt_sal)
+
+            total_loss.update(loss.item())
+            total_cc_loss.update(cc_loss.item())
+            total_sim_loss.update(sim_loss.item())
         
-        if args.use_sound or args.use_vox:
-            pred_sal = model(img_clips, audio_feature)
-        else:
-            pred_sal = model(img_clips)
-        
-        gt_sal = gt_sal.squeeze(0).numpy()
+        time_taken = (time.time()-tic)/60
 
-        pred_sal = pred_sal.cpu().squeeze(0).numpy()
-        pred_sal = cv2.resize(pred_sal, (gt_sal.shape[1], gt_sal.shape[0]))
-        pred_sal = blur(pred_sal).unsqueeze(0).cuda()
+        print('[{:2d}, val] avg_loss : {:.5f} cc_loss : {:.5f} sim_loss : {:.5f}, time : {:3f}'.format(epoch, total_loss.avg, total_cc_loss.avg, total_sim_loss.avg, time_taken))
+        sys.stdout.flush()
 
-        gt_sal = torch.FloatTensor(gt_sal).unsqueeze(0).cuda()
+        # return total_loss.avg
 
-        assert pred_sal.size() == gt_sal.size()
+        data_to_log = {
+            'val_loss': total_loss.avg,
+            'val_cc_loss': total_cc_loss.avg,
+            'val_sim_loss': total_sim_loss.avg,
+            'time': time_taken
+        }
 
-        loss = loss_func(pred_sal, gt_sal, args)
-        cc_loss = cc(pred_sal, gt_sal)
-        sim_loss = similarity(pred_sal, gt_sal)
-
-        total_loss.update(loss.item())
-        total_cc_loss.update(cc_loss.item())
-        total_sim_loss.update(sim_loss.item())
-    
-    time_taken = (time.time()-tic)/60
-
-    print('[{:2d}, val] avg_loss : {:.5f} cc_loss : {:.5f} sim_loss : {:.5f}, time : {:3f}'.format(epoch, total_loss.avg, total_cc_loss.avg, total_sim_loss.avg, time_taken))
-    sys.stdout.flush()
-
-    # return total_loss.avg
-
-    data_to_log = {
-        'val_loss': total_loss.avg,
-        'val_cc_loss': total_cc_loss.avg,
-        'val_sim_loss': total_sim_loss.avg,
-        'time': time_taken
-    }
-
-    return data_to_log
+        return data_to_log
 
 # summary(model, (3, args.clip_size, 224, 384), args.batch_size)
 
