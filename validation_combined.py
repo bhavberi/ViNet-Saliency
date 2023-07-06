@@ -52,6 +52,7 @@ parser.add_argument('--val_path_data',default="/ssd_scratch/cvit/samyak/DHF1K/va
 parser.add_argument('--frames_path', default='frames', type=str)
 parser.add_argument('--decoder_upsample',default=1, type=int)
 parser.add_argument('--frame_no',default="last", type=str)
+parser.add_argument('--load_weight',default="None", type=str)
 parser.add_argument('--num_hier',default=3, type=int)
 parser.add_argument('--dataset',default="DHF1KDataset", type=str)
 parser.add_argument('--alternate',default=1, type=int)
@@ -64,7 +65,6 @@ parser.add_argument('--use_wandb',default=False, type=bool)
 parser.add_argument('--wandb_project',default="vinet0", type=str)
 parser.add_argument('--wandb_username',default="bhavberi", type=str)
 parser.add_argument('--pin_memory',default=False, type=bool)
-parser.add_argument('--load_model_path', default='', type=str)
 parser.add_argument('--combine_datasets', default=False, type=bool)
 
 parser.add_argument('--grouped_conv',default=False, type=bool)
@@ -214,9 +214,6 @@ else:
         # print(len(train_dataset))
         val_dataset = Hollywood_UCFDataset(args.val_path_data, args.clip_size, mode="val", frames_path=args.frames_path)
 
-        if args.load_model_path != '':
-            model.load_state_dict(torch.load(args.load_model_path))
-
 # train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True, num_workers=args.no_workers, pin_memory=args.pin_memory)
 # val_loader = torch.utils.data.DataLoader(val_dataset, batch_size=1, shuffle=False, num_workers=args.no_workers, pin_memory=args.pin_memory)
 
@@ -253,12 +250,12 @@ else:
 #     else:
 #         print ('weight file?')
 
-if args.load_model_path!="":
-    print("Loading weights: ",args.load_model_path)
+if args.load_weight!="None":
+    print("Loading weights: ",args.load_weight)
     if args.use_sound or args.use_vox:
-        model.visual_model.load_state_dict(torch.load(args.load_model_path))
+        model.visual_model.load_state_dict(torch.load(args.load_weight))
     else:
-        model.load_state_dict(torch.load(args.load_model_path))
+        model.load_state_dict(torch.load(args.load_weight))
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 if torch.cuda.device_count() > 1:
