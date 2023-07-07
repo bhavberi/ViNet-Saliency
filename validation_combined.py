@@ -156,22 +156,22 @@ if args.combine_datasets:
     dhf1k_val = "/ssd_scratch/cvit/sarthak395/DHF1K/val"
     # dhf1k_train_dataset = DHF1KDataset(dhf1k_train, args.clip_size, mode="train", alternate=args.alternate, frames_path="frames")
     dhf1k_val_dataset = DHF1KDataset(dhf1k_val, args.clip_size, mode="val", alternate=args.alternate, frames_path="frames")
-    dhf1k_val_loader = torch.utils.data.DataLoader(dhf1k_val_dataset, batch_size=args.batch_size, shuffle=False, num_workers=args.no_workers, pin_memory=args.pin_memory)
+    dhf1k_val_loader = torch.utils.data.DataLoader(dhf1k_val_dataset, batch_size=1, shuffle=False, num_workers=args.no_workers, pin_memory=args.pin_memory)
     
     # ucf_train = "/ssd_scratch/cvit/sarthak395/UCF/training"
     ucf_test="/ssd_scratch/cvit/sarthak395/UCF/testing"
     # ucf_train_dataset = Hollywood_UCFDataset(ucf_train, args.clip_size, mode="train", frames_path="images")
     ucf_val_dataset = Hollywood_UCFDataset(ucf_test, args.clip_size, mode="val", frames_path="images")
-    ucf_val_loader = torch.utils.data.DataLoader(ucf_val_dataset, batch_size=args.batch_size, shuffle=False, num_workers=args.no_workers, pin_memory=args.pin_memory)
+    ucf_val_loader = torch.utils.data.DataLoader(ucf_val_dataset, batch_size=1, shuffle=False, num_workers=args.no_workers, pin_memory=args.pin_memory)
 
     # hollywood_train = "/ssd_scratch/cvit/sarthak395/Hollywood/training"
     hollywood_test="/ssd_scratch/cvit/sarthak395/Hollywood/testing"
     # hollywood_train_dataset = Hollywood_UCFDataset(hollywood_train, args.clip_size, mode="train", frames_path="images")
     hollywood_val_dataset = Hollywood_UCFDataset(hollywood_test, args.clip_size, mode="val", frames_path="images")
-    hollywood_val_loader = torch.utils.data.DataLoader(hollywood_val_dataset, batch_size=args.batch_size, shuffle=False, num_workers=args.no_workers, pin_memory=args.pin_memory)
+    hollywood_val_loader = torch.utils.data.DataLoader(hollywood_val_dataset, batch_size=1, shuffle=False, num_workers=args.no_workers, pin_memory=args.pin_memory)
 
     # train_dataset = torch.utils.data.ConcatDataset([dhf1k_train_dataset, ucf_train_dataset, hollywood_train_dataset])
-    # val_dataset = torch.utils.data.ConcatDataset([dhf1k_val_dataset, ucf_val_dataset, hollywood_val_dataset])
+    val_dataset = torch.utils.data.ConcatDataset([dhf1k_val_dataset, ucf_val_dataset, hollywood_val_dataset])
 else:
     if args.dataset == "DHF1KDataset":
         train_dataset = DHF1KDataset(args.train_path_data, args.clip_size, mode="train", alternate=args.alternate, frames_path=args.frames_path)
@@ -435,6 +435,8 @@ def Convert_ONNX(model, args):
     print("ONNX Checked Successfully")
 
 # Convert_ONNX(best_model, args)
+
+# validate(model, val_loader, 0, device, args)
 
 dhf1k_final_val = validate(model , dhf1k_val_loader , 0 , device , args)
 ucf_final_val = validate(model , ucf_val_loader , 0 , device , args)
