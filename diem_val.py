@@ -34,24 +34,6 @@ def validate(args):
 		num_hier=args.num_hier,
 		num_clips=args.clip_size   
 	)
-	# model = VideoSaliencyChannel(
-	#     transformer_in_channel=args.transformer_in_channel, 
-	#     use_transformer=True, 
-	#     num_encoder_layers=args.num_encoder_layers, 
-	#     num_decoder_layers=args.num_decoder_layers, 
-	#     nhead=args.nhead,
-	#     multiFrame=args.multi_frame,
-	#     use_upsample=bool(args.decoder_upsample)
-	# )
-	# model = VideoSaliencyChannelConcat(
-	#     transformer_in_channel=args.transformer_in_channel, 
-	#     use_transformer=False,
-	#     num_encoder_layers=args.num_encoder_layers, 
-	#     num_decoder_layers=args.num_decoder_layers, 
-	#     nhead=args.nhead,
-	#     multiFrame=args.multi_frame,
-	# )
-	# mode = VideoSaliencyChannelConcat
 
 	model.load_state_dict(torch.load(file_weight))
 
@@ -222,22 +204,26 @@ def process(model, clip, path_indata, dname, frame_no, args, img_size):
 
 	
 if __name__ == '__main__':
-	parser = argparse.ArgumentParser()
-	parser.add_argument('--file_weight',default="./saved_models/no_trans_upsampling_reduced.pt", type=str)
-	parser.add_argument('--nhead',default=4, type=int)
-	parser.add_argument('--num_encoder_layers',default=3, type=int)
-	parser.add_argument('--transformer_in_channel',default=32, type=int)
-	# parser.add_argument('--save_path',default='/ssd_scratch/cvit/samyak/Results/theatre_hollywood', type=str)
-	parser.add_argument('--start_idx',default=-1, type=int)
-	parser.add_argument('--num_parts',default=4, type=int)
-	parser.add_argument('--path_indata',default='/ssd_scratch/cvit/samyak/data/', type=str)
-	parser.add_argument('--multi_frame',default=0, type=int)
-	parser.add_argument('--decoder_upsample',default=1, type=int)
-	parser.add_argument('--num_decoder_layers',default=-1, type=int)
-	parser.add_argument('--num_hier',default=3, type=int)
-	parser.add_argument('--clip_size',default=32, type=int)
-	
-	args = parser.parse_args()
-	print(args)
-	validate(args)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--file_weight',default="./saved_models/ViNet_DHF1K.pt", type=str)
+    parser.add_argument('--nhead',default=4, type=int)
+    parser.add_argument('--num_encoder_layers',default=3, type=int)
+    parser.add_argument('--transformer_in_channel',default=32, type=int)
+    # parser.add_argument('--save_path',default='/ssd_scratch/cvit/samyak/Results/theatre_hollywood', type=str)
+    parser.add_argument('--start_idx',default=-1, type=int)
+    parser.add_argument('--num_parts',default=4, type=int)
+    parser.add_argument('--path_indata',default='/ssd_scratch/cvit/samyak/DHF1K/val', type=str)
+    parser.add_argument('--multi_frame',default=0, type=int)
+    parser.add_argument('--decoder_upsample',default=1, type=int)
+    parser.add_argument('--num_decoder_layers',default=-1, type=int)
+    parser.add_argument('--num_hier',default=3, type=int)
+    parser.add_argument('--clip_size',default=32, type=int)
+
+    parser.add_argument('--grouped_conv',default=False, type=bool)
+    parser.add_argument('--root_grouping', default=False, type=bool)
+    parser.add_argument('--depth_grouping', default=False, type=bool)
+    
+    args = parser.parse_args()
+    print(args)
+    validate(args)
 

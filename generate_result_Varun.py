@@ -42,28 +42,29 @@ def validate(args):
         #     num_clips=args.clip_size
         # )
         model = VideoSaliencyModel(
-            transformer_in_channel=args.transformer_in_channel,
-            use_upsample=bool(args.decoder_upsample),
-            nhead=args.nhead,
-            num_hier=args.num_hier,
-            num_clips=args.clip_size,
-            grouped_conv=args.grouped_conv,
-            root_grouping=args.root_grouping,
-            depth=args.depth_grouping
-        )
-    elif 'tsm' in args.img_backbone:
-        from tsm.ops.models import TSN
-        model = TSN(base_model=args.img_backbone.split('_')[
-                    1], shift_div=args.shift_div, is_shift=args.shift, shift_place=args.shift_place)
-    elif args.img_backbone == 'acar':
-        from acar_modified_model import AVA_model
-        model = AVA_model()
+        use_upsample=bool(args.decoder_upsample),
+        num_hier=args.num_hier,
+        num_clips=args.clip_size,
+        grouped_conv=args.grouped_conv,
+        root_grouping=args.root_grouping,
+        depth=args.depth_grouping,
+        efficientnet=args.efficientnet
+    )
+    # elif 'tsm' in args.img_backbone:
+    #     from tsm.ops.models import TSN
+    #     model = TSN(base_model=args.img_backbone.split('_')[
+    #                 1], shift_div=args.shift_div, is_shift=args.shift, shift_place=args.shift_place)
+    # elif args.img_backbone == 'acar':
+    #     from acar_modified_model import AVA_model
+    #     model = AVA_model()
 
-    if args.img_backbone != 'acar':
-        model.load_state_dict(torch.load(file_weight))
-    else:
-        model = torch.nn.DataParallel(model)
-        model.load_state_dict(torch.load(file_weight)['state_dict'])
+    # if args.img_backbone != 'acar':
+    #     model.load_state_dict(torch.load(file_weight))
+    # else:
+    model = torch.nn.DataParallel(model)
+    # model.load_state_dict(torch.load(file_weight)['state_dict'])
+    model.load_state_dict(torch.load(file_weight)['state_dict'])
+
 
     model = model.to(device).half()
     torch.backends.cudnn.benchmark = True
