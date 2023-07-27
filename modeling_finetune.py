@@ -205,7 +205,8 @@ class VisionTransformer(nn.Module):
                  all_frames=16,
                  tubelet_size=2,
                  use_checkpoint=False,
-                 use_mean_pooling=True):
+                 use_mean_pooling=True,
+                 roi_align = True,):
         super().__init__()
         self.num_classes = num_classes
         self.num_features = self.embed_dim = embed_dim  # num_features for consistency with other models
@@ -239,6 +240,7 @@ class VisionTransformer(nn.Module):
         self.head = nn.Linear(embed_dim, num_classes) if num_classes > 0 else nn.Identity()
 
         # rois setting
+        self.roi_align = roi_align
         self.head_cfg = ROIPoolingCfg()
         self.pooler = make_3d_pooler(self.head_cfg)
         resolution = self.head_cfg.POOLER_RESOLUTION
@@ -280,7 +282,7 @@ class VisionTransformer(nn.Module):
         self.head = nn.Linear(self.embed_dim, num_classes) if num_classes > 0 else nn.Identity()
 
     def forward_features(self, x, proposals):
-        print(f"Input Size x: {len(x)} {len(x[0])} {len(x[0][0])}")
+        #print(f"Input Size x: {len(x)} {len(x[0])} {len(x[0][0])}")
         x = self.patch_embed(x)
         
         # [b c t h w] -> [b x t/2 h w] by averaging neighbouring frames
@@ -290,7 +292,7 @@ class VisionTransformer(nn.Module):
         B, width, t, h, w = x.size()
         x = x.flatten(2).transpose(1, 2)
 
-        print(f"After Patch Embed: {len(x)} {len(x[0])} {len(x[0][0])}")
+        #print(f"After Patch Embed: {len(x)} {len(x[0])} {len(x[0][0])}")
         if self.pos_embed is not None:  
             pos_embed = self.pos_embed.reshape(t, -1, width)
             pos_embed = interpolate_pos_embed_online(
@@ -298,7 +300,7 @@ class VisionTransformer(nn.Module):
             x = x + pos_embed.expand(B, -1, -1).type_as(x).to(x.device).clone().detach()
         x = self.pos_drop(x)
         
-        print(f"After Pos Embed: {len(x)} {len(x[0])} {len(x[0][0])}")
+        #print(f"After Pos Embed: {len(x)} {len(x[0])} {len(x[0][0])}")
         if self.use_checkpoint:
             for blk in self.blocks:
                 x = checkpoint.checkpoint(blk, x)
@@ -306,14 +308,18 @@ class VisionTransformer(nn.Module):
             blocknum = 0 
             for blk in self.blocks:
 
-                print(f"Block {blocknum}: {x.shape}")
+                #print(f"Block {blocknum}: {x.shape}")
                 x = blk(x)
                 blocknum += 1
 
-        print("Went Through Blocks")
+        #print("Went Through Blocks")
         x = self.norm(x)  # [b thw=8x14x14 c=768]
-        x = x.reshape(B, t, h, w, -1).permute(0, 4, 1, 2, 3)  # [b c t h w]
-        print("After Blocks x : " , x.shape)
+        x = x.reshape(B, t, h, w, -1).permute(0, 4, 1, 2, 3)  # [b c t h w] , [b 768 8 14 14]
+        
+        if not self.roi_align:
+            return x
+        
+        #print("After Blocks x : " , x.shape)
         x = x.mean(dim=2, keepdim=False)  # [b c h w]
         rois = self.pooler(x, proposals)  # [n c 7 7] # TILL HERE
         #if rois is not None:

@@ -40,6 +40,7 @@ parser.add_argument('--disable_eval_during_finetuning', action='store_true', def
 parser.add_argument('--model_ema', action='store_true', default=False)
 parser.add_argument('--model_ema_decay', type=float, default=0.9999, help='')
 parser.add_argument('--model_ema_force_cpu', action='store_true', default=False, help='')
+parser.add_argument('--roi_align' , default=True , type=bool)
 
 # Optimizer parameters
 parser.add_argument('--opt', default='adamw', type=str, metavar='OPTIMIZER',
@@ -153,8 +154,31 @@ parser.add_argument('--nss_norm_coeff',default=1.0, type=float)
 parser.add_argument('--l1_coeff',default=1.0, type=float)
 parser.add_argument('--l1',default=False, type=bool)
 
+# WandB params
+parser.add_argument('--use_wandb',default=False, type=bool)
+parser.add_argument('--wandb_project',default="vinet0", type=str)
+parser.add_argument('--wandb_username',default="bhavberi", type=str)
+
 args = parser.parse_args()
 print(args)
+
+if args.use_wandb:
+    config = {
+        "lr": args.lr, 
+        "model_type": "VideoSaliency",
+        "Backbone": "VideoMae",
+        "criterion": "KLDivLoss",
+        "num_epochs": args.epochs,
+        "batch_size": args.batch_size,
+        "wandb_run_name": "VideoMae Action Detection"
+    }
+
+    wandb.init(
+        entity = args.wandb_username,   # wandb username
+        project = args.wandb_project,   # wandb project name. New project will be created if given project is missing.
+        config = config         # Config dict
+        )
+    wandb.run.name = "VideoMae Action Detection Run 1"
 
 device = torch.device(args.device)
 
@@ -201,9 +225,11 @@ model = VideoSaliencyModel(
     use_checkpoint=args.use_checkpoint,
     use_mean_pooling=args.use_mean_pooling,
     init_scale=args.init_scale,
+    batch_size = args.batch_size,
+    roi_align = args.roi_align,
 )
 print("VideoMae Model with ViNet Decoder")
-print(model.parameters)
+#print(model.parameters)
 
 patch_size = model.backbone.patch_embed.patch_size  # 16
 print("Patch size = %s" % str(patch_size))
@@ -260,7 +286,7 @@ if 'pos_embed' in checkpoint_model:
         pos_tokens = torch.nn.functional.interpolate(pos_tokens, size=(new_size, new_size), mode='bicubic', align_corners=False)
             # BT, C, H, W -> BT, H, W, C ->  B, T, H, W, C
         pos_tokens = pos_tokens.permute(0, 2, 3, 1).reshape(-1, args.num_frames // model.patch_embed.tubelet_size,new_size, new_size, embedding_size)
-        pos_tokens = pos_tokens.flatten(1, 3)  # B, L, Cpython3 mvva_videomae_model.py --finetune 'Checkpoints/checkpoint.pth' --batch_size 2 --opt adamw --lr 2.5e-4 --layer_decay 0.75 --opt_betas 0.9 0.999 --weight_decay 0.05 --epochs 1 --data_set "mvva"
+        pos_tokens = pos_tokens.flatten(1, 3)  # B, L, C
         new_pos_embed = torch.cat((extra_tokens, pos_tokens), dim=1)
         checkpoint_model['pos_embed'] = new_pos_embed
 
@@ -296,18 +322,18 @@ def validate(model,epoch, device, args):
             for j in range(len(boxes[i])):
                 boxes[i][j] = torch.tensor(boxes[i][j], device=device)
 
-
+        print("Ground Truth : " , gt_last_frame_list.shape)   
         outputs = model(samples, boxes)
-
+        
+        if(outputs.size(0) == gt_last_frame_list.size(0)):
+            continue
         loss = loss_func(outputs , gt_last_frame_list , args)
-        cc_loss = cc(outputs , gt_last_frame_list , args)
-        sim_loss = similarity(outputs , gt_last_frame_list , args)
-
-
+        cc_loss = cc(outputs , gt_last_frame_list)
+        sim_loss = similarity(outputs , gt_last_frame_list)
+        
         total_loss.update(loss.item())
-        total_cc_loss.update(cc_loss.item())
         total_sim_loss.update(sim_loss.item())
-
+        total_cc_loss.update(cc_loss.item())
     
     # time_taken = (time.time()-tic)/60
 
@@ -322,6 +348,7 @@ def validate(model,epoch, device, args):
     }
 
     return data_to_log
+
 
 for epoch in range(args.epochs):
     model.train(True)
@@ -341,6 +368,8 @@ for epoch in range(args.epochs):
         outputs = model(samples, boxes)
         print("Model Output: ",outputs.shape)        
         print("Ground Truth: ",gt_last_frame_list.size())
+        if(outputs.size(0) == gt_last_frame_list.size(0)):
+            continue
         outputs = outputs.view(gt_last_frame_list.size())
         loss = loss_func(outputs , gt_last_frame_list , args)
         total_loss.update(loss.item())
