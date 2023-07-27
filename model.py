@@ -110,24 +110,24 @@ class DecoderConvBlock(nn.Module):
 			self.upsampling # 192 , 8 , 28 , 28
 		)
         self.convtsp3 = nn.Sequential(
-			nn.Conv2d(192, 64, kernel_size=(3,3,3), stride=(2,1,1), padding=(1,1,1), bias=False),
+			nn.Conv3d(192, 64, kernel_size=(3,3,3), stride=(2,1,1), padding=(1,1,1), bias=False),
 			nn.ReLU(), # 64 , 4 , 28 , 28
 			self.upsampling, # 64 ,4, 56 , 56
 
-			nn.Conv2d(64, 32, kernel_size=(3,3,3), stride=(2,1,1), padding=(1,1,1), bias=False),
+			nn.Conv3d(64, 32, kernel_size=(3,3,3), stride=(2,1,1), padding=(1,1,1), bias=False),
 			nn.ReLU(), # 32 , 2 , 56 , 56
 			self.upsampling, # 32 ,2, 112 , 112
 
 			# 4 time dimension
-			nn.Conv2d(32, 32, kernel_size=(3,3,3), stride=(2,2,1),padding=(1,1,1), bias=False),
+			nn.Conv3d(32, 32, kernel_size=(3,3,3), stride=(2,2,1),padding=(1,1,1), bias=False),
 			nn.ReLU(), # 32 , 1 , 56 , 112
             self.upsampling, # 32 ,1, 112 , 224  
                         
-            nn.Conv2d(32,32,kernel_size=(1,1,1) , stride=(1,1,1) , bias = False),
+            nn.Conv3d(32,32,kernel_size=(1,1,1) , stride=(1,1,1) , bias = False),
             nn.ReLU(),# 32,1,112,224
             self.upsampling,# 32,1,224,448
 
-			nn.Conv2d(32, 1, kernel_size=1, stride=1, bias=True), # 1 ,1, 224 , 448
+			nn.Conv3d(32, 1, kernel_size=1, stride=1, bias=True), # 1 ,1, 224 , 448
                         
 			nn.Sigmoid() # 1 , 1,224 , 448
 		)
