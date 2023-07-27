@@ -368,7 +368,7 @@ for epoch in range(args.epochs):
         outputs = model(samples, boxes)
         print("Model Output: ",outputs.shape)        
         print("Ground Truth: ",gt_last_frame_list.size())
-        if(outputs.size(0) == gt_last_frame_list.size(0)):
+        if(outputs.size(0) != gt_last_frame_list.size(0)):
             continue
         outputs = outputs.view(gt_last_frame_list.size())
         loss = loss_func(outputs , gt_last_frame_list , args)
