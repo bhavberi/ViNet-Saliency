@@ -40,7 +40,7 @@ parser.add_argument('--disable_eval_during_finetuning', action='store_true', def
 parser.add_argument('--model_ema', action='store_true', default=False)
 parser.add_argument('--model_ema_decay', type=float, default=0.9999, help='')
 parser.add_argument('--model_ema_force_cpu', action='store_true', default=False, help='')
-parser.add_argument('--roi_align' , default=True , type=bool)
+parser.add_argument('--roi_align' , default=False , type=bool)
 
 # Optimizer parameters
 parser.add_argument('--opt', default='adamw', type=str, metavar='OPTIMIZER',
@@ -325,7 +325,7 @@ def validate(model,epoch, device, args):
         print("Ground Truth : " , gt_last_frame_list.shape)   
         outputs = model(samples, boxes)
         
-        if(outputs.size(0) == gt_last_frame_list.size(0)):
+        if(outputs.size(0) != gt_last_frame_list.size(0)):
             continue
         loss = loss_func(outputs , gt_last_frame_list , args)
         cc_loss = cc(outputs , gt_last_frame_list)

@@ -96,13 +96,12 @@ class DecoderConvUp(nn.Module):
 
 class DecoderConvBlock(nn.Module):
     def __init__(self):
-        '''Input : 768 , 8 , 7 , 7 , Output: 1 , 1 , 224 , 448'''
-        super(DecoderConvUp, self).__init__()
+        '''Input : 768 , 8 , 14 , 14 , Output: 1 , 1 , 224 , 448'''
+        super(DecoderConvBlock, self).__init__()
         self.upsampling = nn.Upsample(scale_factor=(1 , 2 , 2), mode='trilinear')	
         self.convtsp1 = nn.Sequential(
-			nn.Conv3d(768, 480, kernel_size=(1 , 3 , 3), stride=(1,1,1), padding=(0,1,1), bias=False), # 480 ,8, 7 , 7
+			nn.Conv3d(768, 480, kernel_size=(1 , 3 , 3), stride=(1,1,1), padding=(0,1,1), bias=False), # 480 ,8, 14 , 14
 			nn.ReLU(),
-			self.upsampling # 480 ,8, 14 , 14
 		)
         self.convtsp2 = nn.Sequential(
 			nn.Conv3d(480, 192, kernel_size=(3,3,3), stride=(1,1,1), padding=(1,1,1), bias=False),

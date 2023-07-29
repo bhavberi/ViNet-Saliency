@@ -6,7 +6,7 @@
 #SBATCH --time=2-10:00:00
 #SBATCH --mail-user=sarthak.bansal@students.iiit.ac.in
 #SBATCH --mail-type=ALL
-#SBATCH --output=out.txt
+#SBATCH --output=out1.txt
 #SBATCH -c 9
 #SBATCH -n 1
 
@@ -23,7 +23,7 @@ python3 mvva_videomae_model.py \
       --opt_betas 0.9 0.999 \
       --weight_decay 0.05 \
       --epochs 30 \
-      --data_set "mvva" \
+      --data_set "mvva" --roi_align True\
       --cc_coeff 0 --sim_coeff 0 --l1_coeff 0 --use_wandb True\
 
 echo "done"

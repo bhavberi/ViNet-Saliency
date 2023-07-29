@@ -326,7 +326,9 @@ class MVVA(data.Dataset):
                  temporal_transform=None,
                  mode='train',
                  clip_size=32,
-                 alternate=1):
+                 alternate=1,
+                 split = 1,
+                 fold_lists_path = None):
 
         
         self.videos_frames_root_path = videos_frames_root_path
@@ -343,6 +345,23 @@ class MVVA(data.Dataset):
         self.video_names = [video_file.split('.')[0] for video_file in self.video_files]
 
         self.mode = mode
+
+        if (self.mode == 'val' or self.mode == 'test'):
+            mode = 'test'
+        file_name = '{}_list_{}_{}_fps.txt'.format('mvva', mode, split)
+
+        self.list_indata = []
+        with open(os.path.join(fold_lists_path, file_name), 'r') as f:
+            for line in f.readlines():
+                name = line.split(' ')[0].strip()
+				#num_frames = line.split(' ')[1].strip()
+                self.list_indata.append(name)
+		#list_indata = [i for i in list_indata if i in ['001']]
+		#print(list_indata)
+        self.video_names = [i for i in self.video_names if i in self.list_indata]
+
+        self.video_files = [i for i in self.video_files if i.split('.')[0] in self.video_names]
+		
 
         self.len_snippet = clip_size
         self.alternate = alternate
@@ -405,8 +424,7 @@ class MVVA(data.Dataset):
 						start_frame+self.alternate*i+1))).convert('L'))
             gt = gt.astype('float')
 
-            if self.mode == "train":
-                gt = cv2.resize(gt, (448, 224))
+            gt = cv2.resize(gt, (448, 224))
 
             if np.max(gt) > 1.0:
                 gt = gt / 255.0

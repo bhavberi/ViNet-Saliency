@@ -46,11 +46,13 @@ def build_mvva_dataset(is_train, transforms):
     gt_sal_maps_path = '/ssd_scratch/cvit/sarthak395/mvva/ground_truth'
     bbox_root_path = '/ssd_scratch/cvit/sarthak395/mvva/BoundingBoxes'
     videos_frames_root_path = '/ssd_scratch/cvit/sarthak395/mvva/frames'
+    fold_lists_path = '/ssd_scratch/cvit/sarthak395/mvva/fold_lists'
+
     if(is_train):
         dataset = MVVA(gt_sal_maps_path, bbox_root_path, videos_frames_root_path, spatial_transform = transforms, mode=
-                'train')
+                'train' , fold_lists_path = fold_lists_path)
     else:
         dataset = MVVA(gt_sal_maps_path, bbox_root_path, videos_frames_root_path, spatial_transform = transforms, mode=
-                'val')
+                'val' , fold_lists_path = fold_lists_path)
     return dataset
 

@@ -22,9 +22,9 @@ class Pooler3d(nn.Module):
         bbox_list = list()
         ids_list = list()
         for i, b in enumerate(boxes):
-            if not b:
-                bbox_list.append(torch.zeros((0, 4), dtype=dtype, device=device))
-                ids_list.append(torch.zeros((0, 1), dtype=dtype, device=device))
+            if len(b) == 0:
+                bbox_list.append(torch.zeros((1, 4), dtype=dtype, device=device))
+                ids_list.append(torch.zeros((1, 1), dtype=dtype, device=device))
             else:
                 rand_index = torch.randint(0, len(b), (1,))[0]
                 b =b[rand_index].view(1,4)
