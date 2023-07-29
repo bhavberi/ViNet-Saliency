@@ -258,6 +258,17 @@ class VideoAudioSaliencyModel(nn.Module):
 
 		return self.visual_model.decoder(fused_out, y1, y2, y3)
 
+class Interpolate(nn.Module):
+	def __init__(self ,scale_factor , mode , align_corners = True):
+		self.interpolate = nn.functional.interpolate
+		self.scale_factor = scale_factor
+		self.mode = mode
+		self.align_corners = align_corners
+	
+	def forward(self , x):
+		out = self.interpolate(x , scale_factor = self.scale_factor , mode = self.mode , align_corners = self.align_corners)
+		return out
+
 class DecoderConvUp(nn.Module):
 	def __init__(self):
 		super(DecoderConvUp, self).__init__()
@@ -325,7 +336,7 @@ class DecoderConvUpGrouped(nn.Module):
 		super(DecoderConvUpGrouped, self).__init__()
 		
 		if(Deconv == 'BiCubic Interpolation'):
-			self.upsampling = nn.functional.interpolate(scale_factor=(1,2,2), mode='bicubic' , align_corners=True)
+			self.upsampling = Interpolate(scale_factor=(1,2,2), mode='bicubic' , align_corners=True)
 		else:
 			self.upsampling = nn.Upsample(scale_factor=(1,2,2), mode='trilinear')
 
@@ -399,7 +410,7 @@ class DecoderConvUpDepth(nn.Module):
 		super(DecoderConvUpDepth, self).__init__()
 
 		if(Deconv == 'Bicubic Interpolation'):
-			self.upsampling = nn.functional.interpolate(scale_factor=(1,2,2), mode='bicubic' , align_corners=True)
+			self.upsampling = Interpolate(scale_factor=(1,2,2), mode='bicubic' , align_corners=True)
 		else:
 			self.upsampling = nn.Upsample(scale_factor=(1,2,2), mode='trilinear')
 
@@ -477,10 +488,14 @@ class DecoderConvUpDepth(nn.Module):
 
 
 # TODO: Add Efficient Net equivalent of the decoder
-class DecoderConvUpEfficientNet(nn.Module):
-	def __init__(self):
+class DecoderConvUpEfficientNet(nn.Module ):
+	def __init__(self , Deconv = "Trilinear Upsampling"):
 		super(DecoderConvUpEfficientNet, self).__init__()
-		self.upsampling = nn.Upsample(scale_factor=(1,2,2), mode='trilinear')
+		if(Deconv == "Bicubic Interpolation"):
+			self.upsampling = Interpolate(scale_factor=(1,2,2), mode='bicubic' , align_corners=True)
+		else:
+			self.upsampling = nn.Upsample(scale_factor=(1,2,2), mode='trilinear')
+
 		self.convtsp1 = nn.Sequential(
 			nn.Conv3d(1024, 832, kernel_size=(1,3,3), stride=1, padding=(0,1,1), bias=False),
 			nn.ReLU(),
