@@ -78,6 +78,7 @@ class VideoSaliencyModel(nn.Module):
 				root_grouping=True,
 				depth=False,
 				efficientnet=False,
+				BiCubic = True
 			):
 		super(VideoSaliencyModel, self).__init__()
 
@@ -98,9 +99,9 @@ class VideoSaliencyModel(nn.Module):
 				elif num_clips==32:
 					if grouped_conv:
 						if depth:
-							self.decoder = DecoderConvUpDepth(Deconv = "BiCubic Interpolation")
+							self.decoder = DecoderConvUpDepth(BiCubic = BiCubic)
 						else:
-							self.decoder = DecoderConvUpGrouped(root_grouping = root_grouping , Deconv = "BiCubic Interpolation")
+							self.decoder = DecoderConvUpGrouped(root_grouping = root_grouping, BiCubic = BiCubic)
 					elif efficientnet:
 						self.decoder = DecoderConvUpEfficientNet()
 					else:
@@ -259,20 +260,28 @@ class VideoAudioSaliencyModel(nn.Module):
 		return self.visual_model.decoder(fused_out, y1, y2, y3)
 
 class Interpolate(nn.Module):
-	def __init__(self ,scale_factor , mode , align_corners = True):
+	def __init__(self, scale_factor, mode, align_corners = True):
+		super(Interpolate , self).__init__()
 		self.interpolate = nn.functional.interpolate
 		self.scale_factor = scale_factor
 		self.mode = mode
 		self.align_corners = align_corners
 	
 	def forward(self , x):
-		out = self.interpolate(x , scale_factor = self.scale_factor , mode = self.mode , align_corners = self.align_corners)
+		B, C, D, H, W = x.size()
+		x = x.view(B * C, D, H, W)
+		out = self.interpolate(x, scale_factor = self.scale_factor, mode = self.mode, align_corners=self.align_corners)
+		out = out.view(B, C, D, out.size(2), out.size(3))
 		return out
 
 class DecoderConvUp(nn.Module):
-	def __init__(self):
+	def __init__(self, BiCubic = True):
 		super(DecoderConvUp, self).__init__()
-		self.upsampling = nn.Upsample(scale_factor=(1,2,2), mode='trilinear')
+		if BiCubic:
+			self.upsampling = Interpolate(scale_factor=(2,2), mode='bicubic' , align_corners=True)
+		else:
+			self.upsampling = nn.Upsample(scale_factor=(1,2,2), mode='trilinear')
+		
 		self.convtsp1 = nn.Sequential(
 			nn.Conv3d(1024, 832, kernel_size=(1,3,3), stride=1, padding=(0,1,1), bias=False),
 			nn.ReLU(),
@@ -332,11 +341,11 @@ class DecoderConvUp(nn.Module):
 		return z
 	
 class DecoderConvUpGrouped(nn.Module):
-	def __init__(self, root_grouping=True, Deconv='Trilinear Upsampling'):
+	def __init__(self, root_grouping=True, BiCubic = True):
 		super(DecoderConvUpGrouped, self).__init__()
 		
-		if(Deconv == 'BiCubic Interpolation'):
-			self.upsampling = Interpolate(scale_factor=(1,2,2), mode='bicubic' , align_corners=True)
+		if BiCubic:
+			self.upsampling = Interpolate(scale_factor=(2,2), mode='bicubic' , align_corners=True)
 		else:
 			self.upsampling = nn.Upsample(scale_factor=(1,2,2), mode='trilinear')
 
@@ -406,11 +415,11 @@ class DecoderConvUpGrouped(nn.Module):
 		return z
 
 class DecoderConvUpDepth(nn.Module):
-	def __init__(self , Deconv='Trilinear Upsampling'):
+	def __init__(self, BiCubic = True):
 		super(DecoderConvUpDepth, self).__init__()
 
-		if(Deconv == 'Bicubic Interpolation'):
-			self.upsampling = Interpolate(scale_factor=(1,2,2), mode='bicubic' , align_corners=True)
+		if BiCubic:
+			self.upsampling = Interpolate(scale_factor=(2,2), mode='bicubic' , align_corners=True)
 		else:
 			self.upsampling = nn.Upsample(scale_factor=(1,2,2), mode='trilinear')
 
@@ -489,10 +498,11 @@ class DecoderConvUpDepth(nn.Module):
 
 # TODO: Add Efficient Net equivalent of the decoder
 class DecoderConvUpEfficientNet(nn.Module ):
-	def __init__(self , Deconv = "Trilinear Upsampling"):
+	def __init__(self, BiCubic = True):
 		super(DecoderConvUpEfficientNet, self).__init__()
-		if(Deconv == "Bicubic Interpolation"):
-			self.upsampling = Interpolate(scale_factor=(1,2,2), mode='bicubic' , align_corners=True)
+
+		if BiCubic:
+			self.upsampling = Interpolate(scale_factor=(2,2), mode='bicubic' , align_corners=True)
 		else:
 			self.upsampling = nn.Upsample(scale_factor=(1,2,2), mode='trilinear')
 

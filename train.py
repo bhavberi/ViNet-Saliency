@@ -72,6 +72,8 @@ parser.add_argument('--root_grouping', default=False, type=bool)
 parser.add_argument('--depth_grouping', default=False, type=bool)
 parser.add_argument('--efficientnet', default=False, type=bool)
 
+parser.add_argument('--use_trilinear_upsampling', default=False, type=bool)
+
 args = parser.parse_args()
 print(args)
 
@@ -130,7 +132,7 @@ if args.use_sound:
         num_encoder_layers=args.num_encoder_layers,
         use_upsample=bool(args.decoder_upsample),
         num_hier=args.num_hier,
-        num_clips=args.clip_size
+        num_clips=args.clip_size,
     )
 else:
     model = VideoSaliencyModel(
@@ -140,7 +142,8 @@ else:
         grouped_conv=args.grouped_conv,
         root_grouping=args.root_grouping,
         depth=args.depth_grouping,
-        efficientnet=args.efficientnet
+        efficientnet=args.efficientnet,
+        BiCubic = not args.use_trilinear_upsampling,
     )
 
 np.random.seed(0)
