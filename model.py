@@ -260,7 +260,7 @@ class VideoAudioSaliencyModel(nn.Module):
 		return self.visual_model.decoder(fused_out, y1, y2, y3)
 
 class Interpolate(nn.Module):
-	def __init__(self, scale_factor, mode, align_corners = True):
+	def __init__(self, mode='bilinear', scale_factor=None, align_corners = True):
 		super(Interpolate , self).__init__()
 		self.interpolate = nn.functional.interpolate
 		self.scale_factor = scale_factor
@@ -270,7 +270,10 @@ class Interpolate(nn.Module):
 	def forward(self , x):
 		B, C, D, H, W = x.size()
 		x = x.view(B * C, D, H, W)
-		out = self.interpolate(x, scale_factor = self.scale_factor, mode = self.mode, align_corners=self.align_corners)
+		if self.scale_factor:
+			out = self.interpolate(x, scale_factor = self.scale_factor, mode = self.mode, align_corners=self.align_corners)
+		else:
+			out = self.interpolate(x, size = (H, W), mode = self.mode, align_corners=self.align_corners)
 		out = out.view(B, C, D, out.size(2), out.size(3))
 		return out
 
@@ -345,7 +348,8 @@ class DecoderConvUpGrouped(nn.Module):
 		super(DecoderConvUpGrouped, self).__init__()
 		
 		if BiCubic:
-			self.upsampling = Interpolate(scale_factor=(2,2), mode='bicubic' , align_corners=True)
+			# self.upsampling = Interpolate(scale_factor=(2,2), mode='bicubic' , align_corners=True)
+			self.upsampling = Interpolate(mode='bilinear', align_corners=True)
 		else:
 			self.upsampling = nn.Upsample(scale_factor=(1,2,2), mode='trilinear')
 
