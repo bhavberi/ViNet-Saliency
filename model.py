@@ -273,7 +273,7 @@ class Interpolate(nn.Module):
 		if self.scale_factor:
 			out = self.interpolate(x, scale_factor = self.scale_factor, mode = self.mode, align_corners=self.align_corners)
 		else:
-			out = self.interpolate(x, size = (H, W), mode = self.mode, align_corners=self.align_corners)
+			out = self.interpolate(x, size = (2*H, 2*W), mode = self.mode, align_corners=self.align_corners)
 		out = out.view(B, C, D, out.size(2), out.size(3))
 		return out
 
