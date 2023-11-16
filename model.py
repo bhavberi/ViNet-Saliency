@@ -949,6 +949,27 @@ class DecoderConvUp2Hier(nn.Module):
 def reshape(x, size):
 	return x.view(size)
 
+class Reshape(nn.Module):
+	def __init__(self, *args) -> None:
+		super(Reshape, self).__init__()
+		self.shape = args
+	
+	def forward(self, x):
+		return x.view(self.shape)
+	
+class BackBone_Maxpool_Base1(nn.Module):
+	def __init__(self, *args) -> None:
+		super(BackBone_Maxpool_Base1, self).__init__()
+
+		self.base1 = nn.Sequential(
+			Reshape(-1, 1024, 112, 192),
+			nn.MaxPool2d(kernel_size=(3,3), stride=(2,2), padding=(1,1)),
+			Reshape(-1, 64, 16, 56, 96),
+		)
+
+	def forward(self, x):
+		return self.base1(x)
+
 class BackBoneS3D(nn.Module):
 	def __init__(self, maxpool3d = True):
 		super(BackBoneS3D, self).__init__()
@@ -959,13 +980,24 @@ class BackBoneS3D(nn.Module):
 		# 	BasicConv3d(64, 64, kernel_size=1, stride=1),
 		# 	SepConv3d(64, 192, kernel_size=3, stride=1, padding=1),
 		# )
-		self.base1_1 = SepConv3d(3, 64, kernel_size=7, stride=2, padding=3) 
-		self.base1_2 = nn.MaxPool2d(kernel_size=(3,3), stride=(2,2), padding=(1,1))
-		self.base1_3 = nn.Sequential(
+
+		self.base1 = nn.Sequential(
+			SepConv3d(3, 64, kernel_size=7, stride=2, padding=3),
+			# Reshape(-1, 1024, 112, 192),
+			# nn.MaxPool2d(kernel_size=(3,3), stride=(2,2), padding=(1,1)),
+			# Reshape(-1, 64, 16, 56, 96),
+			BackBone_Maxpool_Base1(),
 			BasicConv3d(64, 64, kernel_size=1, stride=1),
 			SepConv3d(64, 192, kernel_size=3, stride=1, padding=1),
 		)
-		
+
+		# self.base1_1 = SepConv3d(3, 64, kernel_size=7, stride=2, padding=3) 
+		# self.base1_2 = nn.MaxPool2d(kernel_size=(3,3), stride=(2,2), padding=(1,1))
+		# self.base1_3 = nn.Sequential(
+		# 	BasicConv3d(64, 64, kernel_size=1, stride=1),
+		# 	SepConv3d(64, 192, kernel_size=3, stride=1, padding=1),
+		# )
+
 		# self.maxp2 = nn.MaxPool3d(kernel_size=(1,3,3), stride=(1,2,2), padding=(0,1,1))
 		self.maxp2 = nn.MaxPool2d(kernel_size=(3,3), stride=(2,2), padding=(1,1))
 		self.base2 = nn.Sequential(
@@ -993,17 +1025,23 @@ class BackBoneS3D(nn.Module):
 
 	def forward(self, x):
 		# print('input', x.shape)
-		y3 = self.base1_1(x)
-		n,c,t,h,w = y3.shape
-		y3 = reshape(x, (y3.size(0), y3.size(1) * y3.size(2), y3.size(3), y3.size(4)))
-		y3 = self.base1_2(y3)
-		y3 = reshape(y3, (n, c, t, y3.size(2), y3.size(3)))
-		y3 = self.base1_3(y3)
+		y3 = self.base1(x)
+		# n,c,t,h,w = y3.shape
+		# y3 = reshape(x, (y3.size(0), y3.size(1) * y3.size(2), y3.size(3), y3.size(4)))
+		# y3 = self.base1_2(y3)
+		# y3 = reshape(y3, (n, c, t, y3.size(2), y3.size(3)))
+		# y3 = self.base1_3(y3)
 		# print('base1', y3.shape)
+
+		# Printing shape
+		# y3 = x
+		# for layer in self.base1:
+		# 	x = layer(x)
+		# 	print(x.shape)
 		
 		n,c,t,h,w = y3.shape
-		y3 = reshape(y3, (y3.size(0), y3.size(1) * y3.size(2), y3.size(3), y3.size(4)))
-		y = self.maxp2(y3)
+		y = reshape(y3, (y3.size(0), y3.size(1) * y3.size(2), y3.size(3), y3.size(4)))
+		y = self.maxp2(y)
 		y = reshape(y, (n, c, t, y.size(2), y.size(3)))
 		# print('maxp2', y.shape)
 
@@ -1011,12 +1049,12 @@ class BackBoneS3D(nn.Module):
 		# print('base2', y2.shape)
 
 		n,c,t,h,w = y2.shape
-		y2 = reshape(y2, (y2.size(0), y2.size(1) * y2.size(2), y2.size(3), y2.size(4)))
-		y = self.maxp3_1(y2)
+		y = reshape(y2, (y2.size(0), y2.size(1) * y2.size(2), y2.size(3), y2.size(4)))
+		y = self.maxp3_1(y)
 		y = reshape(y, (n, c, t, y.size(2), y.size(3)))
 
 		n,c,t,h,w = y.shape
-		y = reshape(y, (y.size(0), y.size(1), y.size(2) * y.size(3), y.size(4)))
+		y = reshape(y, (y.size(0), y.size(1), y.size(2), y.size(3) * y.size(4)))
 		y = self.maxp3_2(y)
 		y = reshape(y, (n, c, y.size(2), h, w))
 		# print('maxp3', y.shape)
@@ -1025,8 +1063,8 @@ class BackBoneS3D(nn.Module):
 		# print('base3', y1.shape)
 
 		n,c,t,h,w = y1.shape
-		y1 = reshape(y1, (y1.size(0), y1.size(1), y1.size(2), y1.size(3) * y1.size(4)))
-		y = self.maxt4(y1)
+		y = reshape(y1, (y1.size(0), y1.size(1), y1.size(2), y1.size(3) * y1.size(4)))
+		y = self.maxt4(y)
 		y = reshape(y, (n, c, y.size(2), h, w))
 
 		n,c,t,h,w = y.shape
