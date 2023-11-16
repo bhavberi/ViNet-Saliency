@@ -153,67 +153,67 @@ for (name, param) in model.named_parameters():
     if param.requires_grad:
         print(name, param.size())
 
-if args.combine_datasets:
-    dhf1k_train = "/ssd_scratch/cvit/sarthak395/DHF1K/annotation"
-    dhf1k_val = "/ssd_scratch/cvit/sarthak395/DHF1K/val"
-    dhf1k_train_dataset = DHF1KDataset(dhf1k_train, args.clip_size, mode="train", alternate=args.alternate, frames_path="frames")
-    dhf1k_val_dataset = DHF1KDataset(dhf1k_val, args.clip_size, mode="val", alternate=args.alternate, frames_path="frames")
-    ucf_train = "/ssd_scratch/cvit/sarthak395/UCF/training"
-    ucf_test="/ssd_scratch/cvit/sarthak395/UCF/testing"
-    ucf_train_dataset = Hollywood_UCFDataset(ucf_train, args.clip_size, mode="train", frames_path="images")
-    ucf_val_dataset = Hollywood_UCFDataset(ucf_test, args.clip_size, mode="val", frames_path="images")
+# if args.combine_datasets:
+#     dhf1k_train = "/ssd_scratch/cvit/sarthak395/DHF1K/annotation"
+#     dhf1k_val = "/ssd_scratch/cvit/sarthak395/DHF1K/val"
+#     dhf1k_train_dataset = DHF1KDataset(dhf1k_train, args.clip_size, mode="train", alternate=args.alternate, frames_path="frames")
+#     dhf1k_val_dataset = DHF1KDataset(dhf1k_val, args.clip_size, mode="val", alternate=args.alternate, frames_path="frames")
+#     ucf_train = "/ssd_scratch/cvit/sarthak395/UCF/training"
+#     ucf_test="/ssd_scratch/cvit/sarthak395/UCF/testing"
+#     ucf_train_dataset = Hollywood_UCFDataset(ucf_train, args.clip_size, mode="train", frames_path="images")
+#     ucf_val_dataset = Hollywood_UCFDataset(ucf_test, args.clip_size, mode="val", frames_path="images")
 
-    hollywood_train = "/ssd_scratch/cvit/sarthak395/Hollywood/training"
-    hollywood_test="/ssd_scratch/cvit/sarthak395/Hollywood/testing"
-    hollywood_train_dataset = Hollywood_UCFDataset(hollywood_train, args.clip_size, mode="train", frames_path="images")
-    hollywood_val_dataset = Hollywood_UCFDataset(hollywood_test, args.clip_size, mode="val", frames_path="images")
+#     hollywood_train = "/ssd_scratch/cvit/sarthak395/Hollywood/training"
+#     hollywood_test="/ssd_scratch/cvit/sarthak395/Hollywood/testing"
+#     hollywood_train_dataset = Hollywood_UCFDataset(hollywood_train, args.clip_size, mode="train", frames_path="images")
+#     hollywood_val_dataset = Hollywood_UCFDataset(hollywood_test, args.clip_size, mode="val", frames_path="images")
 
-    train_dataset = torch.utils.data.ConcatDataset([dhf1k_train_dataset, ucf_train_dataset, hollywood_train_dataset])
-    val_dataset = torch.utils.data.ConcatDataset([dhf1k_val_dataset, ucf_val_dataset, hollywood_val_dataset])
-else:
-    if args.dataset == "DHF1KDataset":
-        train_dataset = DHF1KDataset(args.train_path_data, args.clip_size, mode="train", alternate=args.alternate, frames_path=args.frames_path)
-        val_dataset = DHF1KDataset(args.val_path_data, args.clip_size, mode="val", alternate=args.alternate, frames_path=args.frames_path)
+#     train_dataset = torch.utils.data.ConcatDataset([dhf1k_train_dataset, ucf_train_dataset, hollywood_train_dataset])
+#     val_dataset = torch.utils.data.ConcatDataset([dhf1k_val_dataset, ucf_val_dataset, hollywood_val_dataset])
+# else:
+#     if args.dataset == "DHF1KDataset":
+#         train_dataset = DHF1KDataset(args.train_path_data, args.clip_size, mode="train", alternate=args.alternate, frames_path=args.frames_path)
+#         val_dataset = DHF1KDataset(args.val_path_data, args.clip_size, mode="val", alternate=args.alternate, frames_path=args.frames_path)
 
-    elif args.dataset=="SoundDataset":
-        train_dataset_diem = SoundDatasetLoader(args.clip_size, mode="train", dataset_name='DIEM', split=args.split, use_sound=args.use_sound, use_vox=args.use_vox)
-        val_dataset_diem = SoundDatasetLoader(args.clip_size, mode="test", dataset_name='DIEM', split=args.split, use_sound=args.use_sound, use_vox=args.use_vox)
+#     elif args.dataset=="SoundDataset":
+#         train_dataset_diem = SoundDatasetLoader(args.clip_size, mode="train", dataset_name='DIEM', split=args.split, use_sound=args.use_sound, use_vox=args.use_vox)
+#         val_dataset_diem = SoundDatasetLoader(args.clip_size, mode="test", dataset_name='DIEM', split=args.split, use_sound=args.use_sound, use_vox=args.use_vox)
 
-        train_dataset_coutrout1 = SoundDatasetLoader(args.clip_size, mode="train", dataset_name='Coutrot_db1', split=args.split, use_sound=args.use_sound, use_vox=args.use_vox)
-        val_dataset_coutrout1 = SoundDatasetLoader(args.clip_size, mode="test", dataset_name='Coutrot_db1', split=args.split, use_sound=args.use_sound, use_vox=args.use_vox)
+#         train_dataset_coutrout1 = SoundDatasetLoader(args.clip_size, mode="train", dataset_name='Coutrot_db1', split=args.split, use_sound=args.use_sound, use_vox=args.use_vox)
+#         val_dataset_coutrout1 = SoundDatasetLoader(args.clip_size, mode="test", dataset_name='Coutrot_db1', split=args.split, use_sound=args.use_sound, use_vox=args.use_vox)
 
-        train_dataset_coutrout2 = SoundDatasetLoader(args.clip_size, mode="train", dataset_name='Coutrot_db2', split=args.split, use_sound=args.use_sound, use_vox=args.use_vox)
-        val_dataset_coutrout2 = SoundDatasetLoader(args.clip_size, mode="test", dataset_name='Coutrot_db2', split=args.split, use_sound=args.use_sound, use_vox=args.use_vox)
+#         train_dataset_coutrout2 = SoundDatasetLoader(args.clip_size, mode="train", dataset_name='Coutrot_db2', split=args.split, use_sound=args.use_sound, use_vox=args.use_vox)
+#         val_dataset_coutrout2 = SoundDatasetLoader(args.clip_size, mode="test", dataset_name='Coutrot_db2', split=args.split, use_sound=args.use_sound, use_vox=args.use_vox)
         
-        train_dataset_avad = SoundDatasetLoader(args.clip_size, mode="train", dataset_name='AVAD', split=args.split, use_sound=args.use_sound, use_vox=args.use_vox)
-        val_dataset_avad = SoundDatasetLoader(args.clip_size, mode="test", dataset_name='AVAD', split=args.split, use_sound=args.use_sound, use_vox=args.use_vox)
+#         train_dataset_avad = SoundDatasetLoader(args.clip_size, mode="train", dataset_name='AVAD', split=args.split, use_sound=args.use_sound, use_vox=args.use_vox)
+#         val_dataset_avad = SoundDatasetLoader(args.clip_size, mode="test", dataset_name='AVAD', split=args.split, use_sound=args.use_sound, use_vox=args.use_vox)
 
-        train_dataset_etmd = SoundDatasetLoader(args.clip_size, mode="train", dataset_name='ETMD_av', split=args.split, use_sound=args.use_sound, use_vox=args.use_vox)
-        val_dataset_etmd = SoundDatasetLoader(args.clip_size, mode="test", dataset_name='ETMD_av', split=args.split, use_sound=args.use_sound, use_vox=args.use_vox)
+#         train_dataset_etmd = SoundDatasetLoader(args.clip_size, mode="train", dataset_name='ETMD_av', split=args.split, use_sound=args.use_sound, use_vox=args.use_vox)
+#         val_dataset_etmd = SoundDatasetLoader(args.clip_size, mode="test", dataset_name='ETMD_av', split=args.split, use_sound=args.use_sound, use_vox=args.use_vox)
 
-        train_dataset_summe = SoundDatasetLoader(args.clip_size, mode="train", dataset_name='SumMe', split=args.split, use_sound=args.use_sound, use_vox=args.use_vox)
-        val_dataset_summe = SoundDatasetLoader(args.clip_size, mode="test", dataset_name='SumMe', split=args.split, use_sound=args.use_sound, use_vox=args.use_vox)
+#         train_dataset_summe = SoundDatasetLoader(args.clip_size, mode="train", dataset_name='SumMe', split=args.split, use_sound=args.use_sound, use_vox=args.use_vox)
+#         val_dataset_summe = SoundDatasetLoader(args.clip_size, mode="test", dataset_name='SumMe', split=args.split, use_sound=args.use_sound, use_vox=args.use_vox)
         
-        train_dataset = torch.utils.data.ConcatDataset([
-                    train_dataset_diem, train_dataset_coutrout1,
-                    train_dataset_coutrout2, 
-                    train_dataset_avad, train_dataset_etmd,
-                    train_dataset_summe 
-            ])
+#         train_dataset = torch.utils.data.ConcatDataset([
+#                     train_dataset_diem, train_dataset_coutrout1,
+#                     train_dataset_coutrout2, 
+#                     train_dataset_avad, train_dataset_etmd,
+#                     train_dataset_summe 
+#             ])
 
-        val_dataset = torch.utils.data.ConcatDataset([
-                    val_dataset_diem, val_dataset_coutrout1,
-                    val_dataset_coutrout2, 
-                    val_dataset_avad, val_dataset_etmd,
-                    val_dataset_summe 
-            ])
-    else:
-        train_dataset = Hollywood_UCFDataset(args.train_path_data, args.clip_size, mode="train", frames_path=args.frames_path)
-        # print(len(train_dataset))
-        val_dataset = Hollywood_UCFDataset(args.val_path_data, args.clip_size, mode="val", frames_path=args.frames_path)
+#         val_dataset = torch.utils.data.ConcatDataset([
+#                     val_dataset_diem, val_dataset_coutrout1,
+#                     val_dataset_coutrout2, 
+#                     val_dataset_avad, val_dataset_etmd,
+#                     val_dataset_summe 
+#             ])
+#     else:
+#         train_dataset = Hollywood_UCFDataset(args.train_path_data, args.clip_size, mode="train", frames_path=args.frames_path)
+#         # print(len(train_dataset))
+#         val_dataset = Hollywood_UCFDataset(args.val_path_data, args.clip_size, mode="val", frames_path=args.frames_path)
 
-train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True, num_workers=args.no_workers, pin_memory=args.pin_memory)
-val_loader = torch.utils.data.DataLoader(val_dataset, batch_size=1, shuffle=False, num_workers=args.no_workers, pin_memory=args.pin_memory)
+# train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True, num_workers=args.no_workers, pin_memory=args.pin_memory)
+# val_loader = torch.utils.data.DataLoader(val_dataset, batch_size=1, shuffle=False, num_workers=args.no_workers, pin_memory=args.pin_memory)
 
 if not (args.use_sound or args.use_vox):
     if os.path.isfile(file_weight):
@@ -373,6 +373,8 @@ summary(model, (3, args.clip_size, 224, 384), args.batch_size)
 
 if args.use_wandb:
     wandb.finish()
+
+torch.save(model.state_dict(), args.model_val_path)
 
 #Function to Convert to ONNX 
 def Convert_ONNX(model, args): 
