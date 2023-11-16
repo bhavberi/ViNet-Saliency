@@ -78,11 +78,12 @@ class VideoSaliencyModel(nn.Module):
 				root_grouping=True,
 				depth=False,
 				efficientnet=False,
-				BiCubic = True
+				BiCubic = True,
+				maxpool3d = True
 			):
 		super(VideoSaliencyModel, self).__init__()
 
-		self.backbone = BackBoneS3D()
+		self.backbone = BackBoneS3D(maxpool3d=maxpool3d)
 		self.num_hier = num_hier
 		if use_upsample:
 			if num_hier==0:
@@ -944,23 +945,35 @@ class DecoderConvUp2Hier(nn.Module):
 		# print('output', z.shape)
 
 		return z
+	
+def reshape(x, size):
+	return x.view(size)
 
 class BackBoneS3D(nn.Module):
-	def __init__(self):
+	def __init__(self, maxpool3d = True):
 		super(BackBoneS3D, self).__init__()
 		
-		self.base1 = nn.Sequential(
-			SepConv3d(3, 64, kernel_size=7, stride=2, padding=3),
-			nn.MaxPool3d(kernel_size=(1,3,3), stride=(1,2,2), padding=(0,1,1)),
+		# self.base1 = nn.Sequential(
+		# 	SepConv3d(3, 64, kernel_size=7, stride=2, padding=3),
+		# 	nn.MaxPool3d(kernel_size=(1,3,3), stride=(1,2,2), padding=(0,1,1)),
+		# 	BasicConv3d(64, 64, kernel_size=1, stride=1),
+		# 	SepConv3d(64, 192, kernel_size=3, stride=1, padding=1),
+		# )
+		self.base1_1 = SepConv3d(3, 64, kernel_size=7, stride=2, padding=3) 
+		self.base1_2 = nn.MaxPool2d(kernel_size=(3,3), stride=(2,2), padding=(1,1))
+		self.base1_3 = nn.Sequential(
 			BasicConv3d(64, 64, kernel_size=1, stride=1),
 			SepConv3d(64, 192, kernel_size=3, stride=1, padding=1),
 		)
-		self.maxp2 = nn.MaxPool3d(kernel_size=(1,3,3), stride=(1,2,2), padding=(0,1,1))
+		# self.maxp2 = nn.MaxPool3d(kernel_size=(1,3,3), stride=(1,2,2), padding=(0,1,1))
+		self.maxp2 = nn.MaxPool2d(kernel_size=(3,3), stride=(2,2), padding=(1,1))
 		self.base2 = nn.Sequential(
 			Mixed_3b(),
 			Mixed_3c(),
 		)
-		self.maxp3 = nn.MaxPool3d(kernel_size=(3,3,3), stride=(2,2,2), padding=(1,1,1))
+		# self.maxp3 = nn.MaxPool3d(kernel_size=(3,3,3), stride=(2,2,2), padding=(1,1,1))
+		self.maxp3_1 = nn.MaxPool2d(kernel_size=(3,3), stride=(2,2), padding=(1,1))
+		self.maxp3_2 = nn.MaxPool2d(kernel_size=(3,1), stride=(2,1), padding=(1,0))
 		self.base3 = nn.Sequential(
 			Mixed_4b(),
 			Mixed_4c(),
@@ -968,8 +981,10 @@ class BackBoneS3D(nn.Module):
 			Mixed_4e(),
 			Mixed_4f(),
 		)
-		self.maxt4 = nn.MaxPool3d(kernel_size=(2,1,1), stride=(2,1,1), padding=(0,0,0))
-		self.maxp4 = nn.MaxPool3d(kernel_size=(1,2,2), stride=(1,2,2), padding=(0,0,0))
+		# self.maxt4 = nn.MaxPool3d(kernel_size=(2,1,1), stride=(2,1,1), padding=(0,0,0))
+		# self.maxp4 = nn.MaxPool3d(kernel_size=(1,2,2), stride=(1,2,2), padding=(0,0,0))
+		self.maxt4 = nn.MaxPool2d(kernel_size=(2,1), stride=(2,1), padding=(0,0))
+		self.maxp4 = nn.MaxPool2d(kernel_size=(2,2), stride=(2,2), padding=(0,0))
 		self.base4 = nn.Sequential(
 			Mixed_5b(),
 			Mixed_5c(),
@@ -977,23 +992,46 @@ class BackBoneS3D(nn.Module):
 
 	def forward(self, x):
 		# print('input', x.shape)
-		y3 = self.base1(x)
+		y3 = self.base1_1(x)
+		n,c,t,h,w = y3.shape
+		y3 = reshape(x, (y3.size(0), y3.size(1) * y3.size(2), y3.size(3), y3.size(4)))
+		y3 = self.base1_2(y3)
+		y3 = reshape(y3, (n, c, t, y3.size(2), y3.size(3)))
+		y3 = self.base1_3(y3)
 		# print('base1', y3.shape)
 		
+		n,c,t,h,w = y3.shape
+		y3 = reshape(y3, (y3.size(0), y3.size(1) * y3.size(2), y3.size(3), y3.size(4)))
 		y = self.maxp2(y3)
+		y = reshape(y, (n, c, t, y.size(2), y.size(3)))
 		# print('maxp2', y.shape)
 
 		y2 = self.base2(y)
 		# print('base2', y2.shape)
 
-		y = self.maxp3(y2)
+		n,c,t,h,w = y2.shape
+		y2 = reshape(y2, (y2.size(0), y2.size(1) * y2.size(2), y2.size(3), y2.size(4)))
+		y = self.maxp3_1(y2)
+		y = reshape(y, (n, c, t, y.size(2), y.size(3)))
+
+		n,c,t,h,w = y.shape
+		y = reshape(y, (y.size(0), y.size(1), y.size(2) * y.size(3), y.size(4)))
+		y = self.maxp3_2(y)
+		y = reshape(y, (n, c, y.size(2), h, w))
 		# print('maxp3', y.shape)
 
 		y1 = self.base3(y)
 		# print('base3', y1.shape)
 
+		n,c,t,h,w = y1.shape
+		y1 = reshape(y1, (y1.size(0), y1.size(1), y1.size(2), y1.size(3) * y1.size(4)))
 		y = self.maxt4(y1)
+		y = reshape(y, (n, c, y.size(2), h, w))
+
+		n,c,t,h,w = y.shape
+		y = reshape(y, (y.size(0), y.size(1) * y.size(2), y.size(3), y.size(4)))
 		y = self.maxp4(y)
+		y = reshape(y, (n, c, t, y.size(2), y.size(3)))
 		# print('maxt4p4', y.shape)
 
 		y0 = self.base4(y)
