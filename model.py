@@ -945,30 +945,6 @@ class DecoderConvUp2Hier(nn.Module):
 		# print('output', z.shape)
 
 		return z
-	
-def reshape(x, size):
-	return x.view(size)
-
-class Reshape(nn.Module):
-	def __init__(self, *args) -> None:
-		super(Reshape, self).__init__()
-		self.shape = args
-	
-	def forward(self, x):
-		return x.view(self.shape)
-	
-class BackBone_Maxpool_Base1(nn.Module):
-	def __init__(self, *args) -> None:
-		super(BackBone_Maxpool_Base1, self).__init__()
-
-		self.base1 = nn.Sequential(
-			Reshape(-1, 1024, 112, 192),
-			nn.MaxPool2d(kernel_size=(3,3), stride=(2,2), padding=(1,1)),
-			Reshape(-1, 64, 16, 56, 96),
-		)
-
-	def forward(self, x):
-		return self.base1(x)
 
 class BackBoneS3D(nn.Module):
 	def __init__(self, maxpool3d = True):
@@ -1074,6 +1050,10 @@ class BackBoneS3D(nn.Module):
 		# print('maxt4p4', y.shape)
 
 		y0 = self.base4(y)
+
+		# # Save the returning array in a numpy file
+		# import numpy as np
+		# np.save('backbone.npy', [y0.detach().cpu().numpy(), y1.detach().cpu().numpy(), y2.detach().cpu().numpy(), y3.detach().cpu().numpy()])
 
 		return [y0, y1, y2, y3]
 

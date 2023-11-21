@@ -1,6 +1,30 @@
 import torch
 from torch import nn
 
+def reshape(x, size):
+	return x.view(size)
+
+class Reshape(nn.Module):
+	def __init__(self, *args) -> None:
+		super(Reshape, self).__init__()
+		self.shape = args
+	
+	def forward(self, x):
+		return x.view(self.shape)
+    
+class BackBone_Maxpool_Base1(nn.Module):
+	def __init__(self, *args) -> None:
+		super(BackBone_Maxpool_Base1, self).__init__()
+
+		self.base1 = nn.Sequential(
+			Reshape(-1, 1024, 112, 192),
+			nn.MaxPool2d(kernel_size=(3,3), stride=(2,2), padding=(1,1)),
+			Reshape(-1, 64, 16, 56, 96),
+		)
+
+	def forward(self, x):
+		return self.base1(x)
+
 class TASED_v2(nn.Module):
     def __init__(self):
         super(TASED_v2, self).__init__()
@@ -173,8 +197,13 @@ class Mixed_3b(nn.Module):
             BasicConv3d(192, 16, kernel_size=1, stride=1),
             SepConv3d(16, 32, kernel_size=3, stride=1, padding=1),
         )
+
+        self.maxp_1 = nn.MaxPool2d(kernel_size=(3,3), stride=1, padding=(1,1))
+        self.maxp_2 = nn.MaxPool2d(kernel_size=(3,1), stride=1, padding=(1,0))
+        
         self.branch3 = nn.Sequential(
-            nn.MaxPool3d(kernel_size=(3,3,3), stride=1, padding=1),
+            # nn.MaxPool3d(kernel_size=(3,3,3), stride=1, padding=1),
+            nn.MaxPool2d(kernel_size=(1,1), stride=(1,1), padding=(0,0)),
             BasicConv3d(192, 32, kernel_size=1, stride=1),
         )
 
@@ -182,7 +211,18 @@ class Mixed_3b(nn.Module):
         x0 = self.branch0(x)
         x1 = self.branch1(x)
         x2 = self.branch2(x)
-        x3 = self.branch3(x)
+
+        n,c,t,h,w = x.shape
+        y = reshape(x, (x.size(0), x.size(1) * x.size(2), x.size(3), x.size(4)))
+        y = self.maxp_1(y)
+        y = reshape(y, (n, c, t, y.size(2), y.size(3)))
+
+        n,c,t,h,w = y.shape
+        y = reshape(y, (y.size(0), y.size(1), y.size(2), y.size(3) * y.size(4)))
+        y = self.maxp_2(y)
+        y = reshape(y, (n, c, y.size(2), h, w))
+
+        x3 = self.branch3(y)
         out = torch.cat((x0, x1, x2, x3), 1)
 
         return out
@@ -202,8 +242,13 @@ class Mixed_3c(nn.Module):
             BasicConv3d(256, 32, kernel_size=1, stride=1),
             SepConv3d(32, 96, kernel_size=3, stride=1, padding=1),
         )
+
+        self.maxp_1 = nn.MaxPool2d(kernel_size=(3,3), stride=1, padding=(1,1))
+        self.maxp_2 = nn.MaxPool2d(kernel_size=(3,1), stride=1, padding=(1,0))
+
         self.branch3 = nn.Sequential(
-            nn.MaxPool3d(kernel_size=(3,3,3), stride=1, padding=1),
+            # nn.MaxPool3d(kernel_size=(3,3,3), stride=1, padding=1),
+            nn.MaxPool2d(kernel_size=(1,1), stride=(1,1), padding=(0,0)),
             BasicConv3d(256, 64, kernel_size=1, stride=1),
         )
 
@@ -211,7 +256,18 @@ class Mixed_3c(nn.Module):
         x0 = self.branch0(x)
         x1 = self.branch1(x)
         x2 = self.branch2(x)
-        x3 = self.branch3(x)
+
+        n,c,t,h,w = x.shape
+        y = reshape(x, (x.size(0), x.size(1) * x.size(2), x.size(3), x.size(4)))
+        y = self.maxp_1(y)
+        y = reshape(y, (n, c, t, y.size(2), y.size(3)))
+
+        n,c,t,h,w = y.shape
+        y = reshape(y, (y.size(0), y.size(1), y.size(2), y.size(3) * y.size(4)))
+        y = self.maxp_2(y)
+        y = reshape(y, (n, c, y.size(2), h, w))
+
+        x3 = self.branch3(y)
         out = torch.cat((x0, x1, x2, x3), 1)
         return out
 
@@ -231,8 +287,13 @@ class Mixed_4b(nn.Module):
             BasicConv3d(480, 16, kernel_size=1, stride=1),
             SepConv3d(16, 48, kernel_size=3, stride=1, padding=1),
         )
+
+        self.maxp_1 = nn.MaxPool2d(kernel_size=(3,3), stride=1, padding=(1,1))
+        self.maxp_2 = nn.MaxPool2d(kernel_size=(3,1), stride=1, padding=(1,0))
+
         self.branch3 = nn.Sequential(
-            nn.MaxPool3d(kernel_size=(3,3,3), stride=1, padding=1),
+            nn.MaxPool2d(kernel_size=(1,1), stride=(1,1), padding=(0,0)),
+            # nn.MaxPool3d(kernel_size=(3,3,3), stride=1, padding=1),
             BasicConv3d(480, 64, kernel_size=1, stride=1),
         )
 
@@ -240,7 +301,18 @@ class Mixed_4b(nn.Module):
         x0 = self.branch0(x)
         x1 = self.branch1(x)
         x2 = self.branch2(x)
-        x3 = self.branch3(x)
+
+        n,c,t,h,w = x.shape
+        y = reshape(x, (x.size(0), x.size(1) * x.size(2), x.size(3), x.size(4)))
+        y = self.maxp_1(y)
+        y = reshape(y, (n, c, t, y.size(2), y.size(3)))
+
+        n,c,t,h,w = y.shape
+        y = reshape(y, (y.size(0), y.size(1), y.size(2), y.size(3) * y.size(4)))
+        y = self.maxp_2(y)
+        y = reshape(y, (n, c, y.size(2), h, w))
+
+        x3 = self.branch3(y)
         out = torch.cat((x0, x1, x2, x3), 1)
         return out
 
@@ -260,8 +332,13 @@ class Mixed_4c(nn.Module):
             BasicConv3d(512, 24, kernel_size=1, stride=1),
             SepConv3d(24, 64, kernel_size=3, stride=1, padding=1),
         )
+
+        self.maxp_1 = nn.MaxPool2d(kernel_size=(3,3), stride=1, padding=(1,1))
+        self.maxp_2 = nn.MaxPool2d(kernel_size=(3,1), stride=1, padding=(1,0))
+
         self.branch3 = nn.Sequential(
-            nn.MaxPool3d(kernel_size=(3,3,3), stride=1, padding=1),
+            nn.MaxPool2d(kernel_size=(1,1), stride=(1,1), padding=(0,0)),
+            # nn.MaxPool3d(kernel_size=(3,3,3), stride=1, padding=1),
             BasicConv3d(512, 64, kernel_size=1, stride=1),
         )
 
@@ -269,7 +346,18 @@ class Mixed_4c(nn.Module):
         x0 = self.branch0(x)
         x1 = self.branch1(x)
         x2 = self.branch2(x)
-        x3 = self.branch3(x)
+
+        n,c,t,h,w = x.shape
+        y = reshape(x, (x.size(0), x.size(1) * x.size(2), x.size(3), x.size(4)))
+        y = self.maxp_1(y)
+        y = reshape(y, (n, c, t, y.size(2), y.size(3)))
+
+        n,c,t,h,w = y.shape
+        y = reshape(y, (y.size(0), y.size(1), y.size(2), y.size(3) * y.size(4)))
+        y = self.maxp_2(y)
+        y = reshape(y, (n, c, y.size(2), h, w))
+
+        x3 = self.branch3(y)
         out = torch.cat((x0, x1, x2, x3), 1)
         return out
 
@@ -289,8 +377,13 @@ class Mixed_4d(nn.Module):
             BasicConv3d(512, 24, kernel_size=1, stride=1),
             SepConv3d(24, 64, kernel_size=3, stride=1, padding=1),
         )
+
+        self.maxp_1 = nn.MaxPool2d(kernel_size=(3,3), stride=1, padding=(1,1))
+        self.maxp_2 = nn.MaxPool2d(kernel_size=(3,1), stride=1, padding=(1,0))
+
         self.branch3 = nn.Sequential(
-            nn.MaxPool3d(kernel_size=(3,3,3), stride=1, padding=1),
+            nn.MaxPool2d(kernel_size=(1,1), stride=(1,1), padding=(0,0)),
+            # nn.MaxPool3d(kernel_size=(3,3,3), stride=1, padding=1),
             BasicConv3d(512, 64, kernel_size=1, stride=1),
         )
 
@@ -298,7 +391,18 @@ class Mixed_4d(nn.Module):
         x0 = self.branch0(x)
         x1 = self.branch1(x)
         x2 = self.branch2(x)
-        x3 = self.branch3(x)
+
+        n,c,t,h,w = x.shape
+        y = reshape(x, (x.size(0), x.size(1) * x.size(2), x.size(3), x.size(4)))
+        y = self.maxp_1(y)
+        y = reshape(y, (n, c, t, y.size(2), y.size(3)))
+
+        n,c,t,h,w = y.shape
+        y = reshape(y, (y.size(0), y.size(1), y.size(2), y.size(3) * y.size(4)))
+        y = self.maxp_2(y)
+        y = reshape(y, (n, c, y.size(2), h, w))
+
+        x3 = self.branch3(y)
         out = torch.cat((x0, x1, x2, x3), 1)
         return out
 
@@ -318,8 +422,13 @@ class Mixed_4e(nn.Module):
             BasicConv3d(512, 32, kernel_size=1, stride=1),
             SepConv3d(32, 64, kernel_size=3, stride=1, padding=1),
         )
+
+        self.maxp_1 = nn.MaxPool2d(kernel_size=(3,3), stride=1, padding=(1,1))
+        self.maxp_2 = nn.MaxPool2d(kernel_size=(3,1), stride=1, padding=(1,0))
+
         self.branch3 = nn.Sequential(
-            nn.MaxPool3d(kernel_size=(3,3,3), stride=1, padding=1),
+            nn.MaxPool2d(kernel_size=(1,1), stride=(1,1), padding=(0,0)),
+            # nn.MaxPool3d(kernel_size=(3,3,3), stride=1, padding=1),
             BasicConv3d(512, 64, kernel_size=1, stride=1),
         )
 
@@ -327,7 +436,18 @@ class Mixed_4e(nn.Module):
         x0 = self.branch0(x)
         x1 = self.branch1(x)
         x2 = self.branch2(x)
-        x3 = self.branch3(x)
+
+        n,c,t,h,w = x.shape
+        y = reshape(x, (x.size(0), x.size(1) * x.size(2), x.size(3), x.size(4)))
+        y = self.maxp_1(y)
+        y = reshape(y, (n, c, t, y.size(2), y.size(3)))
+
+        n,c,t,h,w = y.shape
+        y = reshape(y, (y.size(0), y.size(1), y.size(2), y.size(3) * y.size(4)))
+        y = self.maxp_2(y)
+        y = reshape(y, (n, c, y.size(2), h, w))
+
+        x3 = self.branch3(y)
         out = torch.cat((x0, x1, x2, x3), 1)
         return out
 
@@ -347,8 +467,13 @@ class Mixed_4f(nn.Module):
             BasicConv3d(528, 32, kernel_size=1, stride=1),
             SepConv3d(32, 128, kernel_size=3, stride=1, padding=1),
         )
+
+        self.maxp_1 = nn.MaxPool2d(kernel_size=(3,3), stride=1, padding=(1,1))
+        self.maxp_2 = nn.MaxPool2d(kernel_size=(3,1), stride=1, padding=(1,0))
+
         self.branch3 = nn.Sequential(
-            nn.MaxPool3d(kernel_size=(3,3,3), stride=1, padding=1),
+            nn.MaxPool2d(kernel_size=(1,1), stride=(1,1), padding=(0,0)),
+            # nn.MaxPool3d(kernel_size=(3,3,3), stride=1, padding=1),
             BasicConv3d(528, 128, kernel_size=1, stride=1),
         )
 
@@ -356,7 +481,18 @@ class Mixed_4f(nn.Module):
         x0 = self.branch0(x)
         x1 = self.branch1(x)
         x2 = self.branch2(x)
-        x3 = self.branch3(x)
+
+        n,c,t,h,w = x.shape
+        y = reshape(x, (x.size(0), x.size(1) * x.size(2), x.size(3), x.size(4)))
+        y = self.maxp_1(y)
+        y = reshape(y, (n, c, t, y.size(2), y.size(3)))
+
+        n,c,t,h,w = y.shape
+        y = reshape(y, (y.size(0), y.size(1), y.size(2), y.size(3) * y.size(4)))
+        y = self.maxp_2(y)
+        y = reshape(y, (n, c, y.size(2), h, w))
+
+        x3 = self.branch3(y)
         out = torch.cat((x0, x1, x2, x3), 1)
         return out
 
@@ -376,8 +512,13 @@ class Mixed_5b(nn.Module):
             BasicConv3d(832, 32, kernel_size=1, stride=1),
             SepConv3d(32, 128, kernel_size=3, stride=1, padding=1),
         )
+
+        self.maxp_1 = nn.MaxPool2d(kernel_size=(3,3), stride=1, padding=(1,1))
+        self.maxp_2 = nn.MaxPool2d(kernel_size=(3,1), stride=1, padding=(1,0))
+
         self.branch3 = nn.Sequential(
-            nn.MaxPool3d(kernel_size=(3,3,3), stride=1, padding=1),
+            nn.MaxPool2d(kernel_size=(1,1), stride=(1,1), padding=(0,0)),
+            # nn.MaxPool3d(kernel_size=(3,3,3), stride=1, padding=1),
             BasicConv3d(832, 128, kernel_size=1, stride=1),
         )
 
@@ -385,7 +526,18 @@ class Mixed_5b(nn.Module):
         x0 = self.branch0(x)
         x1 = self.branch1(x)
         x2 = self.branch2(x)
-        x3 = self.branch3(x)
+
+        n,c,t,h,w = x.shape
+        y = reshape(x, (x.size(0), x.size(1) * x.size(2), x.size(3), x.size(4)))
+        y = self.maxp_1(y)
+        y = reshape(y, (n, c, t, y.size(2), y.size(3)))
+
+        n,c,t,h,w = y.shape
+        y = reshape(y, (y.size(0), y.size(1), y.size(2), y.size(3) * y.size(4)))
+        y = self.maxp_2(y)
+        y = reshape(y, (n, c, y.size(2), h, w))
+
+        x3 = self.branch3(y)
         out = torch.cat((x0, x1, x2, x3), 1)
         return out
 
@@ -405,8 +557,13 @@ class Mixed_5c(nn.Module):
             BasicConv3d(832, 48, kernel_size=1, stride=1),
             SepConv3d(48, 128, kernel_size=3, stride=1, padding=1),
         )
+
+        self.maxp_1 = nn.MaxPool2d(kernel_size=(3,3), stride=1, padding=(1,1))
+        self.maxp_2 = nn.MaxPool2d(kernel_size=(3,1), stride=1, padding=(1,0))
+
         self.branch3 = nn.Sequential(
-            nn.MaxPool3d(kernel_size=(3,3,3), stride=1, padding=1),
+            nn.MaxPool2d(kernel_size=(1,1), stride=(1,1), padding=(0,0)),
+            # nn.MaxPool3d(kernel_size=(3,3,3), stride=1, padding=1),
             BasicConv3d(832, 128, kernel_size=1, stride=1),
         )
 
@@ -414,7 +571,18 @@ class Mixed_5c(nn.Module):
         x0 = self.branch0(x)
         x1 = self.branch1(x)
         x2 = self.branch2(x)
-        x3 = self.branch3(x)
+
+        n,c,t,h,w = x.shape
+        y = reshape(x, (x.size(0), x.size(1) * x.size(2), x.size(3), x.size(4)))
+        y = self.maxp_1(y)
+        y = reshape(y, (n, c, t, y.size(2), y.size(3)))
+
+        n,c,t,h,w = y.shape
+        y = reshape(y, (y.size(0), y.size(1), y.size(2), y.size(3) * y.size(4)))
+        y = self.maxp_2(y)
+        y = reshape(y, (n, c, y.size(2), h, w))
+
+        x3 = self.branch3(y)
         out = torch.cat((x0, x1, x2, x3), 1)
         return out
 
