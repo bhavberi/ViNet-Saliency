@@ -405,3 +405,7 @@ def Convert_ONNX(model, args):
     print("ONNX Checked Successfully")
 
 Convert_ONNX(model, args)
+
+"""
+python3 onnx_convert.py --train_path_data /ssd_scratch/cvit/sarthak395/DHF1K/annotation --val_path_data /ssd_scratch/cvit/sarthak395/DHF1K/val --dataset DHF1KDataset --load_weight /home2/bhavberi/ViNet-Saliency/vinet_rootgrouped_32.pt --batch_size 4 --root_grouping True --grouped_conv True --frames_path maps --model_val_path vinet_rootgrouped_32_new_maxpool2d.pt --no_epochs 0
+"""
