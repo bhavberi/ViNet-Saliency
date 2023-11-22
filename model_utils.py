@@ -203,7 +203,7 @@ class Mixed_3b(nn.Module):
         
         self.branch3 = nn.Sequential(
             # nn.MaxPool3d(kernel_size=(3,3,3), stride=1, padding=1),
-            nn.MaxPool2d(kernel_size=(1,1), stride=(1,1), padding=(0,0)),
+            nn.Identity(),
             BasicConv3d(192, 32, kernel_size=1, stride=1),
         )
 
@@ -248,7 +248,7 @@ class Mixed_3c(nn.Module):
 
         self.branch3 = nn.Sequential(
             # nn.MaxPool3d(kernel_size=(3,3,3), stride=1, padding=1),
-            nn.MaxPool2d(kernel_size=(1,1), stride=(1,1), padding=(0,0)),
+            nn.Identity(),
             BasicConv3d(256, 64, kernel_size=1, stride=1),
         )
 
@@ -292,7 +292,7 @@ class Mixed_4b(nn.Module):
         self.maxp_2 = nn.MaxPool2d(kernel_size=(3,1), stride=1, padding=(1,0))
 
         self.branch3 = nn.Sequential(
-            nn.MaxPool2d(kernel_size=(1,1), stride=(1,1), padding=(0,0)),
+            nn.Identity(),
             # nn.MaxPool3d(kernel_size=(3,3,3), stride=1, padding=1),
             BasicConv3d(480, 64, kernel_size=1, stride=1),
         )
@@ -337,7 +337,7 @@ class Mixed_4c(nn.Module):
         self.maxp_2 = nn.MaxPool2d(kernel_size=(3,1), stride=1, padding=(1,0))
 
         self.branch3 = nn.Sequential(
-            nn.MaxPool2d(kernel_size=(1,1), stride=(1,1), padding=(0,0)),
+            nn.Identity(),
             # nn.MaxPool3d(kernel_size=(3,3,3), stride=1, padding=1),
             BasicConv3d(512, 64, kernel_size=1, stride=1),
         )
@@ -382,7 +382,7 @@ class Mixed_4d(nn.Module):
         self.maxp_2 = nn.MaxPool2d(kernel_size=(3,1), stride=1, padding=(1,0))
 
         self.branch3 = nn.Sequential(
-            nn.MaxPool2d(kernel_size=(1,1), stride=(1,1), padding=(0,0)),
+            nn.Identity(),
             # nn.MaxPool3d(kernel_size=(3,3,3), stride=1, padding=1),
             BasicConv3d(512, 64, kernel_size=1, stride=1),
         )
@@ -427,7 +427,7 @@ class Mixed_4e(nn.Module):
         self.maxp_2 = nn.MaxPool2d(kernel_size=(3,1), stride=1, padding=(1,0))
 
         self.branch3 = nn.Sequential(
-            nn.MaxPool2d(kernel_size=(1,1), stride=(1,1), padding=(0,0)),
+            nn.Identity(),
             # nn.MaxPool3d(kernel_size=(3,3,3), stride=1, padding=1),
             BasicConv3d(512, 64, kernel_size=1, stride=1),
         )
@@ -472,7 +472,7 @@ class Mixed_4f(nn.Module):
         self.maxp_2 = nn.MaxPool2d(kernel_size=(3,1), stride=1, padding=(1,0))
 
         self.branch3 = nn.Sequential(
-            nn.MaxPool2d(kernel_size=(1,1), stride=(1,1), padding=(0,0)),
+            nn.Identity(),
             # nn.MaxPool3d(kernel_size=(3,3,3), stride=1, padding=1),
             BasicConv3d(528, 128, kernel_size=1, stride=1),
         )
@@ -517,7 +517,7 @@ class Mixed_5b(nn.Module):
         self.maxp_2 = nn.MaxPool2d(kernel_size=(3,1), stride=1, padding=(1,0))
 
         self.branch3 = nn.Sequential(
-            nn.MaxPool2d(kernel_size=(1,1), stride=(1,1), padding=(0,0)),
+            nn.Identity(),
             # nn.MaxPool3d(kernel_size=(3,3,3), stride=1, padding=1),
             BasicConv3d(832, 128, kernel_size=1, stride=1),
         )
@@ -562,7 +562,7 @@ class Mixed_5c(nn.Module):
         self.maxp_2 = nn.MaxPool2d(kernel_size=(3,1), stride=1, padding=(1,0))
 
         self.branch3 = nn.Sequential(
-            nn.MaxPool2d(kernel_size=(1,1), stride=(1,1), padding=(0,0)),
+            nn.Identity(),
             # nn.MaxPool3d(kernel_size=(3,3,3), stride=1, padding=1),
             BasicConv3d(832, 128, kernel_size=1, stride=1),
         )
